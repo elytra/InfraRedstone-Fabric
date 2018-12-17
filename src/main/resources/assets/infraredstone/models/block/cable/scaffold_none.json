@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
-		"cable": "infraredstone:blocks/infrared_cable",
-		"particle": "infraredstone:blocks/infrared_cable",
-		"scaffold": "infraredstone:blocks/scaffold"
+		"cable": "infraredstone:block/infrared_cable",
+		"particle": "infraredstone:block/infrared_cable",
+		"scaffold": "infraredstone:block/scaffold"
 	},
 	"elements": [
 		{

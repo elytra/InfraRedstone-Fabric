@@ -26,25 +26,20 @@ import net.minecraft.util.registry.Registry;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-public class InfraRedstone implements ModInitializer, DedicatedServerModInitializer {
+public class InfraRedstone implements ModInitializer {
 
 	public static final ItemGroup inRedGroup = ItemGroup.REDSTONE;
 	public static CommonProxy proxy;
 
 	//public static final Block CHORUS_CONDUIT = register("chorus_conduit", new ChorusConduitBlock(FabricBlockSettings.create(Material.GLASS).setStrength(3.0F, 3.0F).setLuminance(15).build()), ItemGroup.MISC);
 	//public static final Item FLIPPERS = register("flippers", new ArmorItem(ArmorMaterials.TURTLE, EquipmentSlot.FEET, new Item.Settings().itemGroup(ItemGroup.COMBAT)));
-    //public static final Item PRISMARINE_ROD = register("prismarine_rod", new Item(new Item.Settings().itemGroup(ItemGroup.MISC)));
-    //public static BlockEntityType<ChorusConduitBlockEntity> CHORUS_CONDUIT_BE = register("chorus_conduit", ChorusConduitBlockEntity::new);
+	//public static final Item PRISMARINE_ROD = register("prismarine_rod", new Item(new Item.Settings().itemGroup(ItemGroup.MISC)));
+	//public static BlockEntityType<ChorusConduitBlockEntity> CHORUS_CONDUIT_BE = register("chorus_conduit", ChorusConduitBlockEntity::new);
 
 	@Override
 	public void onInitialize() {
 		ModBlocks.init();
 		ModItems.init();
 		TickEvent.SERVER.register(InRedLogic.onServerTick);
-	}
-
-	@Override
-	public void onInitializeServer() {
-
 	}
 }

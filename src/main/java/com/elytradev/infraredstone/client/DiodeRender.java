@@ -10,7 +10,7 @@ import net.minecraft.util.math.Direction;
 
 public class DiodeRender extends InRedRenderBase<DiodeBlockEntity> {
 
-	public static final String LIT = "infraredstone:blocks/diode_glow";
+	public static final String LIT = "infraredstone:block/diode_glow";
 
 	@Override
 	public Direction getFacing(DiodeBlockEntity be) {

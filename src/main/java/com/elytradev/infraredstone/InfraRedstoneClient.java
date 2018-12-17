@@ -4,14 +4,24 @@ import com.elytradev.infraredstone.block.entity.DiodeBlockEntity;
 import com.elytradev.infraredstone.client.DiodeRender;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.client.render.BlockEntityRendererRegistry;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.resource.ResourceManager;
+import net.fabricmc.fabric.client.texture.SpriteRegistry;
+import net.fabricmc.fabric.events.client.SpriteEvent;
 import net.minecraft.util.Identifier;
 
 public class InfraRedstoneClient implements ClientModInitializer {
+	private SpriteProvider provider = new SpriteProvider();
+
 	@Override
 	public void onInitializeClient() {
-		MinecraftClient.getInstance().getSpriteAtlas().addSpriteToLoad(MinecraftClient.getInstance().getResourceManager(), new Identifier("infraredstone:block/diode_glow"));
+		SpriteEvent.PROVIDE.register(provider);
 		BlockEntityRendererRegistry.INSTANCE.register(DiodeBlockEntity.class, new DiodeRender());
+	}
+
+}
+
+class SpriteProvider implements SpriteEvent.Provider {
+	@Override
+	public void registerSprites(SpriteRegistry registry) {
+		registry.register(new Identifier("infraredstone:block/diode_glow"));
 	}
 }
