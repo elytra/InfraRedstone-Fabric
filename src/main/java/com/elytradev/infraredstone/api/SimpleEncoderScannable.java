@@ -6,12 +6,12 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 /**
- * Version of IEncoderScannable that can be implemented by non-TE Blocks.
+ * Version of EncoderScannable that can be implemented by non-TE Blocks.
  */
-public interface ISimpleEncoderScannable {
+public interface SimpleEncoderScannable {
 
 	/**
-	 * Has extra information from the standard IEncoderScannable to compensate for not having a TE
+	 * Has extra information from the standard EncoderScannable to compensate for not having a TE
 	 * @param world the current world.
 	 * @param pos the position of your object.
 	 * @param state the current blockstate of your object.

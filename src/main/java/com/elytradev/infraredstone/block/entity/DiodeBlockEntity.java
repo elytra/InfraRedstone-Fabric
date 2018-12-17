@@ -1,32 +1,23 @@
 package com.elytradev.infraredstone.block.entity;
 
-import com.elytradev.infraredstone.InRedLog;
-import com.elytradev.infraredstone.api.IInfraRedstone;
-import com.elytradev.infraredstone.api.IMultimeterProbe;
+import com.elytradev.infraredstone.api.InfraRedstoneSignal;
+import com.elytradev.infraredstone.api.MultimeterProbeProvider;
 import com.elytradev.infraredstone.api.InfraRedstoneCapable;
 import com.elytradev.infraredstone.block.DiodeBlock;
 import com.elytradev.infraredstone.block.ModBlocks;
 import com.elytradev.infraredstone.logic.InRedLogic;
 import com.elytradev.infraredstone.logic.impl.InfraRedstoneHandler;
 import com.elytradev.infraredstone.logic.impl.InfraRedstoneSerializer;
-import com.google.common.base.Predicates;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.Tickable;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.world.chunk.Chunk;
 
-public class DiodeBlockEntity extends BlockEntity implements Tickable, IMultimeterProbe, InfraRedstoneCapable {
+public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
 	private InfraRedstoneHandler signal = new InfraRedstoneHandler();
 	private int mask = 0b11_1111;
 
@@ -159,7 +150,7 @@ public class DiodeBlockEntity extends BlockEntity implements Tickable, IMultimet
 	}
 
 	@Override
-	public IInfraRedstone getInfraRedstoneHandler(Direction inspectingFrom) {
+	public InfraRedstoneSignal getInfraRedstoneHandler(Direction inspectingFrom) {
 		if (world==null) return InfraRedstoneHandler.ALWAYS_OFF;
 		if (inspectingFrom==null) return  signal;
 

@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import com.elytradev.infraredstone.api.IInfraRedstone;
-import com.elytradev.infraredstone.api.ISimpleInfraRedstone;
+import com.elytradev.infraredstone.api.InfraRedstoneSignal;
+import com.elytradev.infraredstone.api.SimpleInfraRedstoneSignal;
 import com.elytradev.infraredstone.api.InfraRedstoneCapable;
 import com.elytradev.infraredstone.block.ModBlocks;
 import com.google.common.base.Objects;
@@ -71,17 +71,17 @@ public class InRedLogic {
             return wireSearch(world, device, dir);
         }
         
-        if (initialState.getBlock() instanceof ISimpleInfraRedstone) {
+        if (initialState.getBlock() instanceof SimpleInfraRedstoneSignal) {
             // We have a simple IR block behind us. Excellent! Don't search, just get its
             // value.
-            return ((ISimpleInfraRedstone) initialState.getBlock()).getSignalValue(world, initialPos, initialState, dir.getOpposite());
+            return ((SimpleInfraRedstoneSignal) initialState.getBlock()).getSignalValue(world, initialPos, initialState, dir.getOpposite());
         }
         
         BlockEntity be = world.getBlockEntity(initialPos);
         if (be instanceof InfraRedstoneCapable && ((InfraRedstoneCapable)be).canConnectToSide(dir.getOpposite())) {
             // We have a full IR tile behind us. Fantastic! Don't search, just get its
             // value.
-            IInfraRedstone cap = ((InfraRedstoneCapable)be).getInfraRedstoneHandler(dir.getOpposite());
+            InfraRedstoneSignal cap = ((InfraRedstoneCapable)be).getInfraRedstoneHandler(dir.getOpposite());
             return cap.getSignalValue();
         }
 
@@ -95,7 +95,7 @@ public class InRedLogic {
         
         BlockState state = world.getBlockState(pos);
         if (state.getBlock() == ModBlocks.INFRA_REDSTONE || state.getBlock() == ModBlocks.IN_RED_SCAFFOLD) return true;
-        if (state.getBlock() instanceof ISimpleInfraRedstone) return true;
+        if (state.getBlock() instanceof SimpleInfraRedstoneSignal) return true;
         
         BlockEntity be = world.getBlockEntity(pos);
         if (be == null) return false;
@@ -194,8 +194,8 @@ public class InRedLogic {
         BlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
         if (block == ModBlocks.INFRA_REDSTONE || block == ModBlocks.IN_RED_SCAFFOLD) return null; // wires don't carry power directly
-        if (block instanceof ISimpleInfraRedstone) {
-            return ((ISimpleInfraRedstone)block).getSignalValue(world, pos, state, dir);
+        if (block instanceof SimpleInfraRedstoneSignal) {
+            return ((SimpleInfraRedstoneSignal)block).getSignalValue(world, pos, state, dir);
         }
         BlockEntity be = world.getBlockEntity(pos);
         if (be instanceof InfraRedstoneCapable && ((InfraRedstoneCapable)be).canConnectToSide(dir)) {

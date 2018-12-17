@@ -5,7 +5,7 @@ import net.minecraft.util.math.Direction;
 /**
  * This interface describes an "inspection" signal value to InfraComparators.
  */
-public interface IEncoderScannable {
+public interface EncoderScannable {
 	/**
 	 * @param inspectingFrom the direction the encoder is looking from.
 	 * @return a value from 0-63 depending on the state of your object.

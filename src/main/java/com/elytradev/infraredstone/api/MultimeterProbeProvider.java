@@ -2,7 +2,7 @@ package com.elytradev.infraredstone.api;
 
 import net.minecraft.text.StringTextComponent;
 
-public interface IMultimeterProbe {
+public interface MultimeterProbeProvider {
 
     /**
      * Adds information for the Multimeter to display on use.

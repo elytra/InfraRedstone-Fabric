@@ -1,7 +1,6 @@
 package com.elytradev.infraredstone.block;
 
-import com.elytradev.infraredstone.api.IInfraRedstone;
-import com.elytradev.infraredstone.api.ISimpleInfraRedstone;
+import com.elytradev.infraredstone.api.SimpleInfraRedstoneSignal;
 import com.elytradev.infraredstone.api.InfraRedstoneCapable;
 import com.elytradev.infraredstone.logic.InRedLogic;
 import com.elytradev.infraredstone.util.enums.CableConnection;
@@ -155,8 +154,8 @@ public class InfraRedstoneCable extends BlockBase {
 		BlockState state = world.getBlockState(pos);
 		Block block = state.getBlock();
 		if (block==ModBlocks.INFRA_REDSTONE || block==ModBlocks.IN_RED_SCAFFOLD) return true;
-		if (block instanceof ISimpleInfraRedstone) {
-			return ((ISimpleInfraRedstone)block).canConnectIR(world, pos, state, from);
+		if (block instanceof SimpleInfraRedstoneSignal) {
+			return ((SimpleInfraRedstoneSignal)block).canConnectIR(world, pos, state, from);
 		}
 		BlockEntity te = world.getBlockEntity(pos);
 		if (!(te instanceof InfraRedstoneCapable)) return false;

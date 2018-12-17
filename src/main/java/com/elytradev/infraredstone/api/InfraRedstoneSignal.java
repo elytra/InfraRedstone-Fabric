@@ -5,7 +5,7 @@ import net.minecraft.util.math.Direction;
 /**
  * This interface describes an IR signal value to other InfraRedstone logic tiles.
  */
-public interface IInfraRedstone {
+public interface InfraRedstoneSignal {
 
 	/**
 	 * @return the signal vlaue output by the module.

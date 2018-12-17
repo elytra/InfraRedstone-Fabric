@@ -6,11 +6,11 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 
 /**
- * Version of IInfraRedstone that can be implemented by non-TE Blocks.
+ * Version of InfraRedstoneSignal that can be implemented by non-TE Blocks.
  */
-public interface ISimpleInfraRedstone {
+public interface SimpleInfraRedstoneSignal {
 	/**
-	 * Has extra information from the standard IInfraRedstone to compensate for not having a TE.
+	 * Has extra information from the standard InfraRedstoneSignal to compensate for not having a TE.
 	 * @param world the current world.
 	 * @param pos the position of your object.
 	 * @param state the current blockstate of your object.

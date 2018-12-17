@@ -1,13 +1,13 @@
 package com.elytradev.infraredstone.logic.impl;
 
-import com.elytradev.infraredstone.api.IEncoderScannable;
-import com.elytradev.infraredstone.api.IInfraRedstone;
+import com.elytradev.infraredstone.api.EncoderScannable;
+import com.elytradev.infraredstone.api.InfraRedstoneSignal;
 import net.minecraft.util.math.Direction;
 
-public class InfraRedstoneHandler implements IInfraRedstone, IEncoderScannable {
-	public static final IInfraRedstone ALWAYS_OFF = () -> 0;
+public class InfraRedstoneHandler implements InfraRedstoneSignal, EncoderScannable {
+	public static final InfraRedstoneSignal ALWAYS_OFF = () -> 0;
 	
-	public static final IInfraRedstone ALWAYS_MAX = () -> 63;
+	public static final InfraRedstoneSignal ALWAYS_MAX = () -> 63;
 	
 	private int signalValue;
 	private int nextSignalValue;
