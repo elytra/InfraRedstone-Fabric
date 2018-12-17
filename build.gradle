@@ -1,0 +1,38 @@
+buildscript {
+	repositories {
+		jcenter()
+		maven {
+			name = 'Fabric'
+			url = 'http://maven.modmuss50.me/'
+		}
+	}
+	dependencies {
+		classpath "net.fabricmc:fabric-loom:0.1.0-SNAPSHOT"
+	}
+}
+
+plugins {
+	id 'java'
+	id 'eclipse'
+	id 'idea'
+}
+
+apply plugin: net.fabricmc.loom.LoomGradlePlugin
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+archivesBaseName = "infraredstone"
+version = "18w49a-1.0"
+
+minecraft {
+	refmapName = 'mixins.aquarius.refmap.json'
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:18w50a"
+	mappings "net.fabricmc:yarn:18w50a.27"
+	modCompile "net.fabricmc:fabric-loader:0.2.0.64"
+	modCompile "net.fabricmc:fabric:0.1.1.+"
+	implementation 'org.jetbrains:annotations:15.0'
+}

@@ -1,0 +1,44 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+		"light": "infraredstone:blocks/lights"
+	},
+	"elements": [
+		{
+			"from": [0, 3, 7],
+			"to": [2, 4, 9],
+			"faces": {
+				"north": {"uv": [9, 7, 11, 8], "texture": "#light"},
+				"east": {"uv": [9, 7, 11, 8], "texture": "#light"},
+				"south": {"uv": [9, 7, 11, 8], "texture": "#light"},
+				"west": {"uv": [9, 7, 11, 8], "texture": "#light"},
+				"up": {"uv": [9, 7, 11, 8], "texture": "#light"},
+				"down": {"uv": [9, 7, 11, 8], "texture": "#light"}
+			}
+		},
+		{
+			"from": [7, 3, 14],
+			"to": [9, 5, 16],
+			"faces": {
+				"north": {"uv": [9, 7, 11, 9], "texture": "#light"},
+				"east": {"uv": [9, 7, 11, 9], "texture": "#light"},
+				"south": {"uv": [9, 7, 11, 9], "texture": "#light"},
+				"west": {"uv": [9, 7, 11, 9], "texture": "#light"},
+				"up": {"uv": [9, 7, 11, 9], "texture": "#light"},
+				"down": {"uv": [9, 7, 11, 9], "texture": "#light"}
+			}
+		},
+		{
+			"from": [14, 3, 7],
+			"to": [16, 5, 9],
+			"faces": {
+				"north": {"uv": [9, 7, 11, 9], "texture": "#light"},
+				"east": {"uv": [9, 7, 11, 9], "texture": "#light"},
+				"south": {"uv": [9, 7, 11, 9], "texture": "#light"},
+				"west": {"uv": [9, 7, 11, 9], "texture": "#light"},
+				"up": {"uv": [9, 7, 11, 9], "texture": "#light"},
+				"down": {"uv": [9, 7, 11, 9], "texture": "#light"}
+			}
+		}
+	]
+}

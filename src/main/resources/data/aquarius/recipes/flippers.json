@@ -1,0 +1,19 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "s s",
+    "l l"
+  ],
+  "key": {
+    "l": {
+      "item": "minecraft:leather"
+    },
+    "s": {
+      "item": "minecraft:scute"
+    }
+  },
+  "result": {
+    "item": "aquarius:flippers",
+    "count": 1
+  }
+}

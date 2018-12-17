@@ -1,0 +1,98 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model":"infraredstone:module/diode/diode"
+  },
+  "variants": {
+    "normal": {
+      "model": "infraredstone:module/diode/diode"
+    },
+    "inventory": {
+      "model": "infraredstone:module/diode/item"
+    },
+    "bit_0": {
+      "true": {
+          "submodel": {
+            "bit_0": { "model": "infraredstone:module/diode/bit_0" }
+          }
+      },
+      "false": {
+          "submodel": {
+            "bit_0": { "model": "infraredstone:module/diode/bit_0_blocked" }
+          }
+      }
+    },
+    "bit_1": {
+      "true": {
+          "submodel": {
+            "bit_1": { "model": "infraredstone:module/diode/bit_1" }
+          }
+      },
+      "false": {
+          "submodel": {
+            "bit_1": { "model": "infraredstone:module/diode/bit_1_blocked" }
+          }
+      }
+    },
+    "bit_2": {
+      "true": {
+          "submodel": {
+            "bit_2": { "model": "infraredstone:module/diode/bit_2" }
+          }
+      },
+      "false": {
+          "submodel": {
+            "bit_2": { "model": "infraredstone:module/diode/bit_2_blocked" }
+          }
+      }
+    },
+    "bit_3": {
+      "true": {
+          "submodel": {
+            "bit_3": { "model": "infraredstone:module/diode/bit_3" }
+          }
+      },
+      "false": {
+          "submodel": {
+            "bit_3": { "model": "infraredstone:module/diode/bit_3_blocked" }
+          }
+      }
+    },
+    "bit_4": {
+      "true": {
+          "submodel": {
+            "bit_4": { "model": "infraredstone:module/diode/bit_4" }
+          }
+      },
+      "false": {
+          "submodel": {
+            "bit_4": { "model": "infraredstone:module/diode/bit_4_blocked" }
+          }
+      }
+    },
+    "bit_5": {
+      "true": {
+          "submodel": {
+            "bit_5": { "model": "infraredstone:module/diode/bit_5" }
+          }
+      },
+      "false": {
+          "submodel": {
+            "bit_5": { "model": "infraredstone:module/diode/bit_5_blocked" }
+          }
+      }
+    },
+    "facing": {
+      "north": {},
+      "east": {
+        "y": 90
+      },
+      "south": {
+        "y": 180
+      },
+      "west": {
+        "y": 270
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "multipart": [
+    { "apply": { "model": "infraredstone:block/cable/none" }},
+    {   "when": { "north": "connected" },
+      "apply": { "model": "infraredstone:block/cable/side" }
+    },
+    {   "when": { "east": "connected" },
+      "apply": { "model": "infraredstone:block/cable/side", "y": 90 }
+    },
+    {   "when": { "south": "connected" },
+      "apply": { "model": "infraredstone:block/cable/side", "y": 180 }
+    },
+    {   "when": { "west": "connected" },
+      "apply": { "model": "infraredstone:block/cable/side", "y": 270 }
+    },
+    {   "when": { "north": "connected_up" },
+      "apply": { "model": "infraredstone:block/cable/side_up" }
+    },
+    {   "when": { "east": "connected_up" },
+      "apply": { "model": "infraredstone:block/cable/side_up", "y": 90 }
+    },
+    {   "when": { "south": "connected_up" },
+      "apply": { "model": "infraredstone:block/cable/side_up", "y": 180 }
+    },
+    {   "when": { "west": "connected_up" },
+      "apply": { "model": "infraredstone:block/cable/side_up", "y": 270 }
+    }
+  ]
+}

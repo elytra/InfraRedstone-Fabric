@@ -1,0 +1,17 @@
+{
+    "forge_marker": 1,
+    "defaults": {
+        "transform": "forge:default-block",
+        "model": "minecraft:cube_all",
+        "textures": {
+            "all": "infraredstone:blocks/liquid_crystal"
+        }
+    },
+    "variants": {
+        "blocking_light": {
+            "true": {},
+            "false": {}
+        },
+        "inventory": [{}]
+    }
+}

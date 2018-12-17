@@ -1,0 +1,45 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+		"cable": "infraredstone:blocks/infrared_cable",
+		"particle": "infraredstone:blocks/infrared_cable"
+	},
+	"elements": [
+		{
+			"from": [6, 0, 0],
+			"to": [10, 3, 6],
+			"faces": {
+				"north": {"uv": [12, 0, 16, 3], "texture": "#cable"},
+				"east": {"uv": [6, 13, 12, 16], "texture": "#cable"},
+				"south": {"uv": [12, 0, 16, 3], "texture": "#cable"},
+				"west": {"uv": [0, 13, 6, 16], "texture": "#cable"},
+				"up": {"uv": [12, 8, 16, 14], "texture": "#cable"},
+				"down": {"uv": [12, 10, 16, 16], "texture": "#cable"}
+			}
+		},
+		{
+			"from": [6, 16, 0],
+			"to": [10, 19, 3],
+			"faces": {
+				"north": {"uv": [12, 0, 16, 3], "texture": "#cable"},
+				"east": {"uv": [6, 10, 9, 13], "texture": "#cable"},
+				"south": {"uv": [12, 13, 16, 16], "texture": "#cable"},
+				"west": {"uv": [3, 10, 6, 13], "texture": "#cable"},
+				"up": {"uv": [12, 7, 16, 10], "texture": "#cable"},
+				"down": {"uv": [0, 0, 4, 3], "texture": "#missing"}
+			}
+		},
+		{
+			"from": [6, 3, 0],
+			"to": [10, 16, 3],
+			"faces": {
+				"north": {"uv": [12, 3, 16, 16], "texture": "#cable"},
+				"east": {"uv": [0, 0, 3, 13], "texture": "#cable"},
+				"south": {"uv": [12, 3, 16, 16], "texture": "#cable"},
+				"west": {"uv": [0, 0, 3, 13], "texture": "#cable"},
+				"up": {"uv": [0, 0, 4, 3], "texture": "#missing"},
+				"down": {"uv": [0, 0, 4, 3], "texture": "#missing"}
+			}
+		}
+	]
+}

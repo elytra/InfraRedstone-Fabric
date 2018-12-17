@@ -1,0 +1,20 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+		"knob": "infraredstone:blocks/lights"
+	},
+	"elements": [
+		{
+			"from": [5, 3, 9],
+			"to": [6, 4, 11],
+			"faces": {
+				"north": {"uv": [5, 7, 6, 8], "texture": "#knob"},
+				"east": {"uv": [5, 7, 7, 8], "texture": "#knob"},
+				"south": {"uv": [5, 7, 6, 8], "texture": "#knob"},
+				"west": {"uv": [5, 7, 7, 8], "texture": "#knob"},
+				"up": {"uv": [5, 7, 6, 9], "texture": "#knob"},
+				"down": {"uv": [5, 7, 7, 9], "texture": "#knob"}
+			}
+		}
+	]
+}

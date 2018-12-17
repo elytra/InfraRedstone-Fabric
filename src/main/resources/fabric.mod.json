@@ -1,0 +1,10 @@
+{
+  "id": "infraredstone",
+  "name": "InfraRedstone",
+  "version": "1.0",
+  "side": "universal",
+  "initializers": [
+    "com.elytradev.infraredstone.InfraRedstone",
+    "com.elytradev.infraredstone.InfraRedstoneClient"
+  ]
+}

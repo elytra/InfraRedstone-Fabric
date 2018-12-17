@@ -1,0 +1,60 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model":"infraredstone:gate/and/gate_and"
+  },
+  "variants": {
+    "normal": {
+      "model": "infraredstone:gate/and/gate_and"
+    },
+    "inventory": {
+      "model": "infraredstone:gate/and/item"
+    },
+    "inactive": {
+      "none": {
+        "submodel": {
+          "select": { "model": "infraredstone:gate/and/select_none" }
+        }
+      },
+      "left": {
+        "submodel": {
+          "select": { "model": "infraredstone:gate/and/select_left" }
+        }
+      },
+      "back": {
+        "submodel": {
+          "select": { "model": "infraredstone:gate/and/select_back" }
+        }
+      },
+      "right": {
+        "submodel": {
+          "select": { "model": "infraredstone:gate/and/select_right" }
+        }
+      }
+    },
+    "facing": {
+      "north": {},
+      "east": {
+        "y": 90
+      },
+      "south": {
+        "y": 180
+      },
+      "west": {
+        "y": 270
+      }
+    },
+    "boolean_mode": {
+      "true": {
+        "submodel": {
+          "front": { "model": "infraredstone:gate/boolean_on" }
+        }
+      },
+      "false": {
+        "submodel": {
+          "front": { "model": "infraredstone:gate/boolean_off" }
+        }
+      }
+    }
+  }
+}

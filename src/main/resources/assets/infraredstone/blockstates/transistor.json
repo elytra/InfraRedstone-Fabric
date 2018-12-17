@@ -1,0 +1,26 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model":"infraredstone:module/transistor/transistor"
+  },
+  "variants": {
+    "normal": {
+      "model": "infraredstone:module/transistor/transistor"
+    },
+    "inventory": {
+      "model": "infraredstone:module/transistor/item"
+    },
+    "facing": {
+      "north": {},
+      "east": {
+        "y": 90
+      },
+      "south": {
+        "y": 180
+      },
+      "west": {
+        "y": 270
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+		"cable": "infraredstone:blocks/infrared_cable",
+		"particle": "infraredstone:blocks/infrared_cable"
+	},
+	"elements": [
+		{
+			"name": "up",
+			"from": [6, 3, 6],
+			"to": [10, 15.9, 10],
+			"faces": {
+				"north": {"uv": [12, 3, 16, 15.9], "texture": "#cable"},
+				"east": {"uv": [12, 3, 16, 15.9], "texture": "#cable"},
+				"south": {"uv": [12, 3, 16, 15.9], "texture": "#cable"},
+				"west": {"uv": [12, 3, 16, 15.9], "texture": "#cable"},
+				"up": {"uv": [3, 0, 7, 4], "texture": "#cable"},
+				"down": {"uv": [0, 0, 4, 4], "texture": "#missing"}
+			}
+		}
+	]
+}

@@ -1,0 +1,22 @@
+{
+	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
+	"textures": {
+		"cable": "infraredstone:blocks/infrared_cable",
+		"particle": "infraredstone:blocks/infrared_cable"
+	},
+	"elements": [
+		{
+			"name": "DISCONNECTED",
+			"from": [6, 0, 6],
+			"to": [10, 3, 10],
+			"faces": {
+				"north": {"uv": [12, 0, 16, 3], "texture": "#cable"},
+				"east": {"uv": [12, 0, 16, 3], "texture": "#cable"},
+				"south": {"uv": [12, 0, 16, 3], "texture": "#cable"},
+				"west": {"uv": [12, 0, 16, 3], "texture": "#cable"},
+				"up": {"uv": [3, 0, 7, 4], "texture": "#cable"},
+				"down": {"uv": [3, 0, 7, 4], "texture": "#cable"}
+			}
+		}
+	]
+}

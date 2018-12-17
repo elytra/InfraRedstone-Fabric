@@ -1,0 +1,20 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    " qq",
+    " rq",
+    "r  "
+  ],
+  "key": {
+    "q": {
+      "item": "minecraft:quartz"
+    },
+    "r": {
+      "item": "aquarius:prismarine_rod"
+    }
+  },
+  "result": {
+    "item": "minecraft:trident",
+    "count": 1
+  }
+}

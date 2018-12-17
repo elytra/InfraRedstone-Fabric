@@ -1,0 +1,59 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "model":"infraredstone:cable/scaffold_none"
+  },
+  "variants": {
+    "normal": {
+      "model": "infraredstone:cable/scaffold_none"
+    },
+    "inventory": {
+      "model": "infraredstone:cable/scaffold_item"
+    },
+    "east": {
+      "disconnected": {},
+      "connected": {
+        "submodel": {
+          "east": { "model": "infraredstone:cable/scaffold_side", "y": 90 }
+        }
+      },
+      "connected_up": {}
+    },
+    "north": {
+      "disconnected": {},
+      "connected": {
+        "submodel": {
+          "north": { "model": "infraredstone:cable/scaffold_side" }
+        }
+      },
+      "connected_up": {}
+    },
+    "south": {
+      "disconnected": {},
+      "connected": {
+        "submodel": {
+          "south": { "model": "infraredstone:cable/scaffold_side", "y": 180 }
+        }
+      },
+      "connected_up": {}
+    },
+    "west": {
+      "disconnected": {},
+      "connected": {
+        "submodel": {
+          "west": { "model": "infraredstone:cable/scaffold_side", "y": 270 }
+        }
+      },
+      "connected_up": {}
+    },
+    "up": {
+      "disconnected": {},
+      "connected": {
+        "submodel": {
+          "up": { "model": "infraredstone:cable/scaffold_up"}
+        }
+      },
+      "connected_up": {}
+    }
+  }
+}
