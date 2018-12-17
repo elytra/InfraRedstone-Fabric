@@ -40,10 +40,11 @@ public class InfraRedstone implements ModInitializer, DedicatedServerModInitiali
 	public void onInitialize() {
 		ModBlocks.init();
 		ModItems.init();
+		TickEvent.SERVER.register(InRedLogic.onServerTick);
 	}
 
 	@Override
 	public void onInitializeServer() {
-		TickEvent.SERVER.register(InRedLogic.onServerTick);
+
 	}
 }

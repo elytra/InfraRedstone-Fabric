@@ -201,6 +201,7 @@ public class InRedLogic {
         if (be instanceof InfraRedstoneCapable && ((InfraRedstoneCapable)be).canConnectToSide(dir)) {
             return ((InfraRedstoneCapable)be).getInfraRedstoneHandler(dir).getSignalValue();
         }
+//        if (world.getEmittedRedstonePower(pos, dir) != 0) return 1; TODO: maybe have this? maybe not
         return null;
     }
 

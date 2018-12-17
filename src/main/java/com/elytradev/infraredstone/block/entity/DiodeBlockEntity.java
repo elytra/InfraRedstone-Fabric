@@ -1,9 +1,9 @@
 package com.elytradev.infraredstone.block.entity;
 
+import com.elytradev.infraredstone.InRedLog;
 import com.elytradev.infraredstone.api.IInfraRedstone;
 import com.elytradev.infraredstone.api.IMultimeterProbe;
 import com.elytradev.infraredstone.api.InfraRedstoneCapable;
-import com.elytradev.infraredstone.block.BlockBase;
 import com.elytradev.infraredstone.block.DiodeBlock;
 import com.elytradev.infraredstone.block.ModBlocks;
 import com.elytradev.infraredstone.logic.InRedLogic;
@@ -49,13 +49,11 @@ public class DiodeBlockEntity extends BlockEntity implements Tickable, IMultimet
 			if (state.getBlock() instanceof DiodeBlock) {
 				Direction back = state.get(DiodeBlock.FACING).getOpposite();
 				int sig = InRedLogic.findIRValue(world, pos, back);
-				System.out.println("IR tick: "+sig);
 				signal.setNextSignalValue(sig & mask);
 				markDirty();
 			}
 		} else {
 			//Not an IR tick, so this is a "copy" tick. Adopt the previous tick's "next" value.
-			System.out.println("non-IR tick: "+signal.getNextSignalValue());
 			signal.setSignalValue(signal.getNextSignalValue());
 			markDirty();
 			//setActive(state, signal.getSignalValue()!=0); //This is also when we light up
@@ -123,6 +121,16 @@ public class DiodeBlockEntity extends BlockEntity implements Tickable, IMultimet
 //			lastActive = active;
 //		}
 //	}
+
+
+	@Override
+	public void markDirty() {
+		super.markDirty();
+		if (isActive() != lastActive) {
+			world.updateNeighborsAlways(pos, ModBlocks.DIODE);
+		}
+		lastActive = isActive();
+	}
 
 	public int getMask() {
 		return mask;

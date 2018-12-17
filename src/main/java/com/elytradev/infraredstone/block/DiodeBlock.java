@@ -131,12 +131,17 @@ public class DiodeBlock extends ModuleBase  {
 
 	@Override
 	public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction side) {
-		if (side!=state.get(FACING)) return 0;
+		if (side!=state.get(FACING).getOpposite()) return 0;
 		BlockEntity be = world.getBlockEntity(pos);
 		if (be instanceof DiodeBlockEntity) {
 			return ((DiodeBlockEntity)be).isActive()?16:0;
 		}
 		return 0;
+	}
+
+	@Override
+	public boolean emitsRedstonePower(BlockState blockState) {
+		return true;
 	}
 
 	@Override

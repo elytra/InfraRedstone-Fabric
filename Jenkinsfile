@@ -5,7 +5,7 @@ pipeline {
 			steps {
 				checkout scm
 				sh 'rm -f private.gradle'
-				sh './gradlew setupCiWorkspace clean build'
+				sh './gradlew init clean build'
 				archive 'build/libs/*jar'
 			}
 		}
