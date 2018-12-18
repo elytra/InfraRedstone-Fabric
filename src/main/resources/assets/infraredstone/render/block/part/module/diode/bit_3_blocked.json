@@ -1,0 +1,34 @@
+{
+	"type": "box",
+	"transform": [
+		{
+			"type": "rotate",
+			"axis": [0, 1, 0],
+			"angle: match": {
+				"facing=east": 90,
+				"facing=north": 0,
+				"facing=west": 270,
+				"facing=south": 180,
+				"default": 0
+			}
+		}
+	],
+
+	"from": [7, 3, 9],
+	"to": [8, 4, 11],
+	"faces": {
+		"north": {"uv": [5, 7, 6, 8], "texture": "#knob"},
+		"east": {"uv": [5, 7, 7, 8], "texture": "#knob"},
+		"south": {"uv": [5, 7, 6, 8], "texture": "#knob"},
+		"west": {"uv": [5, 7, 7, 8], "texture": "#knob"},
+		"up": {"uv": [5, 7, 6, 9], "texture": "#knob"},
+		"down": {"uv": [5, 7, 7, 9], "texture": "#knob"},
+		"all": {
+			"show: match": {
+				"bit_3=true": false,
+				"default": true
+			}
+		}
+
+	}
+}

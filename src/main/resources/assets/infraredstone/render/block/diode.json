@@ -1,0 +1,84 @@
+{
+  "textures": {
+    "base": "infraredstone:block/diode",
+    "particle": "infraredstone:block/diode",
+    "side": "infraredstone:block/pcb_slate",
+    "knob": "infraredstone:block/lights"
+  },
+  "parts": [
+    {
+      "type": "box",
+      "transform": [
+        {
+          "type": "rotate",
+          "axis": [0, 1, 0],
+          "angle: match": {
+            "facing=east": 90,
+            "facing=north": 0,
+            "facing=west": 270,
+            "facing=south": 180,
+            "default": 0
+          }
+        }
+      ],
+      "from": [0, 0, 0],
+      "to": [16, 3, 16],
+      "faces": {
+        "north": {"uv": [0, 0, 16, 3], "texture": "#side"},
+        "east": {"uv": [0, 0, 16, 3], "texture": "#side"},
+        "south": {"uv": [0, 0, 16, 3], "texture": "#side"},
+        "west": {"uv": [0, 0, 16, 3], "texture": "#side"},
+        "up": {"uv": [0, 0, 16, 16], "texture": "#base"},
+        "down": {"uv": [0, 0, 16, 16], "texture": "#side"}
+      }
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_0"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_0_blocked"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_1"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_1_blocked"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_2"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_2_blocked"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_3"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_3_blocked"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_4"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_4_blocked"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_5"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:part/module/diode/bit_5_blocked"
+    }
+  ]
+}

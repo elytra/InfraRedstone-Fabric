@@ -5,7 +5,6 @@ import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
-import net.minecraft.block.RenderTypeBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.block.BlockRenderLayer;
 import net.minecraft.entity.VerticalEntityPosition;
@@ -149,5 +148,10 @@ public class DiodeBlock extends ModuleBase  {
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
 		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing());
+	}
+
+	@Override
+	public void neighborUpdate(BlockState blockState, World world, BlockPos blockPos, Block block, BlockPos blockPos1) {
+		super.neighborUpdate(blockState, world, blockPos, block, blockPos1);
 	}
 }

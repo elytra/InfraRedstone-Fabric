@@ -10,7 +10,6 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.util.math.Direction;
 import org.lwjgl.opengl.GL11;
 
@@ -26,6 +25,7 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		buffer.setOffset(x, y, z);
 		GlStateManager.disableLighting();
 		GlStateManager.enableCull();
+		MinecraftClient.getInstance().worldRenderer.method_3187();
 		Sprite sprite = getLightupTexture((T) be);
 		buffer.begin(GL11.GL_QUADS, VertexFormats.POSITION_UV_COLOR);
 		if (sprite!=null) renderTopFace(buffer, sprite, getFacing((T)be));
@@ -39,12 +39,14 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		tessellator.draw();
 		GlStateManager.enableLighting();
 		GlStateManager.disableCull();
+		MinecraftClient.getInstance().worldRenderer.method_3180();
 		super.render(be, x, y, z, partialTicks, destroyStage);
 	}
 
 	public void renderTopFace(BufferBuilder buffer, Sprite sprite, Direction facing) {
 		double faceHeight = frac(3);
 		faceHeight += 0.002; //Far enough to not z-fight. Hopefully.
+		GlowyBufferBuilder glowBuf = new GlowyBufferBuilder(buffer);
 
 		switch(facing) {
 			case NORTH:

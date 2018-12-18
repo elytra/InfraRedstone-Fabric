@@ -5,6 +5,7 @@
   "side": "universal",
   "initializers": [
     "com.elytradev.infraredstone.InfraRedstone",
-    "com.elytradev.infraredstone.InfraRedstoneClient"
+    "com.elytradev.infraredstone.InfraRedstoneClient",
+    "com.elytradev.infraredstone.util.InfraRedstoneNetworking"
   ]
 }

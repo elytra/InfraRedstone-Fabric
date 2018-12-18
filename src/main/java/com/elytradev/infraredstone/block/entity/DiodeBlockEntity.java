@@ -3,23 +3,24 @@ package com.elytradev.infraredstone.block.entity;
 import com.elytradev.infraredstone.api.InfraRedstoneSignal;
 import com.elytradev.infraredstone.api.MultimeterProbeProvider;
 import com.elytradev.infraredstone.api.InfraRedstoneCapable;
-import com.elytradev.infraredstone.block.BlockBase;
 import com.elytradev.infraredstone.block.DiodeBlock;
 import com.elytradev.infraredstone.block.ModBlocks;
-import com.elytradev.infraredstone.block.NamedBlock;
 import com.elytradev.infraredstone.logic.InRedLogic;
 import com.elytradev.infraredstone.logic.impl.InfraRedstoneHandler;
 import com.elytradev.infraredstone.logic.impl.InfraRedstoneSerializer;
+import com.elytradev.infraredstone.util.InfraRedstoneNetworking;
+import com.google.common.base.Predicates;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.Tickable;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.world.chunk.Chunk;
 
 public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
 	private InfraRedstoneHandler signal = new InfraRedstoneHandler();
@@ -83,49 +84,30 @@ public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable
 		// again, I've copy-pasted this like 12 times, should probably go into Concrete
 		if (!hasWorld() || getWorld().isClient) return;
 		boolean active = isActive();
-		if (mask!=lastMask || active!=lastActive) { //Throttle updates - only send when something important changes
+		if (mask != lastMask || active != lastActive) { //Throttle updates - only send when something important changes
 
 			ServerWorld ws = (ServerWorld) getWorld();
-//			Chunk c = getWorld().getChunk(getPos());
-//			SPacketUpdateBlockEntity packet = new SPacketUpdateTileEntity(getPos(), 0, getUpdateTag());
-//			for (ServerPlayerEntity player : getWorld().getPlayers(ServerPlayerEntity.class, Predicates.alwaysTrue())) {
-//				if (ws.getChunkManager().method_14154(player, c.getPos().x, c.getPos().z)) {
-//					player.networkHandler.sendPacket(packet);
-//				}
-//			}
+			Chunk c = getWorld().getChunk(getPos());
+			for (ServerPlayerEntity player : getWorld().getPlayers(ServerPlayerEntity.class, Predicates.alwaysTrue())) {
+				if (ws.getChunkManager().method_14154(player, c.getPos().x, c.getPos().z)) {
+					InfraRedstoneNetworking.syncModule(this, player);
+				}
+			}
 
-			if (lastMask!=mask) {
+			if (lastMask != mask) {
 				BlockState state = world.getBlockState(pos);
 				ws.updateListeners(pos, state, state, 1 | 2 | 16);
-			} else if (lastActive!=active) {
+			} else if (lastActive != active) {
 				//BlockState isn't changing, but we need to notify the block in front of us so that vanilla redstone updates
 				BlockState state = world.getBlockState(pos);
-				if (state.getBlock()==ModBlocks.DIODE) {
-					Direction facing = state.get(DiodeBlock.FACING);
-					BlockPos targetPos = pos.offset(facing);
-					BlockState targetState = world.getBlockState(targetPos);
-					if (!(targetState.getBlock() instanceof NamedBlock)) {
-						//Not one of ours. Update its redstone, and let observers see the fact that we updated too
-						world.updateListeners(pos, state, state, 1);
-						world.updateListeners(targetPos, targetState, targetState, 3); // 1 : Just cuase a BUD and notify observers
-					}
-				}
+				world.updateNeighborsAlways(pos, ModBlocks.DIODE);
+				world.updateListeners(pos, state, state, 1);
 			}
 
 			lastMask = mask;
 			lastActive = active;
 		}
 	}
-
-//	@Override
-//	public void markDirty() {
-//		super.markDirty();
-//		if (isActive() != lastActive) {
-//			world.updateNeighborsAlways(pos, ModBlocks.DIODE);
-//			world.updateListeners(pos, state, state, 1);
-//		}
-//		lastActive = isActive();
-//	}
 
 	public int getMask() {
 		return mask;
