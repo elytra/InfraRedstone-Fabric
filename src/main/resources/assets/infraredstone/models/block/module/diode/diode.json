@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
-		"base": "infraredstone:blocks/diode",
-		"particle": "infraredstone:blocks/diode",
-		"side": "infraredstone:blocks/pcb_slate"
+		"base": "infraredstone:block/diode",
+		"particle": "infraredstone:block/diode",
+		"side": "infraredstone:block/pcb_slate"
 	},
 	"elements": [
 		{

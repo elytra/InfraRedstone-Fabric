@@ -3,8 +3,8 @@ package com.elytradev.infraredstone.client;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexBuffer;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.texture.SpriteAtlasTexture;
@@ -15,12 +15,12 @@ import org.lwjgl.opengl.GL11;
 public abstract class FastBlockEntityRenderer<T extends BlockEntity> extends BlockEntityRenderer<T> {
 
 	@Override
-	public final void render(T te, double x, double y, double z, float partialTicks, int partial) //destroyState no longer exists, and partial is now an int
+	public final void render(T be, double x, double y, double z, float partialTicks, int destroyStage)
 	{
 		Tessellator tessellator = Tessellator.getInstance();
-		VertexBuffer buffer = tessellator.getVertexBuffer();
+		BufferBuilder buffer = tessellator.getBufferBuilder();
 		this.bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
-//		RenderHelper.disableStandardItemLighting(); //commented out until I can find it in 1.14
+		GlStateManager.disableLighting();
 		GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 		GlStateManager.enableBlend();
 		GlStateManager.disableCull();
@@ -34,15 +34,16 @@ public abstract class FastBlockEntityRenderer<T extends BlockEntity> extends Blo
 			GlStateManager.shadeModel(GL11.GL_FLAT);
 		}
 
-		buffer.begin(GL11.GL_QUADS, VertexFormats.POSITION_UV_COLOR_NORMAL);
+		buffer.begin(GL11.GL_QUADS, VertexFormats.POSITION_UV_COLOR);
 
-		renderFast(te, x, y, z, partialTicks, partial, buffer);
+		renderFast(be, x, y, z, partialTicks, destroyStage, buffer);
 		buffer.setOffset(0, 0, 0);
 
 		tessellator.draw();
 
-//		RenderHelper.enableStandardItemLighting(); //commented out until I can find it in 1.14
+		GlStateManager.enableLighting(); //commented out until I can find it in 1.14
+		super.render(be, x, y, z, partialTicks, destroyStage);
 	}
 
-	public abstract void renderFast(T te, double x, double y, double z, float partialTicks, int partial, VertexBuffer buffer); //destoryStage no longer exists, and partial is now an int
+	public abstract void renderFast(T te, double x, double y, double z, float partialTicks, int destroyStage, BufferBuilder buffer); //destoryStage no longer exists, and partial is now an int
 }

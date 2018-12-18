@@ -5,6 +5,7 @@ import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
+import net.minecraft.block.RenderTypeBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.block.BlockRenderLayer;
 import net.minecraft.entity.VerticalEntityPosition;
@@ -48,7 +49,8 @@ public class DiodeBlock extends ModuleBase  {
 				.with(BIT_2, true)
 				.with(BIT_3, true)
 				.with(BIT_4, true)
-				.with(BIT_5, true));
+				.with(BIT_5, true)
+				.with(FACING, Direction.NORTH));
 	}
 
 	@Override
@@ -106,7 +108,7 @@ public class DiodeBlock extends ModuleBase  {
 
 	@Override
 	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.CUTOUT;
+		return BlockRenderLayer.SOLID;
 	}
 
 	@Override

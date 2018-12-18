@@ -1,11 +1,14 @@
 package com.elytradev.infraredstone.block;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
+import net.minecraft.block.RenderTypeBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.world.BlockView;
+import prospector.silk.block.SilkBlockWithEntity;
 
-public class ModuleBase extends BlockWithEntity implements NamedBlock {
+public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
 	public String name;
 
 	protected ModuleBase(String name, Settings settings) {
@@ -14,7 +17,7 @@ public class ModuleBase extends BlockWithEntity implements NamedBlock {
 	}
 
 	@Override
-	public BlockEntity createBlockEntity(BlockView blockView) {
+	public BlockEntity createBlockEntity(BlockView world) {
 		return null;
 	}
 

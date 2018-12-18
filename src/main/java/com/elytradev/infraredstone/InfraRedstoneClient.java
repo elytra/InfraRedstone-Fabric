@@ -1,6 +1,7 @@
 package com.elytradev.infraredstone;
 
 import com.elytradev.infraredstone.block.entity.DiodeBlockEntity;
+import com.elytradev.infraredstone.client.DiodeFastRender;
 import com.elytradev.infraredstone.client.DiodeRender;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.client.render.BlockEntityRendererRegistry;
