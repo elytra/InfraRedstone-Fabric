@@ -3,18 +3,22 @@ package com.elytradev.infraredstone.block.entity;
 import com.elytradev.infraredstone.api.InfraRedstoneSignal;
 import com.elytradev.infraredstone.api.MultimeterProbeProvider;
 import com.elytradev.infraredstone.api.InfraRedstoneCapable;
+import com.elytradev.infraredstone.block.BlockBase;
 import com.elytradev.infraredstone.block.DiodeBlock;
 import com.elytradev.infraredstone.block.ModBlocks;
+import com.elytradev.infraredstone.block.NamedBlock;
 import com.elytradev.infraredstone.logic.InRedLogic;
 import com.elytradev.infraredstone.logic.impl.InfraRedstoneHandler;
 import com.elytradev.infraredstone.logic.impl.InfraRedstoneSerializer;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.Tickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
@@ -73,15 +77,15 @@ public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable
 	}
 
 	//TODO: find out if this is still needed
-//	@Override
-//	public void markDirty() {
-//		super.markDirty();
-//		// again, I've copy-pasted this like 12 times, should probably go into Concrete
-//		if (!hasWorld() || getWorld().isClient) return;
-//		boolean active = isActive();
-//		if (mask!=lastMask || active!=lastActive) { //Throttle updates - only send when something important changes
-//
-//			ServerWorld ws = (ServerWorld) getWorld();
+	@Override
+	public void markDirty() {
+		super.markDirty();
+		// again, I've copy-pasted this like 12 times, should probably go into Concrete
+		if (!hasWorld() || getWorld().isClient) return;
+		boolean active = isActive();
+		if (mask!=lastMask || active!=lastActive) { //Throttle updates - only send when something important changes
+
+			ServerWorld ws = (ServerWorld) getWorld();
 //			Chunk c = getWorld().getChunk(getPos());
 //			SPacketUpdateBlockEntity packet = new SPacketUpdateTileEntity(getPos(), 0, getUpdateTag());
 //			for (ServerPlayerEntity player : getWorld().getPlayers(ServerPlayerEntity.class, Predicates.alwaysTrue())) {
@@ -89,39 +93,39 @@ public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable
 //					player.networkHandler.sendPacket(packet);
 //				}
 //			}
-//
-//			if (lastMask!=mask) {
-//				//BlockState state = world.getBlockState(pos);
-//				//ws.markAndNotifyBlock(pos, c, state, state, 1 | 2 | 16);
-//			} else if (lastActive!=active) {
-//				//BlockState isn't changing, but we need to notify the block in front of us so that vanilla redstone updates
-//				BlockState state = world.getBlockState(pos);
-//				if (state.getBlock()==ModBlocks.DIODE) {
-//					Direction facing = state.get(DiodeBlock.FACING);
-//					BlockPos targetPos = pos.offset(facing);
-//					BlockState targetState = world.getBlockState(targetPos);
-//					if (!(targetState.getBlock() instanceof BlockBase)) {
-//						//Not one of ours. Update its redstone, and let observers see the fact that we updated too
-//						world.markAndNotifyBlock(pos, world.getChunk(pos), state, state, 1);
-//						world.markAndNotifyBlock(targetPos, world.getChunk(targetPos), targetState, targetState, 3); // 1 : Just cuase a BUD and notify observers
-//					}
-//				}
-//			}
-//
-//			lastMask = mask;
-//			lastActive = active;
-//		}
-//	}
 
+			if (lastMask!=mask) {
+				BlockState state = world.getBlockState(pos);
+				ws.updateListeners(pos, state, state, 1 | 2 | 16);
+			} else if (lastActive!=active) {
+				//BlockState isn't changing, but we need to notify the block in front of us so that vanilla redstone updates
+				BlockState state = world.getBlockState(pos);
+				if (state.getBlock()==ModBlocks.DIODE) {
+					Direction facing = state.get(DiodeBlock.FACING);
+					BlockPos targetPos = pos.offset(facing);
+					BlockState targetState = world.getBlockState(targetPos);
+					if (!(targetState.getBlock() instanceof NamedBlock)) {
+						//Not one of ours. Update its redstone, and let observers see the fact that we updated too
+						world.updateListeners(pos, state, state, 1);
+						world.updateListeners(targetPos, targetState, targetState, 3); // 1 : Just cuase a BUD and notify observers
+					}
+				}
+			}
 
-	@Override
-	public void markDirty() {
-		super.markDirty();
-		if (isActive() != lastActive) {
-			world.updateNeighborsAlways(pos, ModBlocks.DIODE);
+			lastMask = mask;
+			lastActive = active;
 		}
-		lastActive = isActive();
 	}
+
+//	@Override
+//	public void markDirty() {
+//		super.markDirty();
+//		if (isActive() != lastActive) {
+//			world.updateNeighborsAlways(pos, ModBlocks.DIODE);
+//			world.updateListeners(pos, state, state, 1);
+//		}
+//		lastActive = isActive();
+//	}
 
 	public int getMask() {
 		return mask;

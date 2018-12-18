@@ -8,7 +8,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.math.Direction;
 
-public class DiodeFastRender extends InRedRenderBase<DiodeBlockEntity> {
+public class DiodeRenderer extends InRedBaseRenderer<DiodeBlockEntity> {
 
 	public static final String LIT = "infraredstone:block/diode_glow";
 

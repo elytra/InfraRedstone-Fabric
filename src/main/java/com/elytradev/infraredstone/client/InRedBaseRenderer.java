@@ -2,57 +2,75 @@ package com.elytradev.infraredstone.client;
 
 import com.elytradev.infraredstone.block.entity.IRComponentBlockEntity;
 import com.elytradev.infraredstone.util.Torch;
+import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.util.math.Direction;
+import org.lwjgl.opengl.GL11;
 
-public abstract class InRedRenderBase<T extends IRComponentBlockEntity> extends FastBlockEntityRenderer {
+import static prospector.silk.util.RenderUtil.frac;
+
+public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extends BlockEntityRenderer {
 	protected Torch[] torches = new Torch[]{};
 
 	@Override
-	public void renderFast(BlockEntity te, double x, double y, double z, float partialTicks, int partial, BufferBuilder buffer) {
+	public void render(BlockEntity be, double x, double y, double z, float partialTicks, int destroyStage) {
+		final Tessellator tessellator = Tessellator.getInstance();
+		final BufferBuilder buffer = tessellator.getBufferBuilder();
 		buffer.setOffset(x, y, z);
-		Sprite sprite = getLightupTexture((T) te);
-		if (sprite!=null) renderTopFace(buffer, sprite, getFacing((T)te));
+		GlStateManager.disableLighting();
+		GlStateManager.enableCull();
+		Sprite sprite = getLightupTexture((T) be);
+		buffer.begin(GL11.GL_QUADS, VertexFormats.POSITION_UV_COLOR);
+		if (sprite!=null) renderTopFace(buffer, sprite, getFacing((T)be));
 		if (torches != null && torches.length != 0) {
 			for (Torch torch : torches) {
 				Sprite light = (torch.isLit) ? MinecraftClient.getInstance().getSpriteAtlas().getSprite("infraredstone:blocks/lights") : null;
-				if (light != null) renderLight(buffer, light, torch.cornerX, torch.cornerZ, torch.isFullHeight, getFacing((T)te));
+				if (light != null) renderLight(buffer, light, torch.cornerX, torch.cornerZ, torch.isFullHeight, getFacing((T)be));
 			}
 		}
+		buffer.setOffset(0.0, 0.0, 0.0);
+		tessellator.draw();
+		GlStateManager.enableLighting();
+		GlStateManager.disableCull();
+		super.render(be, x, y, z, partialTicks, destroyStage);
 	}
 
-	public void renderTopFace(BufferBuilder buffer, Sprite tex, Direction facing) {
-		double faceHeight = 3/16.0;
+	public void renderTopFace(BufferBuilder buffer, Sprite sprite, Direction facing) {
+		double faceHeight = frac(3);
 		faceHeight += 0.002; //Far enough to not z-fight. Hopefully.
 
 		switch(facing) {
 			case NORTH:
 			default:
-				buffer.vertex(0, faceHeight, 0).texture(tex.getMinU(), tex.getMinV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(1, faceHeight, 0).texture(tex.getMaxU(), tex.getMinV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(1, faceHeight, 1).texture(tex.getMaxU(), tex.getMaxV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(0, faceHeight, 1).texture(tex.getMinU(), tex.getMaxV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
+				buffer.vertex(frac(0), faceHeight, frac(0)).texture(sprite.getMinU(), sprite.getMinV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(0), faceHeight, frac(16)).texture(sprite.getMinU(), sprite.getMaxV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(16)).texture(sprite.getMaxU(), sprite.getMaxV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(0)).texture(sprite.getMaxU(), sprite.getMinV()).color(1F, 1F, 1F, 1F).next();
 				break;
 			case EAST:
-				buffer.vertex(0, faceHeight, 0).texture(tex.getMinU(), tex.getMaxV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(1, faceHeight, 0).texture(tex.getMinU(), tex.getMinV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(1, faceHeight, 1).texture(tex.getMaxU(), tex.getMinV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(0, faceHeight, 1).texture(tex.getMaxU(), tex.getMaxV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
+				buffer.vertex(frac(0), faceHeight, frac(0)).texture(sprite.getMaxU(), sprite.getMaxV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(0), faceHeight, frac(16)).texture(sprite.getMinU(), sprite.getMaxV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(16)).texture(sprite.getMinU(), sprite.getMinV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(0)).texture(sprite.getMaxU(), sprite.getMinV()).color(1F, 1F, 1F, 1F).next();
 				break;
 			case SOUTH:
-				buffer.vertex(0, faceHeight, 0).texture(tex.getMaxU(), tex.getMaxV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(1, faceHeight, 0).texture(tex.getMinU(), tex.getMaxV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(1, faceHeight, 1).texture(tex.getMinU(), tex.getMinV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(0, faceHeight, 1).texture(tex.getMaxU(), tex.getMinV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
+				buffer.vertex(frac(0), faceHeight, frac(0)).texture(sprite.getMaxU(), sprite.getMaxV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(0), faceHeight, frac(16)).texture(sprite.getMaxU(), sprite.getMinV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(16)).texture(sprite.getMinU(), sprite.getMinV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(0)).texture(sprite.getMinU(), sprite.getMaxV()).color(1F, 1F, 1F, 1F).next();
 				break;
 			case WEST:
-				buffer.vertex(0, faceHeight, 0).texture(tex.getMaxU(), tex.getMinV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(1, faceHeight, 0).texture(tex.getMaxU(), tex.getMaxV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(1, faceHeight, 1).texture(tex.getMinU(), tex.getMaxV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-				buffer.vertex(0, faceHeight, 1).texture(tex.getMinU(), tex.getMinV()).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
+				buffer.vertex(frac(0), faceHeight, frac(0)).texture(sprite.getMinU(), sprite.getMinV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(0), faceHeight, frac(16)).texture(sprite.getMaxU(), sprite.getMinV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(16)).texture(sprite.getMaxU(), sprite.getMaxV()).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(0)).texture(sprite.getMinU(), sprite.getMaxV()).color(1F, 1F, 1F, 1F).next();
 				break;
 		}
 	}

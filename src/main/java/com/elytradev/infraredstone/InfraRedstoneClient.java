@@ -1,8 +1,7 @@
 package com.elytradev.infraredstone;
 
 import com.elytradev.infraredstone.block.entity.DiodeBlockEntity;
-import com.elytradev.infraredstone.client.DiodeFastRender;
-import com.elytradev.infraredstone.client.DiodeRender;
+import com.elytradev.infraredstone.client.DiodeRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.client.render.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.client.texture.SpriteRegistry;
@@ -15,7 +14,7 @@ public class InfraRedstoneClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		SpriteEvent.PROVIDE.register(provider);
-		BlockEntityRendererRegistry.INSTANCE.register(DiodeBlockEntity.class, new DiodeRender());
+		BlockEntityRendererRegistry.INSTANCE.register(DiodeBlockEntity.class, new DiodeRenderer());
 	}
 
 }
