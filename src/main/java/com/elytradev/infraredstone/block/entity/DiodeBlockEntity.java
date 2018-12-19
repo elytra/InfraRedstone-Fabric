@@ -10,6 +10,8 @@ import com.elytradev.infraredstone.logic.impl.InfraRedstoneHandler;
 import com.elytradev.infraredstone.logic.impl.InfraRedstoneSerializer;
 import com.elytradev.infraredstone.util.InfraRedstoneNetworking;
 import com.google.common.base.Predicates;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -30,12 +32,19 @@ public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable
 	boolean lastActive = false;
 	int lastMask = 0b11_1111;
 
+	@Environment(EnvType.CLIENT)
+	boolean firstTick = true;
+
 	public DiodeBlockEntity() {
 		super(ModBlocks.DIODE_BE);
 	}
 
 	@Override
 	public void tick() {
+		if (world.isClient && firstTick) {
+			InfraRedstoneNetworking.requestModule(this);
+			firstTick = false;
+		}
 		if (world.isClient || !hasWorld()) return;
 
 		BlockState state = world.getBlockState(this.getPos());
@@ -121,18 +130,7 @@ public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable
 	@Override
 	public StringTextComponent getProbeMessage() {
 		TranslatableTextComponent i18n = new TranslatableTextComponent("msg.inred.multimeter.out");
-		return new StringTextComponent(i18n.getFormattedText()+getValue());
-	}
-
-	private String getValue() {
-		int signal = this.signal.getSignalValue();
-		int bit1 = ((signal & 0b00_0001) != 0) ? 1:0;
-		int bit2 = ((signal & 0b00_0010) != 0) ? 1:0;
-		int bit3 = ((signal & 0b00_0100) != 0) ? 1:0;
-		int bit4 = ((signal & 0b00_1000) != 0) ? 1:0;
-		int bit5 = ((signal & 0b01_0000) != 0) ? 1:0;
-		int bit6 = ((signal & 0b10_0000) != 0) ? 1:0;
-		return ": 0b"+bit6+bit5+"_"+bit4+bit3+bit2+bit1+" ("+signal+")";
+		return new StringTextComponent(i18n.getFormattedText()+getValue(signal));
 	}
 
 	@Override

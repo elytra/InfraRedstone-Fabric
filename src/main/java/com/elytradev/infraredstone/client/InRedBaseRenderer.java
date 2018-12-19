@@ -46,7 +46,6 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 	public void renderTopFace(BufferBuilder buffer, Sprite sprite, Direction facing) {
 		double faceHeight = frac(3);
 		faceHeight += 0.002; //Far enough to not z-fight. Hopefully.
-		GlowyBufferBuilder glowBuf = new GlowyBufferBuilder(buffer);
 
 		switch(facing) {
 			case NORTH:
@@ -82,16 +81,16 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		double adaptedZ = cornerZ;
 		switch(facing) {
 			case EAST:
-				adaptedX = -1*cornerZ + 14/16d;
+				adaptedX = -1*cornerZ + frac(14);
 				adaptedZ = cornerX;
 				break;
 			case SOUTH:
-				adaptedZ = -1*adaptedZ + 14/16d;
-				adaptedX = -1*adaptedX + 14/16d;
+				adaptedZ = -1*adaptedZ + frac(14);
+				adaptedX = -1*adaptedX + frac(14);
 				break;
 			case WEST:
 				adaptedX = cornerZ;
-				adaptedZ = -1*cornerX + 14/16d;
+				adaptedZ = -1*cornerX + frac(14);
 				break;
 			default:
 				break;
@@ -100,41 +99,41 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		double westX = adaptedX+0.127;
 		double northZ = adaptedZ-0.002;
 		double southZ = adaptedZ+0.127;
-		double topY = (isFullHeight) ? 0.3145 : 0.252;
-		double maxY = (isFullHeight) ? 5/16d : 1/4d;
+		double topY = (isFullHeight) ? frac(5)+0.002 : frac(4)+0.002;
+		double maxY = (isFullHeight) ? frac(5) : frac(4);
 		double minUV = 7;
 		double maxUV = 9;
 		double maxV = (isFullHeight) ? 9 : 8;
 
 		//top
-		buffer.vertex(adaptedX, topY, adaptedZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(adaptedX+2/16d, topY, adaptedZ).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(adaptedX+2/16d, topY, adaptedZ+2/16d).texture(tex.getU(maxUV), tex.getV(maxUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(adaptedX, topY, adaptedZ+2/16d).texture(tex.getU(minUV), tex.getV(maxUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
+		buffer.vertex(adaptedX, topY, adaptedZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), topY, adaptedZ).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), topY, adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(maxUV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX, topY, adaptedZ+frac(2)).texture(tex.getU(minUV), tex.getV(maxUV)).color(1f, 1f, 1f, 1f).next();
 
 		//north
-		buffer.vertex(adaptedX, 3/16d, northZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(adaptedX+2/16d, 3/16d, northZ).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(adaptedX+2/16d, maxY, northZ).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(adaptedX, maxY, northZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
+		buffer.vertex(adaptedX, frac(3), northZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), frac(3), northZ).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), maxY, northZ).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX, maxY, northZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).next();
 
 		//south
-		buffer.vertex(adaptedX, 3/16d, southZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(adaptedX+2/16d, 3/16d, southZ).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(adaptedX+2/16d, maxY, southZ).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(adaptedX, maxY, southZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
+		buffer.vertex(adaptedX, frac(3), southZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), frac(3), southZ).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), maxY, southZ).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX, maxY, southZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).next();
 
 		//east
-		buffer.vertex(eastX, 3/16d, adaptedZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(eastX, 3/16d, adaptedZ+2/16d).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(eastX, maxY, adaptedZ+2/16d).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(eastX, maxY, adaptedZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
+		buffer.vertex(eastX, frac(3), adaptedZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(eastX, frac(3), adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(eastX, maxY, adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(eastX, maxY, adaptedZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).next();
 
 		//west
-		buffer.vertex(westX, 3/16d, adaptedZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(westX, 3/16d, adaptedZ+2/16d).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(westX, maxY, adaptedZ+2/16d).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
-		buffer.vertex(westX, maxY, adaptedZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f)/*.brightness(240, 240, 240, 240)*/.next();
+		buffer.vertex(westX, frac(3), adaptedZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(westX, frac(3), adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(westX, maxY, adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(westX, maxY, adaptedZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).next();
 	}
 
 	public abstract Direction getFacing(T be);

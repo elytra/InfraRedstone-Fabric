@@ -1,59 +1,20 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model":"infraredstone:cable/scaffold_none"
-  },
-  "variants": {
-    "normal": {
-      "model": "infraredstone:cable/scaffold_none"
+  "multipart": [
+    { "apply": { "model": "infraredstone:block/cable/scaffold_none" }},
+    {   "when": { "north": "true" },
+      "apply": { "model": "infraredstone:block/cable/scaffold_side" }
     },
-    "inventory": {
-      "model": "infraredstone:cable/scaffold_item"
+    {   "when": { "east": "true" },
+      "apply": { "model": "infraredstone:block/cable/scaffold_side", "y": 90 }
     },
-    "east": {
-      "disconnected": {},
-      "connected": {
-        "submodel": {
-          "east": { "model": "infraredstone:cable/scaffold_side", "y": 90 }
-        }
-      },
-      "connected_up": {}
+    {   "when": { "south": "true" },
+      "apply": { "model": "infraredstone:block/cable/scaffold_side", "y": 180 }
     },
-    "north": {
-      "disconnected": {},
-      "connected": {
-        "submodel": {
-          "north": { "model": "infraredstone:cable/scaffold_side" }
-        }
-      },
-      "connected_up": {}
+    {   "when": { "west": "true" },
+      "apply": { "model": "infraredstone:block/cable/scaffold_side", "y": 270 }
     },
-    "south": {
-      "disconnected": {},
-      "connected": {
-        "submodel": {
-          "south": { "model": "infraredstone:cable/scaffold_side", "y": 180 }
-        }
-      },
-      "connected_up": {}
-    },
-    "west": {
-      "disconnected": {},
-      "connected": {
-        "submodel": {
-          "west": { "model": "infraredstone:cable/scaffold_side", "y": 270 }
-        }
-      },
-      "connected_up": {}
-    },
-    "up": {
-      "disconnected": {},
-      "connected": {
-        "submodel": {
-          "up": { "model": "infraredstone:cable/scaffold_up"}
-        }
-      },
-      "connected_up": {}
+    {   "when": { "up": "true" },
+      "apply": { "model": "infraredstone:block/cable/scaffold_up" }
     }
-  }
+  ]
 }

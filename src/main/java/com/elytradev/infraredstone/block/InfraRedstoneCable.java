@@ -113,7 +113,6 @@ public class InfraRedstoneCable extends BlockBase {
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
 		if (!this.canBlockStay(world, pos)) {
-//			this.dropBlockAsItem(world, pos, state, 0);
 			world.breakBlock(pos, true);
 
 			for (Direction dir : Direction.values()) {
@@ -145,21 +144,5 @@ public class InfraRedstoneCable extends BlockBase {
 
 	public boolean canBlockStay(World world, BlockPos pos) {
 		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down()) || world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_SCAFFOLD;
-	}
-
-	/** Ask the *destination block* if it can be connected to. {@code from} side has the same semantics as Capability sides */
-	public static boolean canConnect(BlockView world, BlockPos pos, Direction from) {
-		if (world.getBlockState(pos).isAir()) return false;
-
-		BlockState state = world.getBlockState(pos);
-		Block block = state.getBlock();
-		if (block==ModBlocks.INFRA_REDSTONE || block==ModBlocks.IN_RED_SCAFFOLD) return true;
-		if (block instanceof SimpleInfraRedstoneSignal) {
-			return ((SimpleInfraRedstoneSignal)block).canConnectIR(world, pos, state, from);
-		}
-		BlockEntity te = world.getBlockEntity(pos);
-		if (!(te instanceof InfraRedstoneCapable)) return false;
-
-		return ((InfraRedstoneCapable)te).canConnectToSide(from);
 	}
 }

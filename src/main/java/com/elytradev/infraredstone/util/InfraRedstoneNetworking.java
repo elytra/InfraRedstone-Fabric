@@ -33,6 +33,13 @@ public class InfraRedstoneNetworking implements ModInitializer {
 				}
 			}
 		}));
+		CustomPayloadPacketRegistry.SERVER.register(MODULE_REQUEST, (packetContext, packetByteBuf) -> {
+			BlockPos pos = packetByteBuf.readBlockPos();
+			BlockEntity be = packetContext.getPlayer().getEntityWorld().getBlockEntity(pos);
+			if (be instanceof IRComponentBlockEntity) {
+				syncModule((IRComponentBlockEntity) be, (ServerPlayerEntity) packetContext.getPlayer());
+			}
+		});
 	}
 
 	@Environment(EnvType.SERVER)
@@ -41,5 +48,11 @@ public class InfraRedstoneNetworking implements ModInitializer {
 		buf.writeBlockPos(module.getPos());
 		buf.writeCompoundTag(module.toTag(new CompoundTag()));
 		player.networkHandler.sendPacket(new CustomPayloadClientPacket(MODULE_SYNC, buf));
+	}
+	@Environment(EnvType.CLIENT)
+	public static void requestModule(IRComponentBlockEntity module) {
+		PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+		buf.writeBlockPos(module.getPos());
+		MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadServerPacket(MODULE_REQUEST, buf));
 	}
 }

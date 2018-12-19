@@ -11,6 +11,13 @@
 				"facing=south": 180,
 				"default": 0
 			}
+		},
+		{
+			"type": "translate",
+			"offset: match": {
+				"bit_4=false": [0, -2, 0],
+				"default": [0,0,0]
+			}
 		}
 	],
 	"from": [6, 3, 11],
@@ -21,13 +28,6 @@
 		"south": {"uv": [5, 7, 6, 9], "texture": "#knob"},
 		"west": {"uv": [5, 7, 7, 9], "texture": "#knob"},
 		"up": {"uv": [5, 7, 6, 9], "texture": "#knob"},
-		"down": {"uv": [5, 7, 7, 9], "texture": "#knob"},
-		"all": {
-			"show: match": {
-				"bit_4=true": true,
-				"default": false
-			}
-		}
-
+		"down": {"uv": [5, 7, 7, 9], "texture": "#knob"}
 	}
 }

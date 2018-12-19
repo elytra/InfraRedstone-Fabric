@@ -5,11 +5,14 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.RenderTypeBlock;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import prospector.silk.block.SilkBlockWithEntity;
 
 public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
 	public String name;
+
+	public VoxelShape BASE_SHAPE = Block.createCubeShape(0, 0, 0, 16, 3, 16);
 
 	protected ModuleBase(String name, Settings settings) {
 		super(settings);
