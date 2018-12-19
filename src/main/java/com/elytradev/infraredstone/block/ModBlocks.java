@@ -2,6 +2,7 @@ package com.elytradev.infraredstone.block;
 
 import com.elytradev.infraredstone.InfraRedstone;
 import com.elytradev.infraredstone.block.entity.DiodeBlockEntity;
+import com.elytradev.infraredstone.block.entity.EncoderBlockEntity;
 import com.elytradev.infraredstone.item.ModItems;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -27,9 +28,10 @@ public class ModBlocks {
 //	public static final Block OSCILLATOR = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
 //	public static final Block TRANSISTOR = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
 //	public static final Block SHIFTER = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
-//	public static final Block ENCODER = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
+	public static final Block ENCODER = register(new EncoderBlock(), InfraRedstone.inRedGroup);
 
 	public static final BlockEntityType<DiodeBlockEntity> DIODE_BE = register("diode", DiodeBlockEntity::new);
+	public static final BlockEntityType<EncoderBlockEntity> ENCODER_BE = register("encoder", EncoderBlockEntity::new);
 
 
 	public static void init() {

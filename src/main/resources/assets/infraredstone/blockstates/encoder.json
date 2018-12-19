@@ -1,26 +1,8 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model":"infraredstone:module/encoder/encoder"
-  },
   "variants": {
-    "normal": {
-      "model": "infraredstone:module/encorde/encoder"
-    },
-    "inventory": {
-      "model": "infraredstone:module/encoder/item"
-    },
-    "facing": {
-      "north": {},
-      "east": {
-        "y": 90
-      },
-      "south": {
-        "y": 180
-      },
-      "west": {
-        "y": 270
-      }
-    }
+    "facing=north": { "model": "infraredstone:block/module/encoder" },
+    "facing=south": { "model": "infraredstone:block/module/encoder", "y": 180 },
+    "facing=west":  { "model": "infraredstone:block/module/encoder", "y": 270 },
+    "facing=east":  { "model": "infraredstone:block/module/encoder", "y": 90 }
   }
 }

@@ -32,7 +32,8 @@ public class DiodeBlock extends ModuleBase {
 	public static final BooleanProperty BIT_4 = BooleanProperty.create("bit_4");
 	public static final BooleanProperty BIT_5 = BooleanProperty.create("bit_5");
 
-	public static final EnumProperty<Direction> FACING = Properties.FACING;
+	public static final EnumProperty<Direction> FACING = Properties.FACING_HORIZONTAL;
+
 	public static final VoxelShape CLICK_BIT_0 = Block.createCubeShape(10, 3, 10, 11, 5.1, 14);
 	public static final VoxelShape CLICK_BIT_1 = Block.createCubeShape(9, 3, 8, 10, 5.1, 12);
 	public static final VoxelShape CLICK_BIT_2 = Block.createCubeShape(8, 3, 10, 9, 5.1, 14);
@@ -54,7 +55,7 @@ public class DiodeBlock extends ModuleBase {
 	public static final VoxelShape LOCKED_BIT_5= Block.createCubeShape(5, 3, 9, 6, 4, 11);
 
 	protected DiodeBlock() {
-		super("diode", FabricBlockSettings.create(Material.PART).setStrength(0.5f, 8f).build());
+		super("diode", DEFAULT_SETTINGS);
 		this.setDefaultState(this.getStateFactory().getDefaultState()
 				.with(BIT_0, true)
 				.with(BIT_1, true)

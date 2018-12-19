@@ -23,8 +23,10 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		final Tessellator tessellator = Tessellator.getInstance();
 		final BufferBuilder buffer = tessellator.getBufferBuilder();
 		buffer.setOffset(x, y, z);
+		GlStateManager.enableBlend();
+		GlStateManager.disableAlphaTest();
+		GlStateManager.blendFunc(GlStateManager.SrcBlendFactor.SRC_ALPHA, GlStateManager.DstBlendFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.disableLighting();
-		GlStateManager.enableCull();
 		MinecraftClient.getInstance().worldRenderer.method_3187();
 		Sprite sprite = getLightupTexture((T) be);
 		buffer.begin(GL11.GL_QUADS, VertexFormats.POSITION_UV_COLOR);
@@ -37,8 +39,9 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		}
 		buffer.setOffset(0.0, 0.0, 0.0);
 		tessellator.draw();
+		GlStateManager.disableBlend();
+		GlStateManager.enableAlphaTest();
 		GlStateManager.enableLighting();
-		GlStateManager.disableCull();
 		MinecraftClient.getInstance().worldRenderer.method_3180();
 		super.render(be, x, y, z, partialTicks, destroyStage);
 	}

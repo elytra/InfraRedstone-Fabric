@@ -12,5 +12,5 @@ public interface EncoderScannable {
 	 * See the Encoder Guidelines page on the InfraRedstone wiki for usage examples.
 	 * It may be helpful to format the value in binary: `0b00_0000`
 	 */
-	int getComparatorValue(Direction inspectingFrom);
+	int getEncoderValue(Direction inspectingFrom);
 }

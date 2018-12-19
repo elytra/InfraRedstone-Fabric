@@ -37,7 +37,7 @@ public class InfraRedstoneHandler implements InfraRedstoneSignal, EncoderScannab
 	}
 
 	@Override
-	public int getComparatorValue(Direction dir) {
+	public int getEncoderValue(Direction dir) {
 		return signalValue;
 	}
 	

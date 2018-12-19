@@ -8,5 +8,6 @@ public class SpriteProvider implements SpriteEvent.Provider {
 	@Override
 	public void registerSprites(SpriteRegistry registry) {
 		registry.register(new Identifier("infraredstone:block/diode_glow"));
+		registry.register(new Identifier("infraredstone:block.encoder_glow"));
 	}
 }
