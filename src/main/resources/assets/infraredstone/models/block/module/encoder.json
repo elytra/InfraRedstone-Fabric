@@ -1,10 +1,10 @@
 {
 	"credit": "Made with Blockbench, a free, modern block model editor by JannisX11",
 	"textures": {
-		"ic": "infraredstone:blocks/ics",
-		"side": "infraredstone:blocks/pcb_slate",
-		"base": "infraredstone:blocks/encoder",
-		"particle": "infraredstone:blocks/encoder"
+		"ic": "infraredstone:block/ics",
+		"side": "infraredstone:block/pcb_slate",
+		"base": "infraredstone:block/encoder",
+		"particle": "infraredstone:block/encoder"
 	},
 	"elements": [
 		{
