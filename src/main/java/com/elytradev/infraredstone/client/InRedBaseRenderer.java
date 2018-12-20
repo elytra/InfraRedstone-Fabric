@@ -112,9 +112,9 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 
 		//top
 		buffer.vertex(adaptedX, topY, adaptedZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(adaptedX+frac(2), topY, adaptedZ).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(adaptedX+frac(2), topY, adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(maxUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
 		buffer.vertex(adaptedX, topY, adaptedZ+frac(2)).texture(tex.getU(minUV), tex.getV(maxUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
+		buffer.vertex(adaptedX+frac(2), topY, adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(maxUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
+		buffer.vertex(adaptedX+frac(2), topY, adaptedZ).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
 
 		//north
 		buffer.vertex(adaptedX, frac(3), northZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();

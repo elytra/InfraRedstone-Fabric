@@ -1,0 +1,18 @@
+{
+  "textures": {
+    "base": "infraredstone:block/not_gate",
+    "particle": "infraredstone:block/not_gate",
+    "side": "infraredstone:block/pcb_slate",
+    "light": "infraredstone:block/lights"
+  },
+  "parts": [
+    {
+      "type": "external",
+      "part": "infraredstone:base"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:not_gate_light"
+    }
+  ]
+}

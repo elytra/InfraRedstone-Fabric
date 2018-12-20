@@ -46,6 +46,7 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 		if (world.isClient && firstTick) {
 			InfraRedstoneNetworking.requestModule(this);
 			firstTick = false;
+			markDirty();
 		}
 		if (world.isClient || !hasWorld()) return;
 
@@ -76,7 +77,7 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 						Inventory inv = (Inventory)be;
 						int stacksChecked = 0;
 						float fillPercentage = 0f;
-						for (int i = 1; i < (inv.getInvSize() ); i++) {
+						for (int i = 0; i < (inv.getInvSize() ); i++) {
 							ItemStack stack = inv.getInvStack(i);
 							if (!stack.isEmpty()) {
 								fillPercentage += (float)stack.getAmount() / (float)Math.min(inv.getInvMaxStackAmount(), stack.getMaxAmount());

@@ -3,6 +3,7 @@ package com.elytradev.infraredstone.block;
 import com.elytradev.infraredstone.InfraRedstone;
 import com.elytradev.infraredstone.block.entity.DiodeBlockEntity;
 import com.elytradev.infraredstone.block.entity.EncoderBlockEntity;
+import com.elytradev.infraredstone.block.entity.NotGateBlockEntity;
 import com.elytradev.infraredstone.item.ModItems;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -22,7 +23,7 @@ public class ModBlocks {
 	public static final Block IN_RED_SCAFFOLD = register(new InfraRedstoneScaffold(), InfraRedstone.inRedGroup);
 //	public static final Block IN_RED_BLOCK = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
 	public static final Block DIODE = register(new DiodeBlock(), InfraRedstone.inRedGroup);
-//	public static final Block NOT_GATE = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
+	public static final Block NOT_GATE = register(new NotGateBlock(), InfraRedstone.inRedGroup);
 //	public static final Block AND_GATE = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
 //	public static final Block XOR_GATE = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
 //	public static final Block OSCILLATOR = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
@@ -31,6 +32,7 @@ public class ModBlocks {
 	public static final Block ENCODER = register(new EncoderBlock(), InfraRedstone.inRedGroup);
 
 	public static final BlockEntityType<DiodeBlockEntity> DIODE_BE = register("diode", DiodeBlockEntity::new);
+	public static final BlockEntityType<NotGateBlockEntity> NOT_GATE_BE = register("not_gate", NotGateBlockEntity::new);
 	public static final BlockEntityType<EncoderBlockEntity> ENCODER_BE = register("encoder", EncoderBlockEntity::new);
 
 

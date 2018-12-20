@@ -1,4 +1,5 @@
 {
+	"scale": 16,
 	"type": "box",
 	"transform": [
 		{
@@ -15,13 +16,13 @@
 		{
 			"type": "translate",
 			"offset: match": {
-				"bit_4=false": [0, -2, 0],
+				"bit_2=false": [0, -2, 0],
 				"default": [0,0,0]
 			}
 		}
 	],
-	"from": [6, 3, 11],
-	"to": [7, 5, 13],
+	"from": [8, 3, 11],
+	"to": [9, 5, 13],
 	"faces": {
 		"north": {"uv": [5, 7, 6, 9], "texture": "#knob"},
 		"east": {"uv": [5, 7, 7, 9], "texture": "#knob"},

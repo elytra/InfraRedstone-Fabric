@@ -1,9 +1,7 @@
 package com.elytradev.infraredstone.block.entity;
 
-import com.elytradev.infraredstone.api.InfraRedstoneSignal;
-import com.elytradev.infraredstone.api.MultimeterProbeProvider;
-import com.elytradev.infraredstone.api.InfraRedstoneCapable;
-import com.elytradev.infraredstone.block.DiodeBlock;
+import com.elytradev.infraredstone.api.*;
+import com.elytradev.infraredstone.block.NotGateBlock;
 import com.elytradev.infraredstone.block.ModBlocks;
 import com.elytradev.infraredstone.logic.InRedLogic;
 import com.elytradev.infraredstone.logic.impl.InfraRedstoneHandler;
@@ -24,19 +22,22 @@ import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.chunk.Chunk;
 
-public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
+public class NotGateBlockEntity extends IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
+
 	private InfraRedstoneHandler signal = new InfraRedstoneHandler();
-	private int mask = 0b11_1111;
+	public boolean booleanMode;
+	public boolean backActive;
 
 	//Transient data to throttle sync down here
 	boolean lastActive = false;
-	int lastMask = 0b11_1111;
+	boolean lastBooleanMode = false;
+	boolean lastBackActive = false;
 
 	@Environment(EnvType.CLIENT)
 	boolean firstTick = true;
 
-	public DiodeBlockEntity() {
-		super(ModBlocks.DIODE_BE);
+	public NotGateBlockEntity() {
+		super(ModBlocks.NOT_GATE_BE);
 	}
 
 	@Override
@@ -52,10 +53,19 @@ public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable
 
 		if (InRedLogic.isIRTick()) {
 			//IR tick means we're searching for a next value
-			if (state.getBlock() instanceof DiodeBlock) {
-				Direction back = state.get(DiodeBlock.FACING).getOpposite();
+			if (state.getBlock() instanceof NotGateBlock) {
+				Direction back = state.get(NotGateBlock.FACING).getOpposite();
 				int sig = InRedLogic.findIRValue(world, pos, back);
-				signal.setNextSignalValue(sig & mask);
+				backActive = sig != 0;
+				if (!booleanMode) {
+					signal.setNextSignalValue((~sig) & 0b11_1111);
+				} else {
+					if (sig == 0) {
+						signal.setNextSignalValue(1);
+					} else {
+						signal.setNextSignalValue(0);
+					}
+				}
 				markDirty();
 			}
 		} else {
@@ -66,35 +76,43 @@ public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable
 		}
 	}
 
-	public void setMask(int bit) {
-		mask ^= (1 << bit);
-		world.playSound(null, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCK, 0.3f, 0.45f);
+	public void toggleBooleanMode() {
+		if (booleanMode) {
+			booleanMode = false;
+			world.playSound(null, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCK, 0.3f, 0.5f);
+		} else {
+			booleanMode = true;
+			world.playSound(null, pos, SoundEvents.BLOCK_COMPARATOR_CLICK, SoundCategory.BLOCK, 0.3f, 0.55f);
+		}
 		markDirty();
 	}
 
 	@Override
 	public CompoundTag toTag(CompoundTag compound) {
 		CompoundTag tag = super.toTag(compound);
-		tag.putInt("Mask", mask);
 		tag.put("Signal", InfraRedstoneSerializer.serialize(signal, null));
+		tag.putBoolean("BooleanMode", booleanMode);
+		tag.putBoolean("BackActive", backActive);
 		return tag;
 	}
 
 	@Override
 	public void fromTag(CompoundTag compound) {
 		super.fromTag(compound);
-		mask = compound.getInt("Mask");
 		if (compound.containsKey("Signal")) InfraRedstoneSerializer.deserialize(signal, null, compound.getTag("Signal"));
+		booleanMode = compound.getBoolean("BooleanMode");
+		backActive = compound.getBoolean("BackActive");
 	}
 
-	//TODO: find out if this is still needed
 	@Override
 	public void markDirty() {
 		super.markDirty();
 		// again, I've copy-pasted this like 12 times, should probably go into Concrete
 		if (!hasWorld() || getWorld().isClient) return;
 		boolean active = isActive();
-		if (mask != lastMask || active != lastActive) { //Throttle updates - only send when something important changes
+		if (active != lastActive
+				|| lastBackActive != backActive
+				|| lastBooleanMode != booleanMode) { //Throttle updates - only send when something important changes
 
 			ServerWorld ws = (ServerWorld) getWorld();
 			Chunk c = getWorld().getChunk(getPos());
@@ -104,30 +122,25 @@ public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable
 				}
 			}
 
-			if (lastMask != mask) {
-//				BlockState state = world.getBlockState(pos);
-//				ws.updateListeners(pos, state, state, 1 | 2 | 16);
-				world.updateNeighborsAlways(pos.offset(Direction.UP), ModBlocks.DIODE); //this could have collateral damage, but I can't find any other fix
-			} else if (lastActive != active) {
+			if (lastBooleanMode != booleanMode) {
+				world.updateNeighborsAlways(pos.offset(Direction.UP), ModBlocks.NOT_GATE);
+			}
+			if (lastActive != active || lastBackActive != backActive) {
 				//BlockState isn't changing, but we need to notify the block in front of us so that vanilla redstone updates
 				BlockState state = world.getBlockState(pos);
-				world.updateNeighborsAlways(pos, ModBlocks.DIODE);
+				world.updateNeighborsAlways(pos, ModBlocks.NOT_GATE);
 				world.updateListeners(pos, state, state, 1);
 			}
 
-			lastMask = mask;
-			lastActive = active;
+			lastBooleanMode = booleanMode;
+			lastActive = isActive();
+			lastBackActive = backActive;
 		}
-	}
-
-	public int getMask() {
-		return mask;
 	}
 
 	public boolean isActive() {
 		return signal.getSignalValue() != 0;
 	}
-
 
 	@Override
 	public StringTextComponent getProbeMessage() {
@@ -141,11 +154,11 @@ public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable
 		if (inspectingFrom==null) return  signal;
 
 		BlockState state = world.getBlockState(pos);
-		if (state.getBlock()==ModBlocks.DIODE) {
-			Direction diodeFront = state.get(DiodeBlock.FACING);
-			if (diodeFront==inspectingFrom) {
+		if (state.getBlock()==ModBlocks.ENCODER) {
+			Direction notGateFront = state.get(NotGateBlock.FACING);
+			if (notGateFront==inspectingFrom) {
 				return  signal;
-			} else if (diodeFront==inspectingFrom.getOpposite()) {
+			} else if (notGateFront==inspectingFrom.getOpposite()) {
 				return InfraRedstoneHandler.ALWAYS_OFF;
 			} else {
 				return null;
@@ -159,11 +172,11 @@ public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable
 		if (world==null) return true;
 		if (inspectingFrom==null) return true;
 		BlockState state = world.getBlockState(pos);
-		if (state.getBlock()==ModBlocks.DIODE) {
-			Direction diodeFront = state.get(DiodeBlock.FACING);
-			if (diodeFront==inspectingFrom) {
+		if (state.getBlock()==ModBlocks.NOT_GATE) {
+			Direction notGateFront = state.get(NotGateBlock.FACING);
+			if (notGateFront==inspectingFrom) {
 				return true;
-			} else return diodeFront == inspectingFrom.getOpposite();
+			} else return notGateFront == inspectingFrom.getOpposite();
 		}
 
 		return false;

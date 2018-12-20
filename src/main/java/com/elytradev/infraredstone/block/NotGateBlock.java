@@ -1,10 +1,8 @@
 package com.elytradev.infraredstone.block;
 
-import com.elytradev.infraredstone.block.entity.DiodeBlockEntity;
-import net.fabricmc.fabric.block.FabricBlockSettings;
+import com.elytradev.infraredstone.block.entity.NotGateBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.block.BlockRenderLayer;
 import net.minecraft.entity.VerticalEntityPosition;
@@ -23,48 +21,28 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class DiodeBlock extends ModuleBase {
-
-	public static final BooleanProperty BIT_0 = BooleanProperty.create("bit_0");
-	public static final BooleanProperty BIT_1 = BooleanProperty.create("bit_1");
-	public static final BooleanProperty BIT_2 = BooleanProperty.create("bit_2");
-	public static final BooleanProperty BIT_3 = BooleanProperty.create("bit_3");
-	public static final BooleanProperty BIT_4 = BooleanProperty.create("bit_4");
-	public static final BooleanProperty BIT_5 = BooleanProperty.create("bit_5");
+public class NotGateBlock extends ModuleBase {
 
 	public static final EnumProperty<Direction> FACING = Properties.FACING_HORIZONTAL;
+	public static final BooleanProperty BOOLEAN_MODE = BooleanProperty.create("boolean_mode");
 
-	public static final VoxelShape CLICK_BIT_0 = Block.createCubeShape(10, 2.9, 10, 11, 4.1, 14);
-	public static final VoxelShape CLICK_BIT_1 = Block.createCubeShape(9, 2.9, 8, 10, 4.1, 12);
-	public static final VoxelShape CLICK_BIT_2 = Block.createCubeShape(8, 2.9, 10, 9, 4.1, 14);
-	public static final VoxelShape CLICK_BIT_3 = Block.createCubeShape(7, 2.9, 8, 8, 4.1, 12);
-	public static final VoxelShape CLICK_BIT_4 = Block.createCubeShape(6, 2.9, 10, 7, 4.1, 14);
-	public static final VoxelShape CLICK_BIT_5= Block.createCubeShape(5, 2.9, 8, 6, 4.1, 12);
-
-	protected DiodeBlock() {
-		super("diode", DEFAULT_SETTINGS);
-		this.setDefaultState(this.getStateFactory().getDefaultState()
-				.with(BIT_0, true)
-				.with(BIT_1, true)
-				.with(BIT_2, true)
-				.with(BIT_3, true)
-				.with(BIT_4, true)
-				.with(BIT_5, true)
-				.with(FACING, Direction.NORTH));
+	protected NotGateBlock() {
+		super("not_gate", DEFAULT_SETTINGS);
+		this.setDefaultState(this.getStateFactory().getDefaultState().with(FACING, Direction.NORTH).with(BOOLEAN_MODE, false));
 	}
 
 	@Override
 	public BlockEntity createBlockEntity(BlockView blockView) {
-		return new DiodeBlockEntity();
+		return new NotGateBlockEntity();
 	}
 
 	@Override
 	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
 		BlockEntity be = world.getBlockEntity(pos);
-		if(!world.isClient() && !player.isSneaking() && be instanceof DiodeBlockEntity) {
+		if(!world.isClient() && !player.isSneaking() && be instanceof NotGateBlockEntity) {
 			Vec3d blockCenteredHit = new Vec3d(hitX, hitY, hitZ);
 			blockCenteredHit = blockCenteredHit.subtract(0.5, 0.5, 0.5);
-			switch (state.get(DiodeBlock.FACING)) {
+			switch (state.get(NotGateBlock.FACING)) {
 				case SOUTH:
 					blockCenteredHit = blockCenteredHit.rotateX((float)Math.PI);
 					break;
@@ -79,27 +57,9 @@ public class DiodeBlock extends ModuleBase {
 			}
 			blockCenteredHit = blockCenteredHit.add(0.5, 0.5, 0.5);
 //			blockCenteredHit = blockCenteredHit.multiply(16);
-			System.out.println(blockCenteredHit);
-			System.out.println(CLICK_BIT_0.getBoundingBox());
-			System.out.println(CLICK_BIT_0.getBoundingBox().contains(blockCenteredHit));
-			DiodeBlockEntity beDiode = (DiodeBlockEntity)be;
-			if (CLICK_BIT_0.getBoundingBox().contains(blockCenteredHit)) {
-				beDiode.setMask(0);
-			}
-			if (CLICK_BIT_1.getBoundingBox().contains(blockCenteredHit)) {
-				beDiode.setMask(1);
-			}
-			if (CLICK_BIT_2.getBoundingBox().contains(blockCenteredHit)) {
-				beDiode.setMask(2);
-			}
-			if (CLICK_BIT_3.getBoundingBox().contains(blockCenteredHit)) {
-				beDiode.setMask(3);
-			}
-			if (CLICK_BIT_4.getBoundingBox().contains(blockCenteredHit)) {
-				beDiode.setMask(4);
-			}
-			if (CLICK_BIT_5.getBoundingBox().contains(blockCenteredHit)) {
-				beDiode.setMask(5);
+			NotGateBlockEntity beNotGate = (NotGateBlockEntity)be;
+			if (CLICK_BOOLEAN.getBoundingBox().contains(blockCenteredHit)) {
+				beNotGate.toggleBooleanMode();
 			}
 		}
 		return true;
@@ -127,7 +87,7 @@ public class DiodeBlock extends ModuleBase {
 
 	@Override
 	protected void appendProperties(StateFactory.Builder<Block, BlockState> builder) {
-		builder.with(FACING, BIT_0, BIT_1, BIT_2, BIT_3, BIT_4, BIT_5);
+		builder.with(FACING, BOOLEAN_MODE);
 	}
 
 	@Override
@@ -139,8 +99,8 @@ public class DiodeBlock extends ModuleBase {
 	public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction side) {
 		if (side!=state.get(FACING).getOpposite()) return 0;
 		BlockEntity be = world.getBlockEntity(pos);
-		if (be instanceof DiodeBlockEntity) {
-			return ((DiodeBlockEntity)be).isActive()?16:0;
+		if (be instanceof NotGateBlockEntity) {
+			return ((NotGateBlockEntity)be).isActive()?16:0;
 		}
 		return 0;
 	}
@@ -158,27 +118,14 @@ public class DiodeBlock extends ModuleBase {
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
 		BlockEntity be = world.getBlockEntity(pos);
-		if (be instanceof DiodeBlockEntity) {
+		if (be instanceof NotGateBlockEntity) {
 			world.setBlockState(pos, state
-					.with(BIT_0, bitToBool(0, world, pos))
-					.with(BIT_1, bitToBool(1, world, pos))
-					.with(BIT_2, bitToBool(2, world, pos))
-					.with(BIT_3, bitToBool(3, world, pos))
-					.with(BIT_4, bitToBool(4, world, pos))
-					.with(BIT_5, bitToBool(5, world, pos)));
+					.with(BOOLEAN_MODE, ((NotGateBlockEntity)be).booleanMode));
 		}
-	}
-
-	public boolean bitToBool(int bit, BlockView world, BlockPos pos) {
-		BlockEntity be = world.getBlockEntity(pos);
-		if(be instanceof DiodeBlockEntity) {
-			DiodeBlockEntity beDiode = (DiodeBlockEntity) be;
-			return (1<<bit & beDiode.getMask()) > 0;
-		}
-		return false;
 	}
 
 	public boolean canBlockStay(World world, BlockPos pos) {
 		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down());
 	}
+
 }

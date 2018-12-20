@@ -14,7 +14,7 @@ public class EncoderRenderer extends InRedBaseRenderer<EncoderBlockEntity> {
 	@Override
 	public Direction getFacing(EncoderBlockEntity be) {
 		BlockState state = be.getWorld().getBlockState(be.getPos());
-		if (state.getBlock()== ModBlocks.DIODE) return state.get(EncoderBlock.FACING);
+		if (state.getBlock()== ModBlocks.ENCODER) return state.get(EncoderBlock.FACING);
 
 		return Direction.NORTH;
 	}
