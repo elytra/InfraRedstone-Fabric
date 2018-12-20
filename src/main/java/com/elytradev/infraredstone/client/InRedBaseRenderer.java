@@ -6,7 +6,6 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.GuiLighting;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -14,7 +13,7 @@ import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.math.Direction;
 import org.lwjgl.opengl.GL11;
 
-import static prospector.silk.util.RenderUtil.frac;
+import static io.github.prospector.silk.util.RenderUtil.frac;
 
 public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extends BlockEntityRenderer {
 	protected Torch[] torches = new Torch[]{};

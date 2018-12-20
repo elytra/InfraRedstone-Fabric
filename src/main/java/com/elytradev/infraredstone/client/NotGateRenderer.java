@@ -1,9 +1,7 @@
 package com.elytradev.infraredstone.client;
 
-import com.elytradev.infraredstone.block.DiodeBlock;
 import com.elytradev.infraredstone.block.ModBlocks;
 import com.elytradev.infraredstone.block.NotGateBlock;
-import com.elytradev.infraredstone.block.entity.DiodeBlockEntity;
 import com.elytradev.infraredstone.block.entity.NotGateBlockEntity;
 import com.elytradev.infraredstone.util.Torch;
 import net.minecraft.block.BlockState;
@@ -11,7 +9,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.math.Direction;
 
-import static prospector.silk.util.RenderUtil.frac;
+import static io.github.prospector.silk.util.RenderUtil.frac;
 
 public class NotGateRenderer extends InRedBaseRenderer<NotGateBlockEntity> {
 
