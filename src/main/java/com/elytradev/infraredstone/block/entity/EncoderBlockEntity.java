@@ -45,7 +45,6 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 	public void tick() {
 		if (world.isClient && firstTick) {
 			InfraRedstoneNetworking.requestModule(this);
-			firstTick = false;
 			markDirty();
 		}
 		if (world.isClient || !hasWorld()) return;
@@ -137,7 +136,7 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 		// again, I've copy-pasted this like 12 times, should probably go into Concrete
 		if (!hasWorld() || getWorld().isClient) return;
 		boolean active = isActive();
-		if (active != lastActive) { //Throttle updates - only send when something important changes
+		if (active != lastActive || firstTick) { //Throttle updates - only send when something important changes
 
 			ServerWorld ws = (ServerWorld) getWorld();
 			Chunk c = getWorld().getChunk(getPos());
@@ -147,13 +146,14 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 				}
 			}
 
-			if (lastActive != active) {
+			if (lastActive != active || firstTick) {
 				//BlockState isn't changing, but we need to notify the block in front of us so that vanilla redstone updates
 				BlockState state = world.getBlockState(pos);
 				world.updateNeighborsAlways(pos, ModBlocks.ENCODER);
 				world.updateListeners(pos, state, state, 1);
 			}
 
+			if (firstTick) firstTick = false;
 			lastActive = active;
 		}
 	}

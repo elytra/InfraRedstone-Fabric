@@ -5,6 +5,7 @@
   "block.infraredstone.infra_redstone_scaffold": "Infra-Redstone Scaffold",
   "block.infraredstone.diode": "Diode",
   "block.infraredstone.not_gate": "NOT Gate",
+  "block.infraredstone.transistor": "Transistor",
   "block.infraredstone.encoder": "Encoder",
   "msg.inred.multimeter.direction": "Signal input from",
   "msg.inred.multimeter.out": "Module signal output",

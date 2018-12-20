@@ -3,9 +3,11 @@ package com.elytradev.infraredstone.block;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import io.github.prospector.silk.block.SilkBlockWithEntity;
+import net.minecraft.world.World;
 
 public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
 	public String name;
@@ -34,5 +36,9 @@ public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
 	@Override
 	public Block getBlock() {
 		return this;
+	}
+
+	public boolean canBlockStay(World world, BlockPos pos) {
+		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down());
 	}
 }

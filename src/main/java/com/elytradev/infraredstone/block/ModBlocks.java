@@ -4,6 +4,7 @@ import com.elytradev.infraredstone.InfraRedstone;
 import com.elytradev.infraredstone.block.entity.DiodeBlockEntity;
 import com.elytradev.infraredstone.block.entity.EncoderBlockEntity;
 import com.elytradev.infraredstone.block.entity.NotGateBlockEntity;
+import com.elytradev.infraredstone.block.entity.TransistorBlockEntity;
 import com.elytradev.infraredstone.item.ModItems;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.Block;
@@ -27,13 +28,14 @@ public class ModBlocks {
 //	public static final Block AND_GATE = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
 //	public static final Block XOR_GATE = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
 //	public static final Block OSCILLATOR = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
-//	public static final Block TRANSISTOR = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
+	public static final Block TRANSISTOR = register(new TransistorBlock(), InfraRedstone.inRedGroup);
 //	public static final Block SHIFTER = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
 	public static final Block ENCODER = register(new EncoderBlock(), InfraRedstone.inRedGroup);
 
 	public static final BlockEntityType<DiodeBlockEntity> DIODE_BE = register("diode", DiodeBlockEntity::new);
 	public static final BlockEntityType<NotGateBlockEntity> NOT_GATE_BE = register("not_gate", NotGateBlockEntity::new);
 	public static final BlockEntityType<EncoderBlockEntity> ENCODER_BE = register("encoder", EncoderBlockEntity::new);
+	public static final BlockEntityType<EncoderBlockEntity> TRANSISTOR_BE = register("transistor", TransistorBlockEntity::new);
 
 
 	public static void init() {

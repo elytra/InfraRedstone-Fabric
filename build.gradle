@@ -23,7 +23,11 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
 archivesBaseName = "infraredstone"
-version = "18w50a-1.0"
+
+
+ext {
+	standardVersion = "18w50a-1.0"
+}
 
 repositories {
 	flatDir {
@@ -42,3 +46,55 @@ dependencies {
 	modCompile name: "qcommon-architect-1.0.0"
 	modCompile name: "qcommon-croco-1.0.3"
 }
+
+if (System.properties["release"] == null) {
+	def branch
+	if (System.env.BRANCH_NAME) {
+		// Jenkins support
+		branch = System.env.BRANCH_NAME
+		branch = branch.substring(branch.lastIndexOf('/')+1)
+	} else {
+		branch = 'git rev-parse --abbrev-ref HEAD'.execute().in.text.trim()
+	}
+	if (branch == "HEAD") {
+		branch = 'git rev-parse --short HEAD'.execute().in.text.trim()
+	}
+	def commits = 'git rev-list --count HEAD'.execute().in.text.trim()
+	def dirty = !'git diff-index HEAD'.execute().in.text.trim().isEmpty()
+	version = branch+'-'+ext.standardVersion+'.'+commits+(dirty ? '-dirty' : '')
+} else {
+	version = ext.standardVersion
+}
+
+//jar {
+//	from "LICENSE"
+//	from sourceSets.main.output
+//	from sourceSets.api.output
+//	classifier '' //this is the main jar!
+//}
+//
+//task devJar(type: Jar, dependsOn: classes) {
+//	from "LICENSE"
+//	from sourceSets.main.output
+////	from sourceSets.api.output
+//	classifier 'dev'
+//}
+//
+//sourceJar {
+//	from "LICENSE"
+//	classifier 'sources'
+//}
+
+//task apiJar(type: Jar) {
+//	from sourceSets.api.allJava
+//	from sourceSets.api.output
+//	classifier 'api'
+//}
+
+//artifacts {
+//	archives apiJar
+//	archives sourceJar
+//	archives devJar
+//}
+
+

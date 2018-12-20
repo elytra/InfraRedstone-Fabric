@@ -44,7 +44,6 @@ public class NotGateBlockEntity extends IRComponentBlockEntity implements Tickab
 	public void tick() {
 		if (world.isClient && firstTick) {
 			InfraRedstoneNetworking.requestModule(this);
-			firstTick = false;
 			markDirty();
 		}
 		if (world.isClient || !hasWorld()) return;
@@ -112,7 +111,8 @@ public class NotGateBlockEntity extends IRComponentBlockEntity implements Tickab
 		boolean active = isActive();
 		if (active != lastActive
 				|| lastBackActive != backActive
-				|| lastBooleanMode != booleanMode) { //Throttle updates - only send when something important changes
+				|| lastBooleanMode != booleanMode
+				|| firstTick) { //Throttle updates - only send when something important changes
 
 			ServerWorld ws = (ServerWorld) getWorld();
 			Chunk c = getWorld().getChunk(getPos());
@@ -122,10 +122,10 @@ public class NotGateBlockEntity extends IRComponentBlockEntity implements Tickab
 				}
 			}
 
-			if (lastBooleanMode != booleanMode) {
+			if (lastBooleanMode != booleanMode || firstTick) {
 				world.updateNeighborsAlways(pos.offset(Direction.UP), ModBlocks.NOT_GATE);
 			}
-			if (lastActive != active || lastBackActive != backActive) {
+			if (lastActive != active || lastBackActive != backActive || firstTick) {
 				//BlockState isn't changing, but we need to notify the block in front of us so that vanilla redstone updates
 				BlockState state = world.getBlockState(pos);
 				world.updateNeighborsAlways(pos, ModBlocks.NOT_GATE);
@@ -135,6 +135,7 @@ public class NotGateBlockEntity extends IRComponentBlockEntity implements Tickab
 			lastBooleanMode = booleanMode;
 			lastActive = isActive();
 			lastBackActive = backActive;
+			if (firstTick) firstTick = false;
 		}
 	}
 

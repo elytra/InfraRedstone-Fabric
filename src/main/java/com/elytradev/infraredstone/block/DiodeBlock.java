@@ -157,15 +157,23 @@ public class DiodeBlock extends ModuleBase {
 
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
-		BlockEntity be = world.getBlockEntity(pos);
-		if (be instanceof DiodeBlockEntity) {
-			world.setBlockState(pos, state
-					.with(BIT_0, bitToBool(0, world, pos))
-					.with(BIT_1, bitToBool(1, world, pos))
-					.with(BIT_2, bitToBool(2, world, pos))
-					.with(BIT_3, bitToBool(3, world, pos))
-					.with(BIT_4, bitToBool(4, world, pos))
-					.with(BIT_5, bitToBool(5, world, pos)));
+		if (!this.canBlockStay(world, pos)) {
+			world.breakBlock(pos, true);
+
+			for (Direction dir : Direction.values()) {
+				world.updateNeighborsAlways(pos.offset(dir), this);
+			}
+		} else {
+			BlockEntity be = world.getBlockEntity(pos);
+			if (be instanceof DiodeBlockEntity) {
+				world.setBlockState(pos, state
+						.with(BIT_0, bitToBool(0, world, pos))
+						.with(BIT_1, bitToBool(1, world, pos))
+						.with(BIT_2, bitToBool(2, world, pos))
+						.with(BIT_3, bitToBool(3, world, pos))
+						.with(BIT_4, bitToBool(4, world, pos))
+						.with(BIT_5, bitToBool(5, world, pos)));
+			}
 		}
 	}
 
@@ -176,9 +184,5 @@ public class DiodeBlock extends ModuleBase {
 			return (1<<bit & beDiode.getMask()) > 0;
 		}
 		return false;
-	}
-
-	public boolean canBlockStay(World world, BlockPos pos) {
-		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down());
 	}
 }

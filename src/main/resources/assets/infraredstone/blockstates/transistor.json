@@ -1,26 +1,8 @@
 {
-  "forge_marker": 1,
-  "defaults": {
-    "model":"infraredstone:module/transistor/transistor"
-  },
   "variants": {
-    "normal": {
-      "model": "infraredstone:module/transistor/transistor"
-    },
-    "inventory": {
-      "model": "infraredstone:module/transistor/item"
-    },
-    "facing": {
-      "north": {},
-      "east": {
-        "y": 90
-      },
-      "south": {
-        "y": 180
-      },
-      "west": {
-        "y": 270
-      }
-    }
+    "facing=north": { "model": "infraredstone:block/module/transistor" },
+    "facing=south": { "model": "infraredstone:block/module/transistor", "y": 180 },
+    "facing=west":  { "model": "infraredstone:block/module/transistor", "y": 270 },
+    "facing=east":  { "model": "infraredstone:block/module/transistor", "y": 90 }
   }
 }

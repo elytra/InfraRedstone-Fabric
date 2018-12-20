@@ -1,7 +1,7 @@
 package com.elytradev.infraredstone.block;
 
 import com.elytradev.infraredstone.block.entity.EncoderBlockEntity;
-import net.fabricmc.fabric.block.FabricBlockSettings;
+import com.elytradev.infraredstone.block.entity.TransistorBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -18,18 +18,18 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class EncoderBlock extends ModuleBase {
+public class TransistorBlock extends ModuleBase {
 
 	public static final EnumProperty<Direction> FACING = Properties.FACING_HORIZONTAL;
 
-	protected EncoderBlock() {
-		super("encoder", DEFAULT_SETTINGS);
+	protected TransistorBlock() {
+		super("transistor", DEFAULT_SETTINGS);
 		this.setDefaultState(this.getStateFactory().getDefaultState().with(FACING, Direction.NORTH));
 	}
 
 	@Override
 	public BlockEntity createBlockEntity(BlockView blockView) {
-		return new EncoderBlockEntity();
+		return new TransistorBlockEntity();
 	}
 
 	@Override
@@ -91,9 +91,5 @@ public class EncoderBlock extends ModuleBase {
 				world.updateNeighborsAlways(pos.offset(dir), this);
 			}
 		}
-	}
-
-	public boolean canBlockStay(World world, BlockPos pos) {
-		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down());
 	}
 }
