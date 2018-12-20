@@ -5,7 +5,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
-import prospector.silk.block.SilkBlockWithEntity;
+import io.github.prospector.silk.block.SilkBlockWithEntity;
 
 public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
 	public String name;

@@ -14,7 +14,6 @@ pipeline {
 				withCredentials([file(credentialsId: 'privateGradleNoSnapshotShadow', variable: 'PRIVATEGRADLE')]) {
 					sh '''
 						cp "$PRIVATEGRADLE" private.gradle
-						./gradlew uploadShadow
 					'''
 				}
 			}

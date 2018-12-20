@@ -24,8 +24,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.Chunk;
-import prospector.silk.fluid.FluidContainer;
-import prospector.silk.fluid.FluidInstance;
+import io.github.prospector.silk.fluid.FluidContainer;
+import io.github.prospector.silk.fluid.FluidInstance;
 
 public class EncoderBlockEntity extends  IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
 
@@ -89,16 +89,11 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 						markDirty();
 						return;
 					}
-					// Fluid containers don't have any way to know capacity externally yet, so this has to be commented out for now
-//					if (be instanceof FluidContainer) {
-//						FluidContainer cont = (FluidContainer)be;
-//						FluidInstance[] fluids = cont.getFluids(back.getOpposite());
-//						int fluidsChecked = 0;
-//						float fillPercentage = 0f;
-//						for (FluidInstance fluid : fluids) {
-//							fillPercentage += (float)fluid.getAmount();
-//						}
-//					}
+					if (be instanceof FluidContainer) {
+						FluidContainer cont = (FluidContainer)be;
+						float fillPercentage = (float) cont.getMaxCapacity() / (float)cont.getCurrentFill(back.getOpposite());
+						signal.setNextSignalValue(MathHelper.floor(fillPercentage * 62.0F) + (cont.getCurrentFill(back.getOpposite()) > 0 ? 1 : 0));
+					}
 					// check for a vanilla comparator interface
 				} if (quantify.hasComparatorOutput()) {
 					signal.setNextSignalValue(4*quantify.getComparatorOutput(world, backPos));

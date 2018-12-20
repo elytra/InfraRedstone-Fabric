@@ -1,4 +1,11 @@
 {
+  "item.infraredstone.pcb": "PCB",
+  "item.infraredstone.multimeter": "Multimeter",
+  "block.infraredstone.infra_redstone": "Infra-Redstone Cable",
+  "block.infraredstone.infra_redstone_scaffold": "Infra-Redstone Scaffold",
+  "block.infraredstone.diode": "Diode",
+  "block.infraredstone.not_gate": "NOT Gate",
+  "block.infraredstone.encoder": "Encoder",
   "msg.inred.multimeter.direction": "Signal input from",
   "msg.inred.multimeter.out": "Module signal output",
   "msg.inred.multimeter.cable": "Signal passing through cable",
