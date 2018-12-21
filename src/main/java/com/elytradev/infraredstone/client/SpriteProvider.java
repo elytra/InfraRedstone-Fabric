@@ -7,11 +7,18 @@ import net.minecraft.util.Identifier;
 public class SpriteProvider implements SpriteEvent.Provider {
 	@Override
 	public void registerSprites(SpriteRegistry registry) {
+		registry.register(new Identifier("infraredstone:block/infra_redstone_block"));
+
 		registry.register(new Identifier("infraredstone:block/diode_glow"));
+
 		registry.register(new Identifier("infraredstone:block/not_gate_glow"));
 		registry.register(new Identifier("infraredstone:block/not_gate_glow_in"));
 		registry.register(new Identifier("infraredstone:block/not_gate_glow_out"));
+
 		registry.register(new Identifier("infraredstone:block/transistor_glow"));
+
 		registry.register(new Identifier("infraredstone:block/encoder_glow"));
+
+		registry.register(new Identifier("infraredstone:block/lights_glow"));
 	}
 }

@@ -36,6 +36,8 @@ public class NotGateBlock extends ModuleBase {
 		return new NotGateBlockEntity();
 	}
 
+	public static final VoxelShape NOT_CLICK_BOOLEAN = Block.createCubeShape( 6, 2.9,  2, 10, 4.1,  6);
+
 	@Override
 	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
 		BlockEntity be = world.getBlockEntity(pos);
@@ -58,7 +60,7 @@ public class NotGateBlock extends ModuleBase {
 			blockCenteredHit = blockCenteredHit.add(0.5, 0.5, 0.5);
 //			blockCenteredHit = blockCenteredHit.multiply(16);
 			NotGateBlockEntity beNotGate = (NotGateBlockEntity)be;
-			if (CLICK_BOOLEAN.getBoundingBox().contains(blockCenteredHit)) {
+			if (NOT_CLICK_BOOLEAN.getBoundingBox().contains(blockCenteredHit)) {
 				beNotGate.toggleBooleanMode();
 			}
 		}

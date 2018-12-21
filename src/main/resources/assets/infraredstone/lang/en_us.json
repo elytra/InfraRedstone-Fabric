@@ -3,6 +3,7 @@
   "item.infraredstone.multimeter": "Multimeter",
   "block.infraredstone.infra_redstone": "Infra-Redstone Cable",
   "block.infraredstone.infra_redstone_scaffold": "Infra-Redstone Scaffold",
+  "block.infraredstone.infra_redstone_block": "Infra-Redstone Block",
   "block.infraredstone.diode": "Diode",
   "block.infraredstone.not_gate": "NOT Gate",
   "block.infraredstone.transistor": "Transistor",

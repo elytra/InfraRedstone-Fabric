@@ -29,11 +29,11 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		GlStateManager.disableLighting();
 		this.method_3570(true);
 		Sprite sprite = getLightupTexture((T) be);
-		buffer.begin(GL11.GL_QUADS, VertexFormats.field_1586);
+		buffer.begin(GL11.GL_QUADS, VertexFormats.field_1586); //position, texture, lightmap, color
 		if (sprite!=null) renderTopFace(buffer, sprite, getFacing((T)be));
 		if (torches != null && torches.length != 0) {
 			for (Torch torch : torches) {
-				Sprite light = (torch.isLit) ? MinecraftClient.getInstance().getSpriteAtlas().getSprite("infraredstone:blocks/lights") : null;
+				Sprite light = (torch.isLit) ? MinecraftClient.getInstance().getSpriteAtlas().getSprite("infraredstone:block/lights_glow") : null;
 				if (light != null) renderLight(buffer, light, torch.cornerX, torch.cornerZ, torch.isFullHeight, getFacing((T)be));
 			}
 		}
@@ -80,7 +80,7 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		}
 	}
 
-	public void renderLight(BufferBuilder buffer, Sprite tex, Double cornerX, Double cornerZ, boolean isFullHeight, Direction facing) {
+	public void renderLight(BufferBuilder buffer, Sprite sprite, Double cornerX, Double cornerZ, boolean isFullHeight, Direction facing) {
 		double adaptedX = cornerX;
 		double adaptedZ = cornerZ;
 		switch(facing) {
@@ -104,40 +104,43 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		double northZ = adaptedZ-0.002;
 		double southZ = adaptedZ+0.127;
 		double topY = (isFullHeight) ? frac(5)+0.002 : frac(4)+0.002;
+		double minY = (isFullHeight) ? frac(3) : frac(2);
 		double maxY = (isFullHeight) ? frac(5) : frac(4);
-		double minUV = 7;
-		double maxUV = 9;
-		double maxV = (isFullHeight) ? 9 : 8;
+		double minUV = frac(7);
+		double maxUV = frac(9);
+		double maxV = (isFullHeight) ? sprite.getMaxV() : sprite.getMaxV()-frac(0.25);
+//		System.out.println("min: "+sprite.getMinU()+", "+sprite.getMinV());
+//		System.out.println("max: "+sprite.getMaxU()+", "+sprite.getMaxV());
 
 		//top
-		buffer.vertex(adaptedX, topY, adaptedZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(adaptedX, topY, adaptedZ+frac(2)).texture(tex.getU(minUV), tex.getV(maxUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(adaptedX+frac(2), topY, adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(maxUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(adaptedX+frac(2), topY, adaptedZ).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
+		buffer.vertex(adaptedX, topY, adaptedZ).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX, topY, adaptedZ+frac(2)).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), topY, adaptedZ+frac(2)).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), topY, adaptedZ).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
 
 		//north
-		buffer.vertex(adaptedX, frac(3), northZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(adaptedX+frac(2), frac(3), northZ).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(adaptedX+frac(2), maxY, northZ).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(adaptedX, maxY, northZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
+		buffer.vertex(adaptedX, minY, northZ).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX, maxY, northZ).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), maxY, northZ).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), minY, northZ).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
 
 		//south
-		buffer.vertex(adaptedX, frac(3), southZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(adaptedX+frac(2), frac(3), southZ).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(adaptedX+frac(2), maxY, southZ).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(adaptedX, maxY, southZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
+		buffer.vertex(adaptedX, minY, southZ).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), minY, southZ).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX+frac(2), maxY, southZ).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(adaptedX, maxY, southZ).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
 
 		//east
-		buffer.vertex(eastX, frac(3), adaptedZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(eastX, frac(3), adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(eastX, maxY, adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(eastX, maxY, adaptedZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
+		buffer.vertex(eastX, minY, adaptedZ).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(eastX, minY, adaptedZ+frac(2)).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(eastX, maxY, adaptedZ+frac(2)).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(eastX, maxY, adaptedZ).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
 
 		//west
-		buffer.vertex(westX, frac(3), adaptedZ).texture(tex.getU(minUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(westX, frac(3), adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(minUV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(westX, maxY, adaptedZ+frac(2)).texture(tex.getU(maxUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
-		buffer.vertex(westX, maxY, adaptedZ).texture(tex.getU(minUV), tex.getV(maxV)).color(1f, 1f, 1f, 1f).texture(240, 240).next();
+		buffer.vertex(westX, minY, adaptedZ).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(westX, maxY, adaptedZ).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(westX, maxY, adaptedZ+frac(2)).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
+		buffer.vertex(westX, minY, adaptedZ+frac(2)).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, 1f).next();
 	}
 
 	public abstract Direction getFacing(T be);

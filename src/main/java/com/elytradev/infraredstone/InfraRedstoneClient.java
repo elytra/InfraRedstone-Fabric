@@ -1,9 +1,6 @@
 package com.elytradev.infraredstone;
 
-import com.elytradev.infraredstone.block.entity.DiodeBlockEntity;
-import com.elytradev.infraredstone.block.entity.EncoderBlockEntity;
-import com.elytradev.infraredstone.block.entity.NotGateBlockEntity;
-import com.elytradev.infraredstone.block.entity.TransistorBlockEntity;
+import com.elytradev.infraredstone.block.entity.*;
 import com.elytradev.infraredstone.client.*;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.client.render.BlockEntityRendererRegistry;
@@ -15,6 +12,7 @@ public class InfraRedstoneClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient() {
 		SpriteEvent.PROVIDE.register(provider);
+		BlockEntityRendererRegistry.INSTANCE.register(InfraRedstoneBlockEntity.class, new InfraRedstoneBlockRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(DiodeBlockEntity.class, new DiodeRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(NotGateBlockEntity.class, new NotGateRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(TransistorBlockEntity.class, new TransistorRenderer());

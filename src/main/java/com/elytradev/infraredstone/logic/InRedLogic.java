@@ -99,9 +99,9 @@ public class InRedLogic {
         
         BlockEntity be = world.getBlockEntity(pos);
         if (be == null) return false;
-        
+
         if (be instanceof InfraRedstoneCapable) {
-            return true;
+            return (((InfraRedstoneCapable) be).canConnectToSide(side));
         } else {
             return false;
         }
