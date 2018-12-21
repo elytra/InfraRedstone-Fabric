@@ -1,0 +1,35 @@
+{
+  "scale": 16,
+  "type": "box",
+  "transform": [
+    {
+      "type": "rotate",
+      "axis": [0, 1, 0],
+      "angle: match": {
+        "facing=east": 90,
+        "facing=north": 0,
+        "facing=west": 270,
+        "facing=south": 180,
+        "default": 0
+      }
+    },
+    {
+      "type": "translate",
+      "offset: match": {
+        "inactive=back": [0, -1, 0],
+        "default": [0,0,0]
+      }
+    }
+  ],
+  "from": [7, 3, 13.95],
+  "to": [9, 5, 15.95],
+  "faces": {
+    "north": {"uv": [9, 7, 11, 9], "texture": "#light"},
+    "east": {"uv": [9, 7, 11, 9], "texture": "#light"},
+    "south": {"uv": [9, 7, 11, 9], "texture": "#light"},
+    "west": {"uv": [9, 7, 11, 9], "texture": "#light"},
+    "up": {"uv": [9, 7, 11, 9], "texture": "#light"},
+    "down": {"uv": [9, 7, 11, 9], "texture": "#light"}
+  }
+}
+

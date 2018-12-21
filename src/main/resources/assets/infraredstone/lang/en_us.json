@@ -6,6 +6,8 @@
   "block.infraredstone.infra_redstone_block": "Infra-Redstone Block",
   "block.infraredstone.diode": "Diode",
   "block.infraredstone.not_gate": "NOT Gate",
+  "block.infraredstone.and_gate": "AND Gate",
+  "block.infraredstone.xor_gate": "XOR Gate",
   "block.infraredstone.transistor": "Transistor",
   "block.infraredstone.encoder": "Encoder",
   "msg.inred.multimeter.direction": "Signal input from",
