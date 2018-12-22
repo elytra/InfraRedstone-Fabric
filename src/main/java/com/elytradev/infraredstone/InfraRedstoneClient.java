@@ -18,6 +18,7 @@ public class InfraRedstoneClient implements ClientModInitializer {
 		BlockEntityRendererRegistry.INSTANCE.register(AndGateBlockEntity.class, new AndGateRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(XorGateBlockEntity.class, new XorGateRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(TransistorBlockEntity.class, new TransistorRenderer());
+		BlockEntityRendererRegistry.INSTANCE.register(ShifterBlockEntity.class, new ShifterRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(EncoderBlockEntity.class, new EncoderRenderer());
 	}
 

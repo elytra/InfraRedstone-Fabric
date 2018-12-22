@@ -1,0 +1,21 @@
+{
+  "textures": {
+    "base": "infraredstone:block/shifter",
+    "particle": "infraredstone:block/shifter",
+    "side": "infraredstone:block/pcb_slate",
+    "ics": "infraredstone:block/ics"
+  },
+  "parts": [
+    {
+      "type": "external",
+      "part": "infraredstone:base"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:shifter/selection_left"
+    },{
+      "type": "external",
+      "part": "infraredstone:shifter/selection_right"
+    }
+  ]
+}

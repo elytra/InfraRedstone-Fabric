@@ -60,10 +60,10 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 				buffer.vertex(frac(16), faceHeight, frac(0)).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
 				break;
 			case EAST:
-				buffer.vertex(frac(0), faceHeight, frac(0)).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
-				buffer.vertex(frac(0), faceHeight, frac(16)).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
-				buffer.vertex(frac(16), faceHeight, frac(16)).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
-				buffer.vertex(frac(16), faceHeight, frac(0)).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(0), faceHeight, frac(0)).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(0), faceHeight, frac(16)).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(16)).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(0)).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
 				break;
 			case SOUTH:
 				buffer.vertex(frac(0), faceHeight, frac(0)).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
@@ -72,10 +72,10 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 				buffer.vertex(frac(16), faceHeight, frac(0)).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
 				break;
 			case WEST:
-				buffer.vertex(frac(0), faceHeight, frac(0)).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
-				buffer.vertex(frac(0), faceHeight, frac(16)).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
-				buffer.vertex(frac(16), faceHeight, frac(16)).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
-				buffer.vertex(frac(16), faceHeight, frac(0)).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(0), faceHeight, frac(0)).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(0), faceHeight, frac(16)).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(16)).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
+				buffer.vertex(frac(16), faceHeight, frac(0)).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1F, 1F, 1F, 1F).next();
 				break;
 		}
 	}
