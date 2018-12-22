@@ -1,7 +1,7 @@
 {
   "textures": {
-    "base": "infraredstone:block/and_gate",
-    "particle": "infraredstone:block/and_gate",
+    "base": "infraredstone:block/xor_gate",
+    "particle": "infraredstone:block/xor_gate",
     "side": "infraredstone:block/pcb_slate",
     "light": "infraredstone:block/lights"
   },
@@ -16,15 +16,11 @@
     },
     {
       "type": "external",
-      "part": "infraredstone:and_gate/left_light"
+      "part": "infraredstone:xor_gate/left_light"
     },
     {
       "type": "external",
-      "part": "infraredstone:and_gate/back_light"
-    },
-    {
-      "type": "external",
-      "part": "infraredstone:and_gate/right_light"
+      "part": "infraredstone:xor_gate/right_light"
     }
   ]
 }

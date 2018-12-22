@@ -23,7 +23,7 @@ public class ModBlocks {
 	public static final Block DIODE = register(new DiodeBlock(), InfraRedstone.inRedGroup);
 	public static final Block NOT_GATE = register(new NotGateBlock(), InfraRedstone.inRedGroup);
 	public static final Block AND_GATE = register(new AndGateBlock(), InfraRedstone.inRedGroup);
-//	public static final Block XOR_GATE = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
+	public static final Block XOR_GATE = register(new XorGateBlock(), InfraRedstone.inRedGroup);
 //	public static final Block OSCILLATOR = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
 	public static final Block TRANSISTOR = register(new TransistorBlock(), InfraRedstone.inRedGroup);
 //	public static final Block SHIFTER = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
@@ -33,6 +33,7 @@ public class ModBlocks {
 	public static final BlockEntityType<DiodeBlockEntity> DIODE_BE = register("diode", DiodeBlockEntity::new);
 	public static final BlockEntityType<NotGateBlockEntity> NOT_GATE_BE = register("not_gate", NotGateBlockEntity::new);
 	public static final BlockEntityType<AndGateBlockEntity> AND_GATE_BE = register("and_gate", AndGateBlockEntity::new);
+	public static final BlockEntityType<AndGateBlockEntity> XOR_GATE_BE = register("xor_gate", XorGateBlockEntity::new);
 	public static final BlockEntityType<EncoderBlockEntity> ENCODER_BE = register("encoder", EncoderBlockEntity::new);
 	public static final BlockEntityType<EncoderBlockEntity> TRANSISTOR_BE = register("transistor", TransistorBlockEntity::new);
 

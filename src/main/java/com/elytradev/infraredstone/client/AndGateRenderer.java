@@ -15,7 +15,7 @@ import static io.github.prospector.silk.util.RenderUtil.frac;
 public class AndGateRenderer extends InRedBaseRenderer<AndGateBlockEntity> {
 
 	public static final String LIT = "infraredstone:block/and_gate_glow";
- 
+
 	public AndGateRenderer() {
 		torches = new Torch[4];
 		torches[0] = new Torch(frac(7), frac(4), true, true); // output torch

@@ -155,7 +155,7 @@ public class NotGateBlockEntity extends IRComponentBlockEntity implements Tickab
 		if (inspectingFrom==null) return  signal;
 
 		BlockState state = world.getBlockState(pos);
-		if (state.getBlock()==ModBlocks.ENCODER) {
+		if (state.getBlock()==ModBlocks.NOT_GATE) {
 			Direction notGateFront = state.get(NotGateBlock.FACING);
 			if (notGateFront==inspectingFrom) {
 				return  signal;
