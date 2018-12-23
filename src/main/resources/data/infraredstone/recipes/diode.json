@@ -1,0 +1,22 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "nnn",
+    "rpr"
+  ],
+  "key": {
+    "n": {
+      "item": "minecraft:gold_nugget"
+    },
+    "r": {
+      "item": "minecraft:redstone_dust"
+    },
+    "p": {
+      "item": "infraredstone:pcb"
+    }
+  },
+  "result": {
+    "item": "infraredstone:diode",
+    "count": 1
+  }
+}

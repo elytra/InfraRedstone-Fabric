@@ -1,0 +1,24 @@
+{
+  "type": "crafting_shaped",
+  "group": "infraredstone:xor_gate",
+  "pattern": [
+    " rt",
+    "prp",
+    "tr "
+  ],
+  "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "p": {
+      "item": "infraredstone:pcb"
+    },
+    "t": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
+  "result": {
+    "item": "infraredstone:xor_gate",
+    "count": 1
+  }
+}

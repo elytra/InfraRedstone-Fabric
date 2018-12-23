@@ -1,0 +1,96 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "infraredstone:diode",
+      "infraredstone:and_gate",
+      "infraredstone:not_gate",
+      "infraredstone:xor_gate_left",
+      "infraredstone:xor_gate_right",
+      "infraredstone:transistor",
+      "infraredstone:shifter",
+      "infraredstone:encoder",
+      "infraredstone:multimeter"
+    ]
+  },
+  "criteria": {
+    "has_pcb": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "infraredstone:pcb"
+          }
+        ]
+      }
+    },
+    "has_and_gate_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "infraredstone:and_gate"
+      }
+    },
+    "has_not_gate_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "infraredstone:not_gate"
+      }
+    },
+    "has_xor_gate_recipe_left": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "infraredstone:xor_gate_left"
+      }
+    },
+    "has_xor_gate_recipe_right": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "infraredstone:xor_gate_right"
+      }
+    },
+    "has_diode_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "infraredstone:diode"
+      }
+    },
+    "has_transistor_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "infraredstone:transistor"
+      }
+    },
+    "has_shifter_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "infraredstone:shifter"
+      }
+    },
+    "has_encoder_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "infraredstone:encoder"
+      }
+    },
+    "has_multimeter_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "infraredstone:multimeter"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_pcb",
+      "has_and_gate_recipe",
+      "has_not_gate_recipe",
+      "has_xor_gate_recipe_left",
+      "has_xor_gate_recipe_right",
+      "has_diode_recipe",
+      "has_transistor_recipe",
+      "has_shifter_recipe",
+      "has_encoder_recipe",
+      "has_multimeter_recipe"
+    ]
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "sss",
+    "prp",
+    "sss"
+  ],
+  "key": {
+    "s": {
+      "item": "minecraft:stick"
+    },
+    "p": {
+      "tag": "minecraft:planks"
+    },
+    "r": {
+      "item": "infraredstone:infra_redstone"
+    }
+  },
+  "result": {
+    "item": "infraredstone:infra_redstone_scaffold",
+    "count": 1
+  }
+}

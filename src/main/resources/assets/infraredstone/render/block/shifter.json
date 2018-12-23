@@ -12,10 +12,7 @@
     },
     {
       "type": "external",
-      "part": "infraredstone:shifter/selection_left"
-    },{
-      "type": "external",
-      "part": "infraredstone:shifter/selection_right"
+      "part": "infraredstone:shifter/selection"
     }
   ]
 }

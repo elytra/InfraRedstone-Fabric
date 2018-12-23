@@ -1,0 +1,24 @@
+{
+  "type": "crafting_shaped",
+  "group": "infraredstone:pcb",
+  "pattern": [
+    "c",
+    "r",
+    "s"
+  ],
+  "key": {
+    "c": {
+      "item": "minecraft:clay_ball"
+    },
+    "r": {
+      "item": "infraredstone:infra_redstone"
+    },
+    "s": {
+      "item": "minecraft:smooth_stone_slab"
+    }
+  },
+  "result": {
+    "item": "infraredstone:pcb",
+    "count": 1
+  }
+}

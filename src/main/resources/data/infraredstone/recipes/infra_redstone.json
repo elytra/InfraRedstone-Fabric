@@ -1,0 +1,20 @@
+{
+  "type": "crafting_shaped",
+  "group": "infraredstone:infra_redstone",
+  "pattern": [
+    "rrr",
+    "ggg"
+  ],
+  "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "g": {
+      "tag": "fabric:glass"
+    }
+  },
+  "result": {
+    "item": "infraredstone:infra_redstone",
+    "count": 3
+  }
+}

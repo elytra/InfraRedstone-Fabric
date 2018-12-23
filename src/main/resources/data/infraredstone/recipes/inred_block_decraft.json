@@ -1,0 +1,16 @@
+{
+  "type": "crafting_shaped",
+  "group": "infraredstone:infra_redstone",
+  "pattern": [
+    "b"
+  ],
+  "key": {
+    "b": {
+      "item": "infraredstone:infra_redstone_block"
+    }
+  },
+  "result": {
+    "item": "infraredstone:infra_redstone",
+    "count": 9
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "rpr",
+    "qeq"
+  ],
+  "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "p": {
+      "item": "infraredstone:pcb"
+    },
+    "q": {
+      "item": "minecraft:quartz"
+    },
+    "e": {
+      "item": "minecraft:spider_eye"
+    }
+  },
+  "result": {
+    "item": "infraredstone:encoder",
+    "count": 1
+  }
+}

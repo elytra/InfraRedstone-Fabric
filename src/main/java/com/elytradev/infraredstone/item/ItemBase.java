@@ -7,8 +7,10 @@ public class ItemBase extends Item {
 
 	protected String name;
 
-	public ItemBase(String name) {
-		super(new Item.Settings().itemGroup(InfraRedstone.inRedGroup));
+	public static Settings DEFAULT_SETTINGS = new Item.Settings().itemGroup(InfraRedstone.inRedGroup);
+
+	public ItemBase(String name, Settings settings) {
+		super(settings);
 		this.name = name;
 	}
 

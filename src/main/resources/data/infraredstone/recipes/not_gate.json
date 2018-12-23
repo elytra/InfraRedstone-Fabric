@@ -1,0 +1,19 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    "t",
+    "p"
+  ],
+  "key": {
+    "p": {
+      "item": "infraredstone:pcb"
+    },
+    "t": {
+      "item": "minecraft:redstone_torch"
+    }
+  },
+  "result": {
+    "item": "infraredstone:not_gate",
+    "count": 1
+  }
+}

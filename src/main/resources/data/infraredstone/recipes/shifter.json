@@ -1,0 +1,19 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    " r ",
+    "rpr"
+  ],
+  "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "p": {
+      "item": "infraredstone:pcb"
+    }
+  },
+  "result": {
+    "item": "infraredstone:shifter",
+    "count": 1
+  }
+}

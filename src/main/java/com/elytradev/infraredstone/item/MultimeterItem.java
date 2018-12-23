@@ -1,11 +1,13 @@
 package com.elytradev.infraredstone.item;
 
+import com.elytradev.infraredstone.InfraRedstone;
 import com.elytradev.infraredstone.api.MultimeterProbeProvider;
 import com.elytradev.infraredstone.block.ModBlocks;
 import com.elytradev.infraredstone.logic.InRedLogic;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.text.TranslatableTextComponent;
@@ -17,7 +19,7 @@ import net.minecraft.world.World;
 public class MultimeterItem extends ItemBase {
 
 	public MultimeterItem() {
-		super("multimeter");
+		super("multimeter", DEFAULT_SETTINGS.stackSize(1));
 	}
 
 	@Override

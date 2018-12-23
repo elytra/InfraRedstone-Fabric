@@ -1,0 +1,20 @@
+{
+  "type": "crafting_shaped",
+  "pattern": [
+    " r ",
+    "rpr",
+    " r "
+  ],
+  "key": {
+    "r": {
+      "item": "minecraft:redstone"
+    },
+    "p": {
+      "item": "infraredstone:pcb"
+    }
+  },
+  "result": {
+    "item": "infraredstone:transistor",
+    "count": 1
+  }
+}
