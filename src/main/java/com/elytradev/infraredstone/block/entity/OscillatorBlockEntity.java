@@ -178,5 +178,4 @@ public class OscillatorBlockEntity extends IRComponentBlockEntity implements Tic
 
 		return false;
 	}
-
 }

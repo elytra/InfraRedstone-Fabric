@@ -10,6 +10,7 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.texture.Sprite;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.util.math.Direction;
 import org.lwjgl.opengl.GL11;
 
@@ -27,6 +28,10 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		GlStateManager.disableAlphaTest();
 		GlStateManager.blendFunc(GlStateManager.SrcBlendFactor.SRC_ALPHA, GlStateManager.DstBlendFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.disableLighting();
+
+		renderManager.textureManager.bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);
+		GlStateManager.enableTexture();
+
 		this.method_3570(true);
 		Sprite sprite = getLightupTexture((T) be);
 		buffer.begin(GL11.GL_QUADS, VertexFormats.POSITION_UV_LMAP_COLOR); //position, texture, lightmap, color
