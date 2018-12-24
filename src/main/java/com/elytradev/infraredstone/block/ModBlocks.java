@@ -3,9 +3,7 @@ package com.elytradev.infraredstone.block;
 import com.elytradev.infraredstone.InfraRedstone;
 import com.elytradev.infraredstone.block.entity.*;
 import com.elytradev.infraredstone.item.ModItems;
-import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.Item;
@@ -24,7 +22,7 @@ public class ModBlocks {
 	public static final Block NOT_GATE = register(new NotGateBlock(), InfraRedstone.inRedGroup);
 	public static final Block AND_GATE = register(new AndGateBlock(), InfraRedstone.inRedGroup);
 	public static final Block XOR_GATE = register(new XorGateBlock(), InfraRedstone.inRedGroup);
-//	public static final Block OSCILLATOR = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
+	public static final Block OSCILLATOR = register(new OscillatorBlock(), InfraRedstone.inRedGroup);
 	public static final Block TRANSISTOR = register(new TransistorBlock(), InfraRedstone.inRedGroup);
 	public static final Block SHIFTER = register(new ShifterBlock(), InfraRedstone.inRedGroup);
 	public static final Block ENCODER = register(new EncoderBlock(), InfraRedstone.inRedGroup);
@@ -34,6 +32,7 @@ public class ModBlocks {
 	public static final BlockEntityType<NotGateBlockEntity> NOT_GATE_BE = register("not_gate", NotGateBlockEntity::new);
 	public static final BlockEntityType<AndGateBlockEntity> AND_GATE_BE = register("and_gate", AndGateBlockEntity::new);
 	public static final BlockEntityType<AndGateBlockEntity> XOR_GATE_BE = register("xor_gate", XorGateBlockEntity::new);
+	public static final BlockEntityType<AndGateBlockEntity> OSCILLATOR_BE = register("oscillator", OscillatorBlockEntity::new);
 	public static final BlockEntityType<EncoderBlockEntity> TRANSISTOR_BE = register("transistor", TransistorBlockEntity::new);
 	public static final BlockEntityType<EncoderBlockEntity> SHIFTER_BE = register("shifter", ShifterBlockEntity::new);
 	public static final BlockEntityType<EncoderBlockEntity> ENCODER_BE = register("encoder", EncoderBlockEntity::new);

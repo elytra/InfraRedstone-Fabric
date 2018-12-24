@@ -29,7 +29,7 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		GlStateManager.disableLighting();
 		this.method_3570(true);
 		Sprite sprite = getLightupTexture((T) be);
-		buffer.begin(GL11.GL_QUADS, VertexFormats.field_1586); //position, texture, lightmap, color
+		buffer.begin(GL11.GL_QUADS, VertexFormats.POSITION_UV_LMAP_COLOR); //position, texture, lightmap, color
 		if (sprite!=null) renderTopFace(buffer, sprite, getFacing((T)be));
 		if (torches != null && torches.length != 0) {
 			for (Torch torch : torches) {

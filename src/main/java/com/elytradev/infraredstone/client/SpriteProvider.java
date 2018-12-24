@@ -19,6 +19,8 @@ public class SpriteProvider implements SpriteEvent.Provider {
 
 		registry.register(new Identifier("infraredstone:block/xor_gate_glow"));
 
+		registry.register(new Identifier("infraredstone:block/oscillator_glow"));
+
 		registry.register(new Identifier("infraredstone:block/transistor_glow"));
 
 		registry.register(new Identifier("infraredstone:block/shifter_glow_center"));

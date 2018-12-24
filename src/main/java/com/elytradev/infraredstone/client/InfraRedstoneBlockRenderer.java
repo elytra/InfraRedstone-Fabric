@@ -26,7 +26,7 @@ public class InfraRedstoneBlockRenderer extends BlockEntityRenderer<InfraRedston
 		GlStateManager.disableLighting();
 		this.method_3570(true);
 		Sprite sprite = MinecraftClient.getInstance().getSpriteAtlas().getSprite("infraredstone:block/infra_redstone_block");
-		buffer.begin(GL11.GL_QUADS, VertexFormats.field_1586);
+		buffer.begin(GL11.GL_QUADS, VertexFormats.POSITION_UV_LMAP_COLOR);
 		renderUp(buffer, sprite);
 		renderDown(buffer, sprite);
 		renderNorth(buffer, sprite);

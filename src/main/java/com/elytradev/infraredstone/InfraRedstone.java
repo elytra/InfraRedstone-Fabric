@@ -1,5 +1,6 @@
 package com.elytradev.infraredstone;
 
+import com.elytradev.infraredstone.Container.OscillatorContainer;
 import com.elytradev.infraredstone.block.ModBlocks;
 import com.elytradev.infraredstone.block.entity.IRComponentBlockEntity;
 import com.elytradev.infraredstone.item.ModItems;
@@ -10,6 +11,7 @@ import net.fabricmc.api.DedicatedServerModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.fabricmc.fabric.events.TickEvent;
 import net.fabricmc.fabric.networking.CustomPayloadPacketRegistry;
@@ -44,15 +46,18 @@ public class InfraRedstone implements ModInitializer {
 	public static final ItemGroup inRedGroup = ItemGroup.REDSTONE;
 	public static CommonProxy proxy;
 
-	//public static final Block CHORUS_CONDUIT = register("chorus_conduit", new ChorusConduitBlock(FabricBlockSettings.create(Material.GLASS).setStrength(3.0F, 3.0F).setLuminance(15).build()), ItemGroup.MISC);
-	//public static final Item FLIPPERS = register("flippers", new ArmorItem(ArmorMaterials.TURTLE, EquipmentSlot.FEET, new Item.Settings().itemGroup(ItemGroup.COMBAT)));
-	//public static final Item PRISMARINE_ROD = register("prismarine_rod", new Item(new Item.Settings().itemGroup(ItemGroup.MISC)));
-	//public static BlockEntityType<ChorusConduitBlockEntity> CHORUS_CONDUIT_BE = register("chorus_conduit", ChorusConduitBlockEntity::new);
+	public static final Identifier OSCILLATOR_CONTAINER = new Identifier("infraredstone:oscillator_container");
+
 
 	@Override
 	public void onInitialize() {
 		ModBlocks.init();
 		ModItems.init();
 		TickEvent.SERVER.register(InRedLogic.onServerTick);
+		//Registers a container factory that opens our example Container, this reads the block pos from the buffer
+		ContainerProviderRegistry.INSTANCE.registerFactory(OSCILLATOR_CONTAINER, (identifier, player, buf) -> {
+			BlockPos pos = buf.readBlockPos();
+			return new OscillatorContainer(pos, player);
+		});
 	}
 }
