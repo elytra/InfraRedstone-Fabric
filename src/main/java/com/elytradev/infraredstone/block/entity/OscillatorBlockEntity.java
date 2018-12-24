@@ -65,7 +65,7 @@ public class OscillatorBlockEntity extends IRComponentBlockEntity implements Tic
 						//in the middle of a cycle, keep at what it currently is
 						signal.setNextSignalValue(signal.getSignalValue());
 					}
-					refreshTicks--;
+					refreshTicks -= 2;
 					markDirty();
 				}
 			}

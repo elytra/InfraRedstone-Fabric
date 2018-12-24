@@ -2,6 +2,7 @@ package com.elytradev.infraredstone.Container;
 
 import com.elytradev.infraredstone.Container.widget.OscillatorButtonWidget;
 import com.elytradev.infraredstone.block.entity.OscillatorBlockEntity;
+import com.elytradev.infraredstone.util.InfraRedstoneNetworking;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.ContainerGui;
 import net.minecraft.entity.player.PlayerEntity;
@@ -35,29 +36,25 @@ public class OscillatorContainerGui extends ContainerGui {
 		this.addButton(new OscillatorButtonWidget(1, leftPadded+72, topPadded+32, "tick_up") {
 			@Override
 			public void onPressed(double double_1, double double_2) {
-				be.maxRefreshTicks += 1;
-				be.setDelay();
+				InfraRedstoneNetworking.changeOscillator(be, 1);
 			}
 		});
 		this.addButton(new OscillatorButtonWidget(2, leftPadded+40, topPadded+32, "tick_down") {
 			@Override
 			public void onPressed(double double_1, double double_2) {
-				be.maxRefreshTicks -= 1;
-				be.setDelay();
+				InfraRedstoneNetworking.changeOscillator(be, -1);
 			}
 		});
 		this.addButton(new OscillatorButtonWidget(3, leftPadded+104, topPadded+32, "second_up") {
 			@Override
 			public void onPressed(double double_1, double double_2) {
-				be.maxRefreshTicks += 10;
-				be.setDelay();
+				InfraRedstoneNetworking.changeOscillator(be, 10);
 			}
 		});
 		this.addButton(new OscillatorButtonWidget(4, leftPadded+8, topPadded+32, "second_down") {
 			@Override
 			public void onPressed(double double_1, double double_2) {
-				be.maxRefreshTicks -= 10;
-				be.setDelay();
+				InfraRedstoneNetworking.changeOscillator(be, -10);
 			}
 		});
 	}

@@ -1,6 +1,7 @@
 package com.elytradev.infraredstone.util;
 
 import com.elytradev.infraredstone.block.entity.IRComponentBlockEntity;
+import com.elytradev.infraredstone.block.entity.OscillatorBlockEntity;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -14,12 +15,15 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.packet.CustomPayloadServerPacket;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
+import net.minecraft.util.ThreadTaskQueue;
 import net.minecraft.util.math.BlockPos;
 
 public class InfraRedstoneNetworking implements ModInitializer {
 
 	public static final Identifier MODULE_SYNC = new Identifier("infraredstone:diode_sync");
 	public static final Identifier MODULE_REQUEST = new Identifier("infraredstone:diode_request");
+	public static final Identifier OSCILLATOR_SYNC = new Identifier("infraredstone:oscillator_sync");
+	public static final Identifier OSCILLATOR_CHANGE = new Identifier("infraredstone:oscillator_change");
 
 	@Override
 	public void onInitialize() {
@@ -40,6 +44,26 @@ public class InfraRedstoneNetworking implements ModInitializer {
 				syncModule((IRComponentBlockEntity) be, (ServerPlayerEntity) packetContext.getPlayer());
 			}
 		});
+		CustomPayloadPacketRegistry.CLIENT.register(OSCILLATOR_SYNC, ((packetContext, packetByteBuf) -> {
+			BlockPos pos = packetByteBuf.readBlockPos();
+			BlockEntity be = packetContext.getPlayer().getEntityWorld().getBlockEntity(pos);
+			if (be instanceof OscillatorBlockEntity) {
+				((OscillatorBlockEntity)be).maxRefreshTicks = packetByteBuf.readInt();
+			}
+		}));
+		CustomPayloadPacketRegistry.SERVER.register(OSCILLATOR_CHANGE, ((packetContext, packetByteBuf) -> {
+			ThreadTaskQueue queue = packetContext.getTaskQueue();
+			BlockPos pos = packetByteBuf.readBlockPos();
+			int change = packetByteBuf.readInt();
+			queue.execute(() -> {
+				BlockEntity be = packetContext.getPlayer().getEntityWorld().getBlockEntity(pos);
+				if (be instanceof OscillatorBlockEntity) {
+					((OscillatorBlockEntity)be).maxRefreshTicks += change;
+					((OscillatorBlockEntity)be).setDelay();
+					InfraRedstoneNetworking.syncOscillator((OscillatorBlockEntity)be, (ServerPlayerEntity)packetContext.getPlayer());
+				}
+			});
+		}));
 	}
 
 	@Environment(EnvType.SERVER)
@@ -55,4 +79,20 @@ public class InfraRedstoneNetworking implements ModInitializer {
 		buf.writeBlockPos(module.getPos());
 		MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadServerPacket(MODULE_REQUEST, buf));
 	}
+	@Environment(EnvType.SERVER)
+	public static void syncOscillator(OscillatorBlockEntity oscillator, ServerPlayerEntity player) {
+		PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+		buf.writeBlockPos(oscillator.getPos());
+		buf.writeInt(oscillator.maxRefreshTicks);
+		player.networkHandler.sendPacket(new CustomPayloadClientPacket(OSCILLATOR_SYNC, buf));
+	}
+	@Environment(EnvType.CLIENT)
+	public static void changeOscillator(OscillatorBlockEntity oscillator, int change) {
+		PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+		buf.writeBlockPos(oscillator.getPos());
+		buf.writeInt(change);
+		MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadServerPacket(OSCILLATOR_CHANGE, buf));
+	}
+
+
 }
