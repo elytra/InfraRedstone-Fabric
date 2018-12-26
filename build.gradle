@@ -90,25 +90,6 @@ publishing {
 			from components.java
 			artifact sourcesJar
 			artifact javadocJar
-			pom {
-				name = 'InfraRedstone'
-				description = 'A step beyond redstone'
-				url = 'http://minecraft.curseforge.com/projects/infraredstone'
-				licenses {
-					license {
-						name = 'GNU Lesser General Public License, Version 3.0'
-						url = 'https://www.gnu.org/licenses/lgpl-3.0.en.html'
-					}
-				}
-				developers {
-					developer {
-						id = 'b0undarybreaker'
-						name = 'Meredith Espinosa'
-						email = 'goclonefilms@gmail.com'
-					}
-				}
-
-			}
 		}
 	}
 }
