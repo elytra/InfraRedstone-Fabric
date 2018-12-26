@@ -9,6 +9,30 @@
     {
       "type": "external",
       "part": "infraredstone:base"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:diode/bit_0"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:diode/bit_1"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:diode/bit_2"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:diode/bit_3"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:diode/bit_4"
+    },
+    {
+      "type": "external",
+      "part": "infraredstone:diode/bit_5"
     }
   ]
 }

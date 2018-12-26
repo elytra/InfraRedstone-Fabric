@@ -19,6 +19,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.ViewableWorld;
 import net.minecraft.world.World;
 
 public class XorGateBlock extends ModuleBase {
@@ -123,9 +124,4 @@ public class XorGateBlock extends ModuleBase {
 					.with(BOOLEAN_MODE, ((XorGateBlockEntity)be).booleanMode));
 		}
 	}
-
-	public boolean canBlockStay(World world, BlockPos pos) {
-		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down());
-	}
-
 }

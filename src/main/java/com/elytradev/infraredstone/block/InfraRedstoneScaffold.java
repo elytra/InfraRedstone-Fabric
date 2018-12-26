@@ -66,7 +66,7 @@ public class InfraRedstoneScaffold extends BlockBase {
 	@Override
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		if (entity instanceof ItemEntity) return;
-		if (entity.horizontalCollision) { //TODO: find out what this actually is
+		if (entity.horizontalCollision) {
 			entity.velocityY = 0.35;
 		} else if (entity.isSneaking()) {
 			entity.velocityY = 0.08; //Stop, but also counteract EntityLivingBase-applied microgravity

@@ -22,6 +22,7 @@ import net.minecraft.util.Tickable;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.chunk.Chunk;
 
+
 public class OscillatorBlockEntity extends IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
 
 	private InfraRedstoneHandler signal = new InfraRedstoneHandler();

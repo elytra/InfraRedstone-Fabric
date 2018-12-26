@@ -16,7 +16,7 @@
 		{
 			"type": "translate",
 			"offset: match": {
-				"bit_0=false": [0, -2, 0],
+				"bit_0=false": [0, -1, 0],
 				"default": [0,0,0]
 			}
 		}

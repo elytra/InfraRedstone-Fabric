@@ -93,7 +93,4 @@ public class EncoderBlock extends ModuleBase {
 		}
 	}
 
-	public boolean canBlockStay(World world, BlockPos pos) {
-		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down());
-	}
 }

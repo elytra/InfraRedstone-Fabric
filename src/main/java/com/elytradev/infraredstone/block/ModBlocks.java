@@ -13,8 +13,9 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.function.Supplier;
 
+
+
 public class ModBlocks {
-	//TODO: properly implement
 	public static final Block INFRA_REDSTONE = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
 	public static final Block IN_RED_SCAFFOLD = register(new InfraRedstoneScaffold(), InfraRedstone.inRedGroup);
 	public static final Block IN_RED_BLOCK = register(new InfraRedstoneBlock(), InfraRedstone.inRedGroup);
