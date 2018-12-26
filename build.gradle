@@ -20,6 +20,7 @@ plugins {
 	id 'java'
 	id 'eclipse'
 	id 'idea'
+	id 'maven-publish'
 }
 
 apply plugin: net.fabricmc.loom.LoomGradlePlugin
@@ -71,35 +72,43 @@ if (System.properties["release"] == null) {
 	version = ext.standardVersion
 }
 
-//jar {
-//	from "LICENSE"
-//	from sourceSets.main.output
-//	from sourceSets.api.output
-//	classifier '' //this is the main jar!
-//}
-//
-//task devJar(type: Jar, dependsOn: classes) {
-//	from "LICENSE"
-//	from sourceSets.main.output
-////	from sourceSets.api.output
-//	classifier 'dev'
-//}
-//
-//sourceJar {
-//	from "LICENSE"
-//	classifier 'sources'
-//}
+task sourcesJar(type: Jar) {
+	from sourceSets.main.allJava
+	classifier = 'sources'
+}
 
-//task apiJar(type: Jar) {
-//	from sourceSets.api.allJava
-//	from sourceSets.api.output
-//	classifier 'api'
-//}
+task javadocJar(type: Jar) {
+	from javadoc
+	classifier = 'javadoc'
+}
 
-//artifacts {
-//	archives apiJar
-//	archives sourceJar
-//	archives devJar
-//}
-
-
+publishing {
+	publications {
+		mavenPrimary(MavenPublication) {
+			groupId "com.elytradev"
+			artifactId = archivesBaseName
+			from components.java
+			artifact sourcesJar
+			artifact javadocJar
+			pom {
+				name = 'InfraRedstone'
+				description = 'A step beyond redstone'
+				url = 'http://minecraft.curseforge.com/projects/infraredstone'
+				licenses {
+					license {
+						name = 'GNU Lesser General Public License, Version 3.0'
+						url = 'https://www.gnu.org/licenses/lgpl-3.0.en.html'
+					}
+				}
+				developers {
+					developer {
+						id = 'b0undarybreaker'
+						name = 'Meredith Espinosa'
+						email = 'goclonefilms@gmail.com'
+					}
+				}
+				
+			}
+		}
+	}
+}
