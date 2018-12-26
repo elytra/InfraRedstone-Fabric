@@ -86,7 +86,7 @@ publishing {
 	publications {
 		mavenPrimary(MavenPublication) {
 			groupId "com.elytradev"
-			artifactId = archivesBaseName
+			artifactId = "infraredstone-fabric"
 			from components.java
 			artifact sourcesJar
 			artifact javadocJar
@@ -107,7 +107,7 @@ publishing {
 						email = 'goclonefilms@gmail.com'
 					}
 				}
-				
+
 			}
 		}
 	}
