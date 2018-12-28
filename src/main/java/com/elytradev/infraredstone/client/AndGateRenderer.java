@@ -10,7 +10,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.math.Direction;
 
-import static io.github.prospector.silk.util.RenderUtil.frac;
+import static io.github.prospector.silk.util.MathUtil.frac;
 
 public class AndGateRenderer extends InRedBaseRenderer<AndGateBlockEntity> {
 

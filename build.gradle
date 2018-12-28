@@ -32,7 +32,7 @@ archivesBaseName = "infraredstone"
 
 
 ext {
-	standardVersion = "18w50a-1.0"
+	standardVersion = "18w50a-1.0.1"
 }
 
 repositories {
@@ -48,7 +48,7 @@ dependencies {
 	modCompile "net.fabricmc:fabric-loader:0.3.0.75"
 	modCompile "net.fabricmc:fabric:0.1.2.64"
 	implementation 'org.jetbrains:annotations:15.0'
-	modCompile "io.github.prospector.silk:SilkAPI:1.0.0-25"
+	modCompile "io.github.prospector.silk:SilkAPI:1.0.0-26"
 	modCompile name: "qcommon-architect-1.0.0"
 	modCompile name: "qcommon-croco-1.0.3"
 }

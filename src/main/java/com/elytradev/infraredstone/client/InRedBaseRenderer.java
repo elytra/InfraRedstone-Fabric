@@ -14,7 +14,7 @@ import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.util.math.Direction;
 import org.lwjgl.opengl.GL11;
 
-import static io.github.prospector.silk.util.RenderUtil.frac;
+import static io.github.prospector.silk.util.MathUtil.frac;
 
 public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extends BlockEntityRenderer {
 	protected Torch[] torches = new Torch[]{};
