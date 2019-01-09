@@ -6,7 +6,6 @@ import com.elytradev.infraredstone.util.InfraRedstoneNetworking;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.ContainerGui;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.TextFormat;
 import net.minecraft.text.TranslatableTextComponent;
