@@ -66,7 +66,7 @@ public class InfraRedstoneNetworking implements ModInitializer {
 		}));
 	}
 
-	@Environment(EnvType.SERVER)
+	@Environment(EnvType.CLIENT)
 	public static void syncModule(IRComponentBlockEntity module, ServerPlayerEntity player) {
 		PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
 		buf.writeBlockPos(module.getPos());
@@ -79,7 +79,7 @@ public class InfraRedstoneNetworking implements ModInitializer {
 		buf.writeBlockPos(module.getPos());
 		MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadServerPacket(MODULE_REQUEST, buf));
 	}
-	@Environment(EnvType.SERVER)
+	@Environment(EnvType.CLIENT)
 	public static void syncOscillator(OscillatorBlockEntity oscillator, ServerPlayerEntity player) {
 		PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
 		buf.writeBlockPos(oscillator.getPos());

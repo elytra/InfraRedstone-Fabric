@@ -3,8 +3,10 @@ package com.elytradev.infraredstone.block;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.VerticalEntityPosition;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import io.github.prospector.silk.block.SilkBlockWithEntity;
 import net.minecraft.world.ViewableWorld;
@@ -50,5 +52,25 @@ public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
 		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down())
 				|| world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_SCAFFOLD
 				|| world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_BLOCK;
+	}
+
+	@Override
+	public BlockRenderLayer getRenderLayer() {
+		return BlockRenderLayer.SOLID;
+	}
+
+	@Override
+	public boolean isSimpleFullBlock(BlockState blockState, BlockView blockView, BlockPos blockPos) {
+		return false;
+	}
+
+	@Override
+	public VoxelShape getCollisionShape(BlockState blockState, BlockView blockView, BlockPos blockPos, VerticalEntityPosition verticalEntityPosition) {
+		return VoxelShapes.empty();
+	}
+
+	@Override
+	public VoxelShape getBoundingShape(BlockState state, BlockView view, BlockPos pos) {
+		return BASE_SHAPE;
 	}
 }

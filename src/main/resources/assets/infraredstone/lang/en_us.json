@@ -17,5 +17,5 @@
   "msg.inred.multimeter.cable": "Signal passing through cable",
   "msg.inred.multimeter.block": "Block emits value of 0b11_1111 (63)",
   "container.infraredstone.oscillator": "Oscillator",
-  "itemGroup.infraredstone:infra_redstone_tab": "Infra-Redstone"
+  "itemGroup.infraredstone.infra_redstone_tab": "Infra-Redstone"
 }

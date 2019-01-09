@@ -1,12 +1,10 @@
 package com.elytradev.infraredstone.block;
 
-import com.elytradev.infraredstone.api.InfraRedstoneCapable;
-import com.elytradev.infraredstone.api.SimpleInfraRedstoneSignal;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
-import net.minecraft.client.render.block.BlockRenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.VerticalEntityPosition;

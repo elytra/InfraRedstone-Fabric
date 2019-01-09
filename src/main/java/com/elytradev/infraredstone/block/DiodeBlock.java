@@ -1,12 +1,9 @@
 package com.elytradev.infraredstone.block;
 
 import com.elytradev.infraredstone.block.entity.DiodeBlockEntity;
-import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.render.block.BlockRenderLayer;
 import net.minecraft.entity.VerticalEntityPosition;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -100,26 +97,6 @@ public class DiodeBlock extends ModuleBase {
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public boolean isSimpleFullBlock(BlockState blockState, BlockView blockView, BlockPos blockPos) {
-		return false;
-	}
-
-	@Override
-	public BlockRenderLayer getRenderLayer() {
-		return BlockRenderLayer.SOLID;
-	}
-
-	@Override
-	public VoxelShape getCollisionShape(BlockState blockState, BlockView blockView, BlockPos blockPos, VerticalEntityPosition verticalEntityPosition) {
-		return VoxelShapes.empty();
-	}
-
-	@Override
-	public VoxelShape getBoundingShape(BlockState state, BlockView view, BlockPos pos) {
-		return BASE_SHAPE;
 	}
 
 	@Override

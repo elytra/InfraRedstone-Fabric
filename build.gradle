@@ -32,7 +32,7 @@ archivesBaseName = "infraredstone"
 
 
 ext {
-	standardVersion = "18w50a-1.0.1"
+	standardVersion = "19w02a-1.0.1"
 }
 
 repositories {
@@ -43,10 +43,10 @@ repositories {
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:18w50a"
-	mappings "net.fabricmc:yarn:18w50a.71"
-	modCompile "net.fabricmc:fabric-loader:0.3.0.75"
-	modCompile "net.fabricmc:fabric:0.1.2.64"
+	minecraft "com.mojang:minecraft:19w02a"
+	mappings "net.fabricmc:yarn:19w02a.12"
+	modCompile "net.fabricmc:fabric-loader:0.3.2.92"
+	modCompile "net.fabricmc:fabric:0.1.4.71"
 	implementation 'org.jetbrains:annotations:15.0'
 	modCompile "io.github.prospector.silk:SilkAPI:1.0.0-26"
 	modCompile name: "qcommon-architect-1.0.0"
