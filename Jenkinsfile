@@ -11,10 +11,10 @@ pipeline {
 		}
 		stage('Deploy') {
 			steps {
-				withCredentials([file(credentialsId: 'privateGradleNoSnapshotShadow', variable: 'PRIVATEGRADLE')]) {
+				withCredentials([file(credentialsId: 'privateGradlePublish', variable: 'PRIVATEGRADLE')]) {
 					sh '''
 						cp "$PRIVATEGRADLE" private.gradle
-						./gradlew privateGradlePublish
+						./gradlew publish
 					'''
 				}
 			}

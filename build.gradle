@@ -93,3 +93,6 @@ publishing {
 		}
 	}
 }
+if (file('private.gradle').exists()) {
+	apply from: 'private.gradle'
+}
