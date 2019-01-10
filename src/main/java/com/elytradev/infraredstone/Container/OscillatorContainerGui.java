@@ -8,7 +8,6 @@ import net.minecraft.client.gui.ContainerGui;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.TextFormat;
-import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
@@ -19,8 +18,8 @@ public class OscillatorContainerGui extends ContainerGui {
 	BlockPos pos;
 	OscillatorBlockEntity be;
 
-	public OscillatorContainerGui(int id, BlockPos pos, PlayerEntity player) {
-		super(new OscillatorContainer(id, pos, player), player.inventory, new TranslatableTextComponent("container.infraredstone.oscillator"));
+	public OscillatorContainerGui(BlockPos pos, PlayerEntity player) {
+		super(new OscillatorContainer(pos, player));
 		this.pos = pos;
 		this.be = (OscillatorBlockEntity)player.getEntityWorld().getBlockEntity(pos);
 		be.fromTag(player.getEntityWorld().getBlockEntity(pos).toTag(new CompoundTag()));
