@@ -16,6 +16,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
+import net.minecraft.world.ViewableWorld;
 import net.minecraft.world.World;
 
 public class InfraRedstoneCable extends BlockBase {
@@ -141,5 +142,10 @@ public class InfraRedstoneCable extends BlockBase {
 
 	public boolean canBlockStay(World world, BlockPos pos) {
 		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down()) || world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_SCAFFOLD;
+	}
+
+	@Override
+	public boolean canPlaceAt(BlockState state, ViewableWorld world, BlockPos pos) {
+		return canBlockStay((World)world, pos);
 	}
 }
