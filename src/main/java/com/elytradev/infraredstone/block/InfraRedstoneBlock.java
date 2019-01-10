@@ -6,7 +6,11 @@ import net.fabricmc.fabric.tags.FabricItemTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.render.block.BlockRenderLayer;
+import net.minecraft.entity.VerticalEntityPosition;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.ViewableWorld;
 
@@ -24,5 +28,20 @@ public class InfraRedstoneBlock extends ModuleBase {
 	@Override
 	public boolean canPlaceAt(BlockState state, ViewableWorld world, BlockPos pos) {
 		return true;
+	}
+
+	@Override
+	public boolean isSimpleFullBlock(BlockState blockState, BlockView blockView, BlockPos blockPos) {
+		return true;
+	}
+
+	@Override
+	public VoxelShape getCollisionShape(BlockState blockState, BlockView blockView, BlockPos blockPos, VerticalEntityPosition verticalEntityPosition) {
+		return VoxelShapes.fullCube();
+	}
+
+	@Override
+	public VoxelShape getBoundingShape(BlockState state, BlockView view, BlockPos pos) {
+		return VoxelShapes.fullCube();
 	}
 }
