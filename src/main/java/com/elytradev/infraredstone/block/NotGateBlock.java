@@ -43,19 +43,18 @@ public class NotGateBlock extends ModuleBase {
 			blockCenteredHit = blockCenteredHit.subtract(0.5, 0.5, 0.5);
 			switch (state.get(NotGateBlock.FACING)) {
 				case SOUTH:
-					blockCenteredHit = blockCenteredHit.rotateX((float)Math.PI);
+					blockCenteredHit = blockCenteredHit.rotateY((float)Math.PI);
 					break;
 				case EAST:
-					blockCenteredHit = blockCenteredHit.rotateX((float)Math.PI/2);
+					blockCenteredHit = blockCenteredHit.rotateY((float)Math.PI/2);
 					break;
 				case WEST:
-					blockCenteredHit = blockCenteredHit.rotateX(3*(float)Math.PI/2);
+					blockCenteredHit = blockCenteredHit.rotateY(3*(float)Math.PI/2);
 					break;
 				default:
 					break;
 			}
 			blockCenteredHit = blockCenteredHit.add(0.5, 0.5, 0.5);
-//			blockCenteredHit = blockCenteredHit.multiply(16);
 			NotGateBlockEntity beNotGate = (NotGateBlockEntity)be;
 			if (NOT_CLICK_BOOLEAN.getBoundingBox().contains(blockCenteredHit)) {
 				beNotGate.toggleBooleanMode();
