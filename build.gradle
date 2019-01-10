@@ -45,7 +45,7 @@ repositories {
 dependencies {
 	minecraft "com.mojang:minecraft:18w50a"
 	mappings "net.fabricmc:yarn:18w50a.100"
-	modCompile "net.fabricmc:fabric-loader:0.3.2.92"
+	modCompile "net.fabricmc:fabric-loader:0.3.2.91"
 	modCompile "net.fabricmc:fabric:0.1.4.69"
 	implementation 'org.jetbrains:annotations:15.0'
 	modCompile "io.github.prospector.silk:SilkAPI:1.0.0-26"
