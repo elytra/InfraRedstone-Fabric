@@ -32,7 +32,7 @@ archivesBaseName = "infraredstone"
 
 
 ext {
-	standardVersion = "19w02a-1.0.1"
+	standardVersion = "1.0.1"
 }
 
 repositories {
