@@ -2,9 +2,9 @@ package com.elytradev.infraredstone.block;
 
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderLayer;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
+import net.minecraft.client.render.block.BlockRenderLayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.VerticalEntityPosition;

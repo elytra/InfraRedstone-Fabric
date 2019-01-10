@@ -3,6 +3,7 @@ package com.elytradev.infraredstone.block;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.render.block.BlockRenderLayer;
 import net.minecraft.entity.VerticalEntityPosition;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
