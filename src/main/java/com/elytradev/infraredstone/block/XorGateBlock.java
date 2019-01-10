@@ -93,10 +93,18 @@ public class XorGateBlock extends ModuleBase {
 
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
-		BlockEntity be = world.getBlockEntity(pos);
-		if (be instanceof XorGateBlockEntity) {
-			world.setBlockState(pos, state
-					.with(BOOLEAN_MODE, ((XorGateBlockEntity)be).booleanMode));
+		if (!this.canBlockStay(world, pos)) {
+			world.breakBlock(pos, true);
+
+			for (Direction dir : Direction.values()) {
+				world.updateNeighborsAlways(pos.offset(dir), this);
+			}
+		} else {
+			BlockEntity be = world.getBlockEntity(pos);
+			if (be instanceof XorGateBlockEntity) {
+				world.setBlockState(pos, state
+						.with(BOOLEAN_MODE, ((XorGateBlockEntity) be).booleanMode));
+			}
 		}
 	}
 }

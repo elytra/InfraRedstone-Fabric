@@ -50,9 +50,7 @@ public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
 
 	@Override
 	public boolean canPlaceAt(BlockState state, ViewableWorld world, BlockPos pos) {
-		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down())
-				|| world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_SCAFFOLD
-				|| world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_BLOCK;
+		return canBlockStay((World)world, pos);
 	}
 
 	@Override

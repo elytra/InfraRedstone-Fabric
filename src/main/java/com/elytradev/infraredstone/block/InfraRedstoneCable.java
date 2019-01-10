@@ -141,7 +141,9 @@ public class InfraRedstoneCable extends BlockBase {
 	}
 
 	public boolean canBlockStay(World world, BlockPos pos) {
-		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down()) || world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_SCAFFOLD;
+		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down())
+				|| world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_SCAFFOLD
+				|| world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_BLOCK;
 	}
 
 	@Override

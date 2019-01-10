@@ -241,6 +241,7 @@ public class AndGateBlockEntity extends IRComponentBlockEntity implements Tickab
 
 	@Override
 	public InfraRedstoneSignal getInfraRedstoneHandler(Direction inspectingFrom) {
+		if (inspectingFrom == Direction.DOWN || inspectingFrom == Direction.UP) return null;
 		if (world==null) return InfraRedstoneHandler.ALWAYS_OFF;
 		if (inspectingFrom==null) return signal;
 
@@ -264,6 +265,7 @@ public class AndGateBlockEntity extends IRComponentBlockEntity implements Tickab
 
 	@Override
 	public boolean canConnectToSide(Direction inspectingFrom) {
+		if (inspectingFrom == Direction.DOWN || inspectingFrom == Direction.UP) return false;
 		if (world==null) return true;
 		if (inspectingFrom==null) return true;
 		BlockState state = world.getBlockState(pos);

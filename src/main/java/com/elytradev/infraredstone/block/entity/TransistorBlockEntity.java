@@ -120,6 +120,7 @@ public class TransistorBlockEntity extends IRComponentBlockEntity implements Tic
 
 	@Override
 	public InfraRedstoneSignal getInfraRedstoneHandler(Direction inspectingFrom) {
+		if (inspectingFrom == Direction.DOWN || inspectingFrom == Direction.UP) return null;
 		if (world==null) return InfraRedstoneHandler.ALWAYS_OFF;
 		if (inspectingFrom==null) return  signal;
 
@@ -143,6 +144,7 @@ public class TransistorBlockEntity extends IRComponentBlockEntity implements Tic
 
 	@Override
 	public boolean canConnectToSide(Direction inspectingFrom) {
+		if (inspectingFrom == Direction.DOWN || inspectingFrom == Direction.UP) return false;
 		if (world==null) return true;
 		if (inspectingFrom==null) return true;
 		BlockState state = world.getBlockState(pos);
