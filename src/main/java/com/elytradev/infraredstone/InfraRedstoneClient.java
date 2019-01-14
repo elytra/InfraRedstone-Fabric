@@ -1,6 +1,6 @@
 package com.elytradev.infraredstone;
 
-import com.elytradev.infraredstone.Container.OscillatorContainerGui;
+import com.elytradev.infraredstone.container.OscillatorContainerGui;
 import com.elytradev.infraredstone.block.entity.*;
 import com.elytradev.infraredstone.client.*;
 import net.fabricmc.api.ClientModInitializer;

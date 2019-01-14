@@ -1,4 +1,4 @@
-package com.elytradev.infraredstone.Container;
+package com.elytradev.infraredstone.container;
 
 import com.elytradev.infraredstone.block.entity.OscillatorBlockEntity;
 import net.minecraft.container.Container;

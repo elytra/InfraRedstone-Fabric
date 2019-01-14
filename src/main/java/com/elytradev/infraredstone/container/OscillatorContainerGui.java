@@ -1,6 +1,6 @@
-package com.elytradev.infraredstone.Container;
+package com.elytradev.infraredstone.container;
 
-import com.elytradev.infraredstone.Container.widget.OscillatorButtonWidget;
+import com.elytradev.infraredstone.container.widget.OscillatorButtonWidget;
 import com.elytradev.infraredstone.block.entity.OscillatorBlockEntity;
 import com.elytradev.infraredstone.util.InfraRedstoneNetworking;
 import com.mojang.blaze3d.platform.GlStateManager;

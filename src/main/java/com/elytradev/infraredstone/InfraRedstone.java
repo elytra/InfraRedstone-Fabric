@@ -1,6 +1,6 @@
 package com.elytradev.infraredstone;
 
-import com.elytradev.infraredstone.Container.OscillatorContainer;
+import com.elytradev.infraredstone.container.OscillatorContainer;
 import com.elytradev.infraredstone.block.ModBlocks;
 import com.elytradev.infraredstone.item.ModItems;
 import com.elytradev.infraredstone.logic.InRedLogic;
