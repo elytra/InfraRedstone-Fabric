@@ -1,6 +1,7 @@
 {
   "item.infraredstone.pcb": "PCB",
   "item.infraredstone.multimeter": "Multimeter",
+
   "block.infraredstone.infra_redstone": "Infra-Redstone Cable",
   "block.infraredstone.infra_redstone_scaffold": "Infra-Redstone Scaffold",
   "block.infraredstone.infra_redstone_block": "Infra-Redstone Block",
@@ -12,10 +13,15 @@
   "block.infraredstone.transistor": "Transistor",
   "block.infraredstone.shifter": "Shifter",
   "block.infraredstone.encoder": "Encoder",
+  "block.infraredstone.led": "Light-Emitting Diode",
+
   "msg.inred.multimeter.direction": "Signal input from",
   "msg.inred.multimeter.out": "Module signal output",
   "msg.inred.multimeter.cable": "Signal passing through cable",
   "msg.inred.multimeter.block": "Block emits value of 0b11_1111 (63)",
+  "msg.inred.multimeter.led": "LED brightness: ",
+
   "container.infraredstone.oscillator": "Oscillator",
+
   "itemGroup.infraredstone.infra_redstone_tab": "Infra-Redstone"
 }

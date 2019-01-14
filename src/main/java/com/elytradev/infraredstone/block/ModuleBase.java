@@ -58,12 +58,12 @@ public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
 	}
 
 	@Override
-	public boolean isSimpleFullBlock(BlockState blockState, BlockView blockView, BlockPos blockPos) {
+	public boolean isSimpleFullBlock(BlockState state, BlockView view, BlockPos pos) {
 		return false;
 	}
 
 	@Override
-	public VoxelShape getCollisionShape(BlockState blockState, BlockView blockView, BlockPos blockPos, VerticalEntityPosition verticalEntityPosition) {
+	public VoxelShape getCollisionShape(BlockState state, BlockView view, BlockPos pos, VerticalEntityPosition collisionPos) {
 		return VoxelShapes.empty();
 	}
 

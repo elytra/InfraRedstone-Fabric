@@ -56,7 +56,6 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 			if (state.getBlock() instanceof EncoderBlock) {
 				Direction back = state.get(EncoderBlock.FACING).getOpposite();
 				BlockPos backPos = this.getPos().offset(back);
-				BlockState quantify = world.getBlockState(backPos);
 				int resBack = encodeSignal(backPos, back);
 				if (resBack > 0) {
 					signal.setNextSignalValue(resBack);
@@ -69,8 +68,8 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 						// can't find anything else, so check for redstone/inred signal
 					} else {
 						// redstone first so inred's redstone-catching doesn't override it
-						int sigBack = world.getEmittedRedstonePower(backPos, back);
-						if (sigBack != 0) {
+						if (!InRedLogic.checkCandidacy(world, backPos, back)) {
+							int sigBack = world.getEmittedRedstonePower(backPos, back);
 							signal.setNextSignalValue(sigBack);
 						} else {
 							signal.setNextSignalValue(InRedLogic.findIRValue(world, pos, back));
@@ -84,7 +83,6 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 			//Not an IR tick, so this is a "copy" tick. Adopt the previous tick's "next" value.
 			signal.setSignalValue(signal.getNextSignalValue());
 			markDirty();
-			//setActive(state, signal.getSignalValue()!=0); //This is also when we light up
 		}
 	}
 

@@ -19,6 +19,7 @@ public class ModBlocks {
 	public static final Block INFRA_REDSTONE = register(new InfraRedstoneCable(), InfraRedstone.inRedGroup);
 	public static final Block IN_RED_SCAFFOLD = register(new InfraRedstoneScaffold(), InfraRedstone.inRedGroup);
 	public static final Block IN_RED_BLOCK = register(new InfraRedstoneBlock(), InfraRedstone.inRedGroup);
+
 	public static final Block DIODE = register(new DiodeBlock(), InfraRedstone.inRedGroup);
 	public static final Block NOT_GATE = register(new NotGateBlock(), InfraRedstone.inRedGroup);
 	public static final Block AND_GATE = register(new AndGateBlock(), InfraRedstone.inRedGroup);
@@ -27,6 +28,9 @@ public class ModBlocks {
 	public static final Block TRANSISTOR = register(new TransistorBlock(), InfraRedstone.inRedGroup);
 	public static final Block SHIFTER = register(new ShifterBlock(), InfraRedstone.inRedGroup);
 	public static final Block ENCODER = register(new EncoderBlock(), InfraRedstone.inRedGroup);
+
+	public static final Block LED = register(new LEDBlock(), InfraRedstone.inRedGroup);
+	public static final Block DEMO_CYCLE = register(new DemoCyclerBlock(), InfraRedstone.inRedGroup);
 
 	public static final BlockEntityType<InfraRedstoneBlockEntity> IN_RED_BLOCK_BE = register("infra_redstone_block", InfraRedstoneBlockEntity::new);
 	public static final BlockEntityType<DiodeBlockEntity> DIODE_BE = register("diode", DiodeBlockEntity::new);
@@ -37,6 +41,9 @@ public class ModBlocks {
 	public static final BlockEntityType<TransistorBlockEntity> TRANSISTOR_BE = register("transistor", TransistorBlockEntity::new);
 	public static final BlockEntityType<ShifterBlockEntity> SHIFTER_BE = register("shifter", ShifterBlockEntity::new);
 	public static final BlockEntityType<EncoderBlockEntity> ENCODER_BE = register("encoder", EncoderBlockEntity::new);
+
+	public static final BlockEntityType<LEDBlockEntity> LIGHT_DIODE_BE = register("light_diode", LEDBlockEntity::new);
+	public static final BlockEntityType<DemoCyclerBlockEntity> DEMO_CYCLE_BE = register("demo_cycle", DemoCyclerBlockEntity::new);
 
 	public static void init() {
 

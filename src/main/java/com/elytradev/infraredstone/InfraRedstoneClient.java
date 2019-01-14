@@ -24,6 +24,7 @@ public class InfraRedstoneClient implements ClientModInitializer {
 		BlockEntityRendererRegistry.INSTANCE.register(TransistorBlockEntity.class, new TransistorRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(ShifterBlockEntity.class, new ShifterRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(EncoderBlockEntity.class, new EncoderRenderer());
+		BlockEntityRendererRegistry.INSTANCE.register(LEDBlockEntity.class, new LEDRenderer());
 
 		GuiProviderRegistry.INSTANCE.registerFactory(InfraRedstone.OSCILLATOR_CONTAINER, (syncId, identifier, player, buf) -> {
 			BlockPos pos = buf.readBlockPos();

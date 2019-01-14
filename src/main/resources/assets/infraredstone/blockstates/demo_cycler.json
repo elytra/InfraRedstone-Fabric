@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "infraredstone:block/infra_redstone_block"
+    }
+  }
+}
