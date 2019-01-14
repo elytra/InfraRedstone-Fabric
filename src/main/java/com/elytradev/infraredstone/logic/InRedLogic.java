@@ -123,8 +123,6 @@ public class InRedLogic {
 
         queue.add(new Endpoint(device.offset(dir), dir.getOpposite()));
 
-        if (Block.isFaceFullCube(world.getBlockState(device.offset(Direction.UP)).getBoundingShape(world, device.offset(Direction.UP)), Direction.DOWN))
-
         if (device.getY() < 255 && !isSideSolid(world, device.offset(Direction.UP), Direction.DOWN)) queue.add(new Endpoint(device.offset(dir).up(), dir.getOpposite()));
         if (device.getY() > 0 && !isSideSolid(world, device.offset(dir), dir.getOpposite())) queue.add(new Endpoint(device.offset(dir).down(), dir.getOpposite()));
 
@@ -151,7 +149,7 @@ public class InRedLogic {
                         BlockPos offset = cur.pos.offset(facing);
 
                         if (offset.getY() < 255 && !isSideSolid(world, cur.pos.up(), Direction.DOWN)) checkAdd(new Endpoint(offset.up(), facing.getOpposite()), next, traversed, rejected);
-                        if (offset.getY() > 0 && !isSideSolid(world, offset, facing.getOpposite())) checkAdd(new Endpoint(offset.down(), facing.getOpposite()), next, traversed, rejected);
+                        if (offset.getY() > 0 && !isSideSolid(world, offset, facing.getOpposite()) && specialCaseWire(world, offset.down())) checkAdd(new Endpoint(offset.down(), facing.getOpposite()), next, traversed, rejected);
                         if (facing == cur.facing) continue; // Don't try to bounce back to the block we came from
                         checkAdd(new Endpoint(offset, facing.getOpposite()), next, traversed, rejected);
                     }
@@ -160,6 +158,11 @@ public class InRedLogic {
                         BlockPos offset = cur.pos.offset(facing);
                         if (offset.getY()<0 || offset.getY()>255) continue;
                         checkAdd(new Endpoint(offset, facing.getOpposite()), next, traversed, rejected);
+                        if (facing != Direction.UP && facing != Direction.DOWN) {
+                            BlockPos specialCase = offset.down();
+                            if (specialCase.getY() < 0) continue;
+                            if (world.getBlockState(specialCase).getBlock() == ModBlocks.INFRA_REDSTONE) checkAdd(new Endpoint(specialCase, facing.getOpposite()), next, traversed, rejected);
+                        }
                     }
                 }
                 
@@ -181,6 +184,10 @@ public class InRedLogic {
             result |= val;
         }
         return result;
+    }
+
+    private static boolean specialCaseWire(World world, BlockPos target) {
+        return world.getBlockState(target).getBlock() != ModBlocks.IN_RED_BLOCK && world.getBlockState(target).getBlock() != ModBlocks.IN_RED_SCAFFOLD;
     }
 
     private static void checkAdd(Endpoint endpoint, List<Endpoint> next, Set<BlockPos> traversed, Set<Endpoint> rejected) {

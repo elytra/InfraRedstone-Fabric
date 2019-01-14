@@ -91,6 +91,8 @@ public class InfraRedstoneCable extends BlockBase {
 		}
 
 		if (!InRedLogic.isSideSolid((World)world, pos.offset(dir), dir.getOpposite())) {
+			if (world.getBlockState(pos.offset(Direction.DOWN).offset(dir)).getBlock() == ModBlocks.IN_RED_SCAFFOLD
+				|| world.getBlockState(pos.offset(Direction.DOWN).offset(dir)).getBlock() == ModBlocks.IN_RED_BLOCK) return CableConnection.DISCONNECTED;
 			if (canConnect(world, pos.offset(dir).down(), dir.getOpposite())) return CableConnection.CONNECTED;
 		}
 

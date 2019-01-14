@@ -1,4 +1,4 @@
-package com.elytradev.infraredstone.Container.widget;
+package com.elytradev.infraredstone.container.widget;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.MinecraftClient;

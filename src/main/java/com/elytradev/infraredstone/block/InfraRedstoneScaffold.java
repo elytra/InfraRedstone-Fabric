@@ -74,6 +74,7 @@ public class InfraRedstoneScaffold extends BlockBase {
 	}
 
 	private boolean getCableConnections(BlockView world, BlockPos pos, Direction dir) {
+		if (world.getBlockState(pos.offset(dir).offset(Direction.DOWN)).getBlock() == ModBlocks.INFRA_REDSTONE) return true;
 		return canConnect(world, pos.offset(dir), dir.getOpposite());
 	}
 

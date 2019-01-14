@@ -32,10 +32,10 @@ public class ModBlocks {
 	public static final BlockEntityType<DiodeBlockEntity> DIODE_BE = register("diode", DiodeBlockEntity::new);
 	public static final BlockEntityType<NotGateBlockEntity> NOT_GATE_BE = register("not_gate", NotGateBlockEntity::new);
 	public static final BlockEntityType<AndGateBlockEntity> AND_GATE_BE = register("and_gate", AndGateBlockEntity::new);
-	public static final BlockEntityType<AndGateBlockEntity> XOR_GATE_BE = register("xor_gate", XorGateBlockEntity::new);
-	public static final BlockEntityType<AndGateBlockEntity> OSCILLATOR_BE = register("oscillator", OscillatorBlockEntity::new);
-	public static final BlockEntityType<EncoderBlockEntity> TRANSISTOR_BE = register("transistor", TransistorBlockEntity::new);
-	public static final BlockEntityType<EncoderBlockEntity> SHIFTER_BE = register("shifter", ShifterBlockEntity::new);
+	public static final BlockEntityType<XorGateBlockEntity> XOR_GATE_BE = register("xor_gate", XorGateBlockEntity::new);
+	public static final BlockEntityType<OscillatorBlockEntity> OSCILLATOR_BE = register("oscillator", OscillatorBlockEntity::new);
+	public static final BlockEntityType<TransistorBlockEntity> TRANSISTOR_BE = register("transistor", TransistorBlockEntity::new);
+	public static final BlockEntityType<ShifterBlockEntity> SHIFTER_BE = register("shifter", ShifterBlockEntity::new);
 	public static final BlockEntityType<EncoderBlockEntity> ENCODER_BE = register("encoder", EncoderBlockEntity::new);
 
 	public static void init() {

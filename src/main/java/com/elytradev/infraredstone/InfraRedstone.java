@@ -1,6 +1,6 @@
 package com.elytradev.infraredstone;
 
-import com.elytradev.infraredstone.Container.OscillatorContainer;
+import com.elytradev.infraredstone.container.OscillatorContainer;
 import com.elytradev.infraredstone.block.ModBlocks;
 import com.elytradev.infraredstone.item.ModItems;
 import com.elytradev.infraredstone.logic.InRedLogic;
@@ -9,8 +9,6 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
 import net.fabricmc.fabric.events.TickEvent;
-import net.fabricmc.fabric.impl.container.ContainerProviderImpl;
-import net.minecraft.container.ContainerProvider;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
