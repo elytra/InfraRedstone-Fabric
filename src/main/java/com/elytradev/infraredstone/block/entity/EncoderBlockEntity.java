@@ -88,17 +88,17 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 
 	private int encodeSignal(BlockPos pos, Direction from) {
 		BlockState quantify = world.getBlockState(pos);
-		// check for the main encoder API
-		if (quantify instanceof EncoderScannable) {
-			return ((EncoderScannable) quantify).getEncoderValue(from.getOpposite());
-			// check for the non-TE encoder API
-		} else if (quantify instanceof SimpleEncoderScannable) {
-			return ((SimpleEncoderScannable) quantify).getEncoderValue(world, pos, quantify, from.getOpposite());
-			// no encoder API, so check for a tile entity
+		// check for the non-TE encoder API
+		if (quantify.getBlock() instanceof SimpleEncoderScannable) {
+			return ((SimpleEncoderScannable) quantify.getBlock()).getEncoderValue(world, pos, quantify, from.getOpposite());
+			// no simple encoder API, so check for a tile entity
 		} else if (world.getBlockEntity(pos) != null) {
 			BlockEntity be = world.getBlockEntity(pos);
-			// check for capabilities on the tile entity, make sure we only move on if we don't find any
-			if (be instanceof Inventory) {
+			// check for the main encoder API
+			if (be instanceof EncoderScannable) {
+				return ((EncoderScannable) be).getEncoderValue(from.getOpposite());
+				// check for capabilities on the tile entity, make sure we only move on if we don't find any
+			} else if (be instanceof Inventory) {
 				Inventory inv = (Inventory) be;
 				int stacksChecked = 0;
 				float fillPercentage = 0f;
@@ -111,8 +111,7 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 				}
 				fillPercentage /= (float) inv.getInvSize();
 				return MathHelper.floor(fillPercentage * 62.0F) + (stacksChecked > 0 ? 1 : 0);
-			}
-			if (be instanceof FluidContainer) {
+			} else if (be instanceof FluidContainer) {
 				FluidContainer cont = (FluidContainer) be;
 				float fillPercentage = (float) cont.getMaxCapacity() / (float) cont.getCurrentFill(from.getOpposite());
 				return MathHelper.floor(fillPercentage * 62.0F) + (cont.getCurrentFill(from.getOpposite()) > 0 ? 1 : 0);
