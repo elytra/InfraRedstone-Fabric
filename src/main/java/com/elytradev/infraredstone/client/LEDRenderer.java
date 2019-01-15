@@ -32,7 +32,7 @@ public class LEDRenderer extends BlockEntityRenderer<LEDBlockEntity> {
 		Sprite side = MinecraftClient.getInstance().getSpriteAtlas().getSprite("infraredstone:block/led_side_glow");
 		Sprite end = MinecraftClient.getInstance().getSpriteAtlas().getSprite("infraredstone:block/led_end_glow");
 		buffer.begin(GL11.GL_QUADS, VertexFormats.POSITION_UV_LMAP_COLOR);
-		float brightness = (be.getLightLevel() / 15f);
+		float brightness = be.getBrightness();
 		if (be.getLightLevel() > 0) {
 			renderUp(buffer, end, brightness);
 			renderDown(buffer, end, brightness);

@@ -10,6 +10,7 @@ import com.elytradev.infraredstone.util.InfraRedstoneNetworking;
 import com.google.common.base.Predicates;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -24,9 +25,11 @@ import net.minecraft.world.chunk.Chunk;
 public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
 
 	private int lightLevel;
+	private float brightness;
 
 	//Transient data to throttle sync down here
 	int lastLightLevel = 0;
+	float lastBrightness = 0;
 
 	@Environment(EnvType.CLIENT)
 	boolean firstTick = true;
@@ -41,22 +44,20 @@ public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, 
 			InfraRedstoneNetworking.requestModule(this);
 			markDirty();
 		}
-		if (world.isClient || !hasWorld()) return;
+		if (world.isClient || !hasWorld() || !InRedLogic.isIRTick()) return;
 		lightLevel = 0;
+		brightness = 0;
 		for (Direction dir : Direction.values()) {
 			BlockPos checkPos = pos.offset(dir);
 			if (!InRedLogic.checkCandidacy(world, checkPos, dir)) {
-				lightLevel |= world.getEmittedRedstonePower(checkPos, dir.getOpposite());
+				lightLevel = Math.max(lightLevel, world.getEmittedRedstonePower(checkPos, dir.getOpposite()));
+				brightness = Math.max(brightness, world.getEmittedRedstonePower(checkPos, dir.getOpposite())/15f);
 			} else {
 				int caughtSignal = InRedLogic.findIRValue(world, pos, dir);
 				float levelPercent = caughtSignal / 63f;
-				 lightLevel |= MathHelper.floor(levelPercent * 14.0F) + (caughtSignal > 0 ? 1 : 0);
+				 lightLevel = Math.max(lightLevel, MathHelper.floor(levelPercent * 14.0F) + (caughtSignal > 0 ? 1 : 0));
+				 brightness = Math.max(brightness, levelPercent);
 			}
-		}
-		if (lightLevel > 15) {
-			System.out.println("Hey, something's wrong! The light level shouldn't be this high!");
-			System.out.println(lightLevel);
-			lightLevel = 15;
 		}
 		markDirty();
 	}
@@ -65,6 +66,7 @@ public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, 
 	public CompoundTag toTag(CompoundTag compound) {
 		CompoundTag tag = super.toTag(compound);
 		tag.putInt("LightLevel", lightLevel);
+		tag.putFloat("Brightness", brightness);
 		return tag;
 	}
 
@@ -72,6 +74,7 @@ public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, 
 	public void fromTag(CompoundTag compound) {
 		super.fromTag(compound);
 		lightLevel = compound.getInt("LightLevel");
+		brightness = compound.getFloat("Brightness");
 	}
 
 	@Override
@@ -79,7 +82,9 @@ public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, 
 		super.markDirty();
 		// again, I've copy-pasted this like 12 times, should probably go into Concrete
 		if (!hasWorld() || getWorld().isClient) return;
-		if (lastLightLevel != lightLevel || firstTick) { //Throttle updates - only send when something important changes
+		if (lastLightLevel != lightLevel
+				|| lastBrightness != brightness
+				|| firstTick) { //Throttle updates - only send when something important changes
 
 			ServerWorld ws = (ServerWorld) getWorld();
 			Chunk c = getWorld().getChunk(getPos());
@@ -92,8 +97,15 @@ public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, 
 			if (lastLightLevel != lightLevel || firstTick) {
 				world.updateNeighborsAlways(pos.offset(Direction.UP), ModBlocks.LED);
 			}
+			if (lastBrightness != brightness ||  firstTick) {
+				//BlockState isn't changing, but we need to update for the new rendered brightness value
+				BlockState state = world.getBlockState(pos);
+				world.updateNeighborsAlways(pos, ModBlocks.LED);
+				world.updateListeners(pos, state, state, 1);
+			}
 
 			lastLightLevel = lightLevel;
+			lastBrightness = brightness;
 			if (firstTick) firstTick = false;
 		}
 	}
@@ -101,6 +113,8 @@ public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, 
 	public int getLightLevel() {
 		return lightLevel;
 	}
+
+	public float getBrightness() { return brightness; }
 
 	@Override
 	public StringTextComponent getProbeMessage() {

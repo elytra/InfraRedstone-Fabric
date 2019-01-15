@@ -43,15 +43,13 @@ public class ColorLEDBlockEntity extends IRComponentBlockEntity implements Ticka
 			InfraRedstoneNetworking.requestModule(this);
 			markDirty();
 		}
-		if (world.isClient || !hasWorld()) return;
+		if (world.isClient || !hasWorld() || !InRedLogic.isIRTick()) return;
 		colorValue = 0;
-		if (InRedLogic.isIRTick()) {
-			for (Direction dir : Direction.values()) {
-				int caughtSignal = InRedLogic.findIRValue(world, pos, dir);
-				colorValue |= caughtSignal;
-			}
-			markDirty();
+		for (Direction dir : Direction.values()) {
+			int caughtSignal = InRedLogic.findIRValue(world, pos, dir);
+			colorValue |= caughtSignal;
 		}
+		markDirty();
 	}
 
 	@Override
