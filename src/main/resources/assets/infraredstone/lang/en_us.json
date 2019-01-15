@@ -14,12 +14,15 @@
   "block.infraredstone.shifter": "Shifter",
   "block.infraredstone.encoder": "Encoder",
   "block.infraredstone.led": "Light-Emitting Diode",
+  "block.infraredstone.rgb_led": "Color Light-Emitting Diode",
+  "block.infraredstone.demo_cycler": "Demo Cycler",
 
   "msg.inred.multimeter.direction": "Signal input from",
   "msg.inred.multimeter.out": "Module signal output",
   "msg.inred.multimeter.cable": "Signal passing through cable",
   "msg.inred.multimeter.block": "Block emits value of 0b11_1111 (63)",
   "msg.inred.multimeter.led": "LED brightness: ",
+  "msg.inred.multimeter.rgbled": "RGB LED hue:",
 
   "container.infraredstone.oscillator": "Oscillator",
 

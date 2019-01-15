@@ -10,6 +10,7 @@ import com.elytradev.infraredstone.util.InfraRedstoneNetworking;
 import com.google.common.base.Predicates;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -18,21 +19,22 @@ import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.Tickable;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.Chunk;
 
-public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
+import java.awt.*;
 
-	private int lightLevel;
+public class ColorLEDBlockEntity extends IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
+	private int colorValue;
 
 	//Transient data to throttle sync down here
-	int lastLightLevel = 0;
+	int lastColorValue = 0;
+	boolean lastActive = false;
 
 	@Environment(EnvType.CLIENT)
 	boolean firstTick = true;
 
-	public LEDBlockEntity() {
-		super(ModBlocks.LED_BE);
+	public ColorLEDBlockEntity() {
+		super(ModBlocks.COLOR_LED_BE);
 	}
 
 	@Override
@@ -42,36 +44,27 @@ public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, 
 			markDirty();
 		}
 		if (world.isClient || !hasWorld()) return;
-		lightLevel = 0;
-		for (Direction dir : Direction.values()) {
-			BlockPos checkPos = pos.offset(dir);
-			if (!InRedLogic.checkCandidacy(world, checkPos, dir)) {
-				lightLevel |= world.getEmittedRedstonePower(checkPos, dir.getOpposite());
-			} else {
+		colorValue = 0;
+		if (InRedLogic.isIRTick()) {
+			for (Direction dir : Direction.values()) {
 				int caughtSignal = InRedLogic.findIRValue(world, pos, dir);
-				float levelPercent = caughtSignal / 63f;
-				 lightLevel |= MathHelper.floor(levelPercent * 14.0F) + (caughtSignal > 0 ? 1 : 0);
+				colorValue |= caughtSignal;
 			}
+			markDirty();
 		}
-		if (lightLevel > 15) {
-			System.out.println("Hey, something's wrong! The light level shouldn't be this high!");
-			System.out.println(lightLevel);
-			lightLevel = 15;
-		}
-		markDirty();
 	}
 
 	@Override
 	public CompoundTag toTag(CompoundTag compound) {
 		CompoundTag tag = super.toTag(compound);
-		tag.putInt("LightLevel", lightLevel);
+		tag.putInt("ColorValue", colorValue);
 		return tag;
 	}
 
 	@Override
 	public void fromTag(CompoundTag compound) {
 		super.fromTag(compound);
-		lightLevel = compound.getInt("LightLevel");
+		colorValue = compound.getInt("ColorValue");
 	}
 
 	@Override
@@ -79,7 +72,10 @@ public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, 
 		super.markDirty();
 		// again, I've copy-pasted this like 12 times, should probably go into Concrete
 		if (!hasWorld() || getWorld().isClient) return;
-		if (lastLightLevel != lightLevel || firstTick) { //Throttle updates - only send when something important changes
+		boolean active = getIsLit();
+		if (active != lastActive
+				|| lastColorValue != colorValue
+				|| firstTick) { //Throttle updates - only send when something important changes
 
 			ServerWorld ws = (ServerWorld) getWorld();
 			Chunk c = getWorld().getChunk(getPos());
@@ -89,23 +85,35 @@ public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, 
 				}
 			}
 
-			if (lastLightLevel != lightLevel || firstTick) {
-				world.updateNeighborsAlways(pos.offset(Direction.UP), ModBlocks.LED);
+			if (lastActive != active || firstTick) {
+				world.updateNeighborsAlways(pos.offset(Direction.UP), ModBlocks.COLOR_LED);
+			}
+			if (lastColorValue != colorValue ||  firstTick) {
+				//BlockState isn't changing, but we need to notify the block in front of us so that vanilla redstone updates
+				BlockState state = world.getBlockState(pos);
+				world.updateNeighborsAlways(pos, ModBlocks.COLOR_LED);
+				world.updateListeners(pos, state, state, 1);
 			}
 
-			lastLightLevel = lightLevel;
+			lastActive = getIsLit();
+			lastColorValue = colorValue;
 			if (firstTick) firstTick = false;
 		}
 	}
 
-	public int getLightLevel() {
-		return lightLevel;
+	public boolean getIsLit() {
+		return colorValue > 0;
+	}
+
+	public int getRGBColor() {
+		float hue = colorValue/63f;
+		return Color.HSBtoRGB(hue, 0.5f, 1f);
 	}
 
 	@Override
 	public StringTextComponent getProbeMessage() {
-		TranslatableTextComponent message = new TranslatableTextComponent("msg.inred.multimeter.led");
-		return new StringTextComponent(message.getFormattedText()+lightLevel);
+		TranslatableTextComponent message = new TranslatableTextComponent("msg.inred.multimeter.rgbled");
+		return new StringTextComponent(message.getFormattedText()+String.format(" #%08X", getRGBColor()));
 	}
 
 	@Override
@@ -117,5 +125,4 @@ public class LEDBlockEntity extends IRComponentBlockEntity implements Tickable, 
 	public boolean canConnectToSide(Direction inspectingFrom) {
 		return true;
 	}
-
 }

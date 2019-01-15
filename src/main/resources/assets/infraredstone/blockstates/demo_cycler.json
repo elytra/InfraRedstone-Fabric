@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "infraredstone:block/infra_redstone_block"
+      "model": "infraredstone:block/demo_cycler"
     }
   }
 }

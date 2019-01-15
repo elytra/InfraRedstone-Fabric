@@ -66,30 +66,30 @@ public class LEDRenderer extends BlockEntityRenderer<LEDBlockEntity> {
 	}
 
 	public void renderSouth(BufferBuilder buffer, Sprite sprite, float brightness) {
-		buffer.vertex(0, 1, maxDist).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
-		buffer.vertex(1, 1, maxDist).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
-		buffer.vertex(1, 0, maxDist).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
 		buffer.vertex(0, 0, maxDist).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
+		buffer.vertex(1, 0, maxDist).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
+		buffer.vertex(1, 1, maxDist).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
+		buffer.vertex(0, 1, maxDist).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
 	}
 
 	public void renderNorth(BufferBuilder buffer, Sprite sprite, float brightness) {
-		buffer.vertex(0, 1, minDist).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
 		buffer.vertex(0, 0, minDist).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
-		buffer.vertex(1, 0, minDist).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
+		buffer.vertex(0, 1, minDist).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
 		buffer.vertex(1, 1, minDist).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
+		buffer.vertex(1, 0, minDist).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
 	}
 
 	public void renderWest(BufferBuilder buffer, Sprite sprite, float brightness) {
-		buffer.vertex(minDist, 1, 0).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
-		buffer.vertex(minDist, 1, 1).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
-		buffer.vertex(minDist, 0, 1).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
 		buffer.vertex(minDist, 0, 0).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
+		buffer.vertex(minDist, 0, 1).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
+		buffer.vertex(minDist, 1, 1).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
+		buffer.vertex(minDist, 1, 0).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
 	}
 
 	public void renderEast(BufferBuilder buffer, Sprite sprite, float brightness) {
-		buffer.vertex(maxDist, 1, 0).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
 		buffer.vertex(maxDist, 0, 0).texture(sprite.getMinU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
-		buffer.vertex(maxDist, 0, 1).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
+		buffer.vertex(maxDist, 1, 0).texture(sprite.getMinU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
 		buffer.vertex(maxDist, 1, 1).texture(sprite.getMaxU(), sprite.getMinV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
+		buffer.vertex(maxDist, 0, 1).texture(sprite.getMaxU(), sprite.getMaxV()).texture(240, 240).color(1f, 1f, 1f, brightness).next();
 	}
 }
