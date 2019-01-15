@@ -1,7 +1,0 @@
-{
-  "parent": "block/cube_column",
-  "textures": {
-    "side": "infraredstone:block/led_side_item",
-    "end": "infraredstone:block/led_end_glow"
-  }
-}

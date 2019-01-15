@@ -29,8 +29,6 @@ public class ModBlocks {
 	public static final Block SHIFTER = register(new ShifterBlock(), InfraRedstone.inRedGroup);
 	public static final Block ENCODER = register(new EncoderBlock(), InfraRedstone.inRedGroup);
 
-	public static final Block LED = register(new LEDBlock(), InfraRedstone.inRedGroup);
-	public static final Block COLOR_LED = register(new ColorLEDBlock(), InfraRedstone.inRedGroup);
 	public static final Block DEMO_CYCLE = register(new DemoCyclerBlock(), InfraRedstone.inRedGroup);
 
 	public static final BlockEntityType<InfraRedstoneBlockEntity> IN_RED_BLOCK_BE = register("infra_redstone_block", InfraRedstoneBlockEntity::new);
@@ -43,8 +41,6 @@ public class ModBlocks {
 	public static final BlockEntityType<ShifterBlockEntity> SHIFTER_BE = register("shifter", ShifterBlockEntity::new);
 	public static final BlockEntityType<EncoderBlockEntity> ENCODER_BE = register("encoder", EncoderBlockEntity::new);
 
-	public static final BlockEntityType<LEDBlockEntity> LED_BE = register("led", LEDBlockEntity::new);
-	public static final BlockEntityType<ColorLEDBlockEntity> COLOR_LED_BE = register("rgb_led", ColorLEDBlockEntity::new);
 	public static final BlockEntityType<DemoCyclerBlockEntity> DEMO_CYCLE_BE = register("demo_cycle", DemoCyclerBlockEntity::new);
 
 	public static void init() {

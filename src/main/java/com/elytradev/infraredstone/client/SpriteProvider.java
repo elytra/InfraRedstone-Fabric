@@ -33,7 +33,5 @@ public class SpriteProvider implements SpriteEvent.Provider {
 
 		registry.register(new Identifier("infraredstone:block/lights_glow"));
 
-		registry.register(new Identifier("infraredstone:block/led_side_glow"));
-		registry.register(new Identifier("infraredstone:block/led_end_glow"));
 	}
 }
