@@ -6,10 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
 
-import com.elytradev.infraredstone.api.InfraRedstoneSignal;
-import com.elytradev.infraredstone.api.SimpleInfraRedstoneSignal;
-import com.elytradev.infraredstone.api.InfraRedstoneCapable;
-import com.elytradev.infraredstone.block.ModBlocks;
+import com.elytradev.infraredstone.api.*;
 import com.google.common.base.Objects;
 
 import net.minecraft.block.Block;
@@ -52,11 +49,11 @@ public class InRedLogic {
 
         if (!checkCandidacy(world, initialPos, dir.getOpposite())) {
             BlockPos up = initialPos.up();
-            if (checkCandidacy(world, up, dir.getOpposite()) && world.getBlockState(up).getBlock() != ModBlocks.IN_RED_SCAFFOLD) {
+            if (checkCandidacy(world, up, dir.getOpposite()) && !(world.getBlockState(up).getBlock() instanceof CardinalAligned)) {
                 initialPos = up;
             } else {
                 BlockPos down = initialPos.down();
-                if (checkCandidacy(world, down, dir.getOpposite()) && world.getBlockState(down).getBlock() != ModBlocks.IN_RED_SCAFFOLD) {
+                if (checkCandidacy(world, down, dir.getOpposite()) && !(world.getBlockState(down).getBlock() instanceof CardinalAligned)) {
                     initialPos = down;
                 } else {
                     return (world.getEmittedRedstonePower(initialPos, dir) != 0) ? 1 : 0;
@@ -66,7 +63,7 @@ public class InRedLogic {
         
         if (world.isAir(initialPos)) return 0;
         BlockState initialState = world.getBlockState(initialPos);
-        if (initialState.getBlock() == ModBlocks.INFRA_REDSTONE || initialState.getBlock() == ModBlocks.IN_RED_SCAFFOLD) {
+        if (initialState.getBlock() instanceof InfraRedstoneWire) {
             // Search!
             return wireSearch(world, device, dir);
         }
@@ -94,7 +91,7 @@ public class InRedLogic {
         if (world.isAir(pos)) return false;
         
         BlockState state = world.getBlockState(pos);
-        if (state.getBlock() == ModBlocks.INFRA_REDSTONE || state.getBlock() == ModBlocks.IN_RED_SCAFFOLD) return true;
+        if (state.getBlock() instanceof InfraRedstoneWire) return true;
         if (state.getBlock() instanceof SimpleInfraRedstoneSignal) return true;
         
         BlockEntity be = world.getBlockEntity(pos);
@@ -140,29 +137,31 @@ public class InRedLogic {
             BlockState state = world.getBlockState(cur.pos);
 
             Block block = state.getBlock();
-            if (block == ModBlocks.INFRA_REDSTONE || block == ModBlocks.IN_RED_SCAFFOLD) {
+            if (block instanceof InfraRedstoneWire) {
                 traversed.add(cur.pos);
 
-                if (block == ModBlocks.INFRA_REDSTONE) {
-                    // Add neighbors
-                    for (Direction facing : PLANAR_FACINGS) {
-                        BlockPos offset = cur.pos.offset(facing);
-
-                        if (offset.getY() < 255 && !isSideSolid(world, cur.pos.up(), Direction.DOWN)) checkAdd(new Endpoint(offset.up(), facing.getOpposite()), next, traversed, rejected);
-                        if (offset.getY() > 0 && !isSideSolid(world, offset, facing.getOpposite()) && specialCaseWire(world, offset.down())) checkAdd(new Endpoint(offset.down(), facing.getOpposite()), next, traversed, rejected);
-                        if (facing == cur.facing) continue; // Don't try to bounce back to the block we came from
-                        checkAdd(new Endpoint(offset, facing.getOpposite()), next, traversed, rejected);
-                    }
-                } else if (block == ModBlocks.IN_RED_SCAFFOLD) {
+                if (block instanceof CardinalAligned) {
+                    // Add axis-aligned neighbors, with a special case
                     for(Direction facing : Direction.values()) {
                         BlockPos offset = cur.pos.offset(facing);
                         if (offset.getY()<0 || offset.getY()>255) continue;
                         checkAdd(new Endpoint(offset, facing.getOpposite()), next, traversed, rejected);
                         if (facing != Direction.UP && facing != Direction.DOWN) {
+                            // special-case for wires reaching up to scaffolds
                             BlockPos specialCase = offset.down();
                             if (specialCase.getY() < 0) continue;
-                            if (world.getBlockState(specialCase).getBlock() == ModBlocks.INFRA_REDSTONE) checkAdd(new Endpoint(specialCase, facing.getOpposite()), next, traversed, rejected);
+                            if (world.getBlockState(specialCase).getBlock() instanceof InfraRedstoneWire && !(world.getBlockState(specialCase).getBlock() instanceof CardinalAligned)) checkAdd(new Endpoint(specialCase, facing.getOpposite()), next, traversed, rejected);
                         }
+                    }
+                } else {
+                    // Add axis-aligned and diagonal neighbors
+                    for (Direction facing : PLANAR_FACINGS) {
+                        BlockPos offset = cur.pos.offset(facing);
+
+                        if (offset.getY() < 255 && !isSideSolid(world, cur.pos.up(), Direction.DOWN)) checkAdd(new Endpoint(offset.up(), facing.getOpposite()), next, traversed, rejected);
+                        if (offset.getY() > 0 && !isSideSolid(world, offset, facing.getOpposite()) && !(world.getBlockState(offset.down()).getBlock() instanceof CardinalAligned)) checkAdd(new Endpoint(offset.down(), facing.getOpposite()), next, traversed, rejected);
+                        if (facing == cur.facing) continue; // Don't try to bounce back to the block we came from
+                        checkAdd(new Endpoint(offset, facing.getOpposite()), next, traversed, rejected);
                     }
                 }
                 
@@ -186,10 +185,6 @@ public class InRedLogic {
         return result;
     }
 
-    private static boolean specialCaseWire(World world, BlockPos target) {
-        return world.getBlockState(target).getBlock() != ModBlocks.IN_RED_BLOCK && world.getBlockState(target).getBlock() != ModBlocks.IN_RED_SCAFFOLD;
-    }
-
     private static void checkAdd(Endpoint endpoint, List<Endpoint> next, Set<BlockPos> traversed, Set<Endpoint> rejected) {
         if (traversed.contains(endpoint.pos)) return;
         if (rejected.contains(endpoint)) return;
@@ -200,7 +195,7 @@ public class InRedLogic {
         if (world.isAir(pos)) return null;
         BlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
-        if (block == ModBlocks.INFRA_REDSTONE || block == ModBlocks.IN_RED_SCAFFOLD) return null; // wires don't carry power directly
+        if (block instanceof InfraRedstoneWire) return null; // wires don't carry power directly
         if (block instanceof SimpleInfraRedstoneSignal) {
             return ((SimpleInfraRedstoneSignal)block).getSignalValue(world, pos, state, dir);
         }
@@ -208,7 +203,6 @@ public class InRedLogic {
         if (be instanceof InfraRedstoneCapable && ((InfraRedstoneCapable)be).canConnectToSide(dir)) {
             return ((InfraRedstoneCapable)be).getInfraRedstoneHandler(dir).getSignalValue();
         }
-//        if (world.getEmittedRedstonePower(pos, dir) != 0) return 1; TODO: maybe have this? maybe not
         return null;
     }
 

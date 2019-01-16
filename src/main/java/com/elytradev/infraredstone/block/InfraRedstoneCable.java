@@ -1,5 +1,7 @@
 package com.elytradev.infraredstone.block;
 
+import com.elytradev.infraredstone.api.CardinalAligned;
+import com.elytradev.infraredstone.api.InfraRedstoneWire;
 import com.elytradev.infraredstone.logic.InRedLogic;
 import com.elytradev.infraredstone.util.enums.CableConnection;
 import net.fabricmc.fabric.block.FabricBlockSettings;
@@ -20,7 +22,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.ViewableWorld;
 import net.minecraft.world.World;
 
-public class InfraRedstoneCable extends BlockBase implements Waterloggable {
+public class InfraRedstoneCable extends BlockBase implements Waterloggable, InfraRedstoneWire {
 
 	public static final EnumProperty<CableConnection> NORTH = EnumProperty.create("north", CableConnection.class);
 	public static final EnumProperty<CableConnection> SOUTH = EnumProperty.create("south", CableConnection.class);
@@ -95,8 +97,7 @@ public class InfraRedstoneCable extends BlockBase implements Waterloggable {
 		}
 
 		if (!InRedLogic.isSideSolid((World)world, pos.offset(dir), dir.getOpposite())) {
-			if (world.getBlockState(pos.offset(Direction.DOWN).offset(dir)).getBlock() == ModBlocks.IN_RED_SCAFFOLD
-				|| world.getBlockState(pos.offset(Direction.DOWN).offset(dir)).getBlock() == ModBlocks.IN_RED_BLOCK) return CableConnection.DISCONNECTED;
+			if (world.getBlockState(pos.offset(Direction.DOWN).offset(dir)).getBlock() instanceof CardinalAligned) return CableConnection.DISCONNECTED;
 			if (canConnect(world, pos.offset(dir).down(), dir.getOpposite())) return CableConnection.CONNECTED;
 		}
 
@@ -153,8 +154,7 @@ public class InfraRedstoneCable extends BlockBase implements Waterloggable {
 
 	public boolean canBlockStay(World world, BlockPos pos) {
 		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down())
-				|| world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_SCAFFOLD
-				|| world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_BLOCK;
+				|| world.getBlockState(pos.down()).getBlock() instanceof CardinalAligned;
 	}
 
 	@Override

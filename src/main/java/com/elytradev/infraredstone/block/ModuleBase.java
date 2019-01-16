@@ -1,5 +1,6 @@
 package com.elytradev.infraredstone.block;
 
+import com.elytradev.infraredstone.api.CardinalAligned;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -43,8 +44,7 @@ public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
 
 	public boolean canBlockStay(World world, BlockPos pos) {
 		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down())
-				|| world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_SCAFFOLD
-				|| world.getBlockState(pos.down()).getBlock() == ModBlocks.IN_RED_BLOCK;
+				|| world.getBlockState(pos.down()).getBlock() instanceof CardinalAligned;
 	}
 
 	@Override
