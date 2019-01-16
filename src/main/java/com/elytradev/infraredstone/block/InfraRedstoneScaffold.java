@@ -1,16 +1,16 @@
 package com.elytradev.infraredstone.block;
 
 import net.fabricmc.fabric.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderLayer;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
+import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.VerticalEntityPosition;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateFactory;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -18,13 +18,14 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class InfraRedstoneScaffold extends BlockBase {
+public class InfraRedstoneScaffold extends BlockBase implements Waterloggable {
 
 	public static final BooleanProperty NORTH = BooleanProperty.create("north");
 	public static final BooleanProperty SOUTH = BooleanProperty.create("south");
 	public static final BooleanProperty EAST = BooleanProperty.create("east");
 	public static final BooleanProperty WEST = BooleanProperty.create("west");
 	public static final BooleanProperty UP = BooleanProperty.create("up");
+	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
 	public InfraRedstoneScaffold() {
 		super("infra_redstone_scaffold", FabricBlockSettings.create(Material.PART).setStrength(0f, 8f).build());
@@ -33,12 +34,13 @@ public class InfraRedstoneScaffold extends BlockBase {
 				.with(SOUTH, false)
 				.with(EAST, false)
 				.with(WEST, false)
-				.with(UP, false));
+				.with(UP, false)
+				.with(WATERLOGGED, false));
 	}
 
 	@Override
 	protected void appendProperties(StateFactory.Builder<Block, BlockState> builder) {
-		builder.with(NORTH, SOUTH, EAST, WEST, UP);
+		builder.with(NORTH, SOUTH, EAST, WEST, UP, WATERLOGGED);
 	}
 
 	@Override
@@ -87,17 +89,22 @@ public class InfraRedstoneScaffold extends BlockBase {
 				.with(SOUTH, getCableConnections(world, pos, Direction.SOUTH))
 				.with(EAST, getCableConnections(world, pos, Direction.EAST))
 				.with(WEST, getCableConnections(world, pos, Direction.WEST))
-				.with(UP, getCableConnections(world, pos, Direction.UP));
+				.with(UP, getCableConnections(world, pos, Direction.UP))
+				.with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getPos()).getFluid() == Fluids.WATER);
 	}
 
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
-		world.setBlockState(pos, this.getDefaultState()
+		if (state.get(WATERLOGGED)) {
+			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.method_15789(world));
+		}
+		world.setBlockState(pos, state
 				.with(NORTH, getCableConnections(world, pos, Direction.NORTH))
 				.with(SOUTH, getCableConnections(world, pos, Direction.SOUTH))
 				.with(EAST, getCableConnections(world, pos, Direction.EAST))
 				.with(WEST, getCableConnections(world, pos, Direction.WEST))
 				.with(UP, getCableConnections(world, pos, Direction.UP))
+				.with(WATERLOGGED, world.getFluidState(pos).getFluid() == Fluids.WATER)
 		);
 	}
 
@@ -113,5 +120,9 @@ public class InfraRedstoneScaffold extends BlockBase {
 		for (Direction dir : Direction.values()) {
 			world.updateNeighborsAlways(pos.offset(dir), this);
 		}
+	}
+
+	public FluidState getFluidState(BlockState state) {
+		return state.get(WATERLOGGED) ? Fluids.WATER.getState(false) : super.getFluidState(state);
 	}
 }

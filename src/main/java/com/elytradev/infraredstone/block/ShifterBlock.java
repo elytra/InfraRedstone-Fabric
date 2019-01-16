@@ -4,10 +4,15 @@ import com.elytradev.infraredstone.block.entity.ShifterBlockEntity;
 import com.elytradev.infraredstone.util.enums.ShifterSelection;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.particle.WaterBubbleParticle;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateFactory;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.Hand;
@@ -16,14 +21,15 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class ShifterBlock extends ModuleBase {
+public class ShifterBlock extends ModuleBase implements Waterloggable {
 
 	public static final EnumProperty<Direction> FACING = Properties.FACING_HORIZONTAL;
 	public static final EnumProperty<ShifterSelection> SELECTION = EnumProperty.create("selection", ShifterSelection.class);
+	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
 	protected ShifterBlock() {
 		super("shifter", DEFAULT_SETTINGS);
-		this.setDefaultState(this.getStateFactory().getDefaultState().with(FACING, Direction.NORTH).with(SELECTION, ShifterSelection.LEFT));
+		this.setDefaultState(this.getStateFactory().getDefaultState().with(FACING, Direction.NORTH).with(SELECTION, ShifterSelection.LEFT).with(WATERLOGGED, false));
 	}
 
 	@Override
@@ -42,7 +48,7 @@ public class ShifterBlock extends ModuleBase {
 
 	@Override
 	protected void appendProperties(StateFactory.Builder<Block, BlockState> builder) {
-		builder.with(FACING, SELECTION);
+		builder.with(FACING, SELECTION, WATERLOGGED);
 	}
 
 	@Override
@@ -73,11 +79,14 @@ public class ShifterBlock extends ModuleBase {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing());
+		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getPos()).getFluid() == Fluids.WATER);
 	}
 
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+		if (state.get(WATERLOGGED)) {
+			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.method_15789(world));
+		}
 		if (!this.canBlockStay(world, pos)) {
 			world.breakBlock(pos, true);
 
@@ -91,5 +100,9 @@ public class ShifterBlock extends ModuleBase {
 						.with(SELECTION, ((ShifterBlockEntity)be).selection));
 			}
 		}
+	}
+
+	public FluidState getFluidState(BlockState state) {
+		return state.get(WATERLOGGED) ? Fluids.WATER.getState(false) : super.getFluidState(state);
 	}
 }

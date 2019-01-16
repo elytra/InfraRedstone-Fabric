@@ -3,9 +3,12 @@ package com.elytradev.infraredstone.block;
 import com.elytradev.infraredstone.block.entity.DiodeBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.VerticalEntityPosition;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateFactory;
 import net.minecraft.state.property.BooleanProperty;
@@ -20,7 +23,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class DiodeBlock extends ModuleBase {
+public class DiodeBlock extends ModuleBase implements Waterloggable {
 
 	public static final BooleanProperty BIT_0 = BooleanProperty.create("bit_0");
 	public static final BooleanProperty BIT_1 = BooleanProperty.create("bit_1");
@@ -30,6 +33,7 @@ public class DiodeBlock extends ModuleBase {
 	public static final BooleanProperty BIT_5 = BooleanProperty.create("bit_5");
 
 	public static final EnumProperty<Direction> FACING = Properties.FACING_HORIZONTAL;
+	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
 	public static final VoxelShape CLICK_BIT_0 = Block.createCubeShape(10, 2.9, 10, 11, 4.1, 14);
 	public static final VoxelShape CLICK_BIT_1 = Block.createCubeShape(9, 2.9, 8, 10, 4.1, 12);
@@ -47,7 +51,8 @@ public class DiodeBlock extends ModuleBase {
 				.with(BIT_3, true)
 				.with(BIT_4, true)
 				.with(BIT_5, true)
-				.with(FACING, Direction.NORTH));
+				.with(FACING, Direction.NORTH)
+				.with(WATERLOGGED, false));
 	}
 
 	@Override
@@ -100,7 +105,7 @@ public class DiodeBlock extends ModuleBase {
 
 	@Override
 	protected void appendProperties(StateFactory.Builder<Block, BlockState> builder) {
-		builder.with(FACING, BIT_0, BIT_1, BIT_2, BIT_3, BIT_4, BIT_5);
+		builder.with(FACING, BIT_0, BIT_1, BIT_2, BIT_3, BIT_4, BIT_5, WATERLOGGED);
 	}
 
 	@Override
@@ -125,11 +130,14 @@ public class DiodeBlock extends ModuleBase {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing());
+		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getPos()).getFluid() == Fluids.WATER);
 	}
 
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+		if (state.get(WATERLOGGED)) {
+			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.method_15789(world));
+		}
 		if (!this.canBlockStay(world, pos)) {
 			world.breakBlock(pos, true);
 
@@ -157,5 +165,9 @@ public class DiodeBlock extends ModuleBase {
 			return (1<<bit & beDiode.getMask()) > 0;
 		}
 		return false;
+	}
+
+	public FluidState getFluidState(BlockState state) {
+		return state.get(WATERLOGGED) ? Fluids.WATER.getState(false) : super.getFluidState(state);
 	}
 }

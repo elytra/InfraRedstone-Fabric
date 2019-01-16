@@ -3,14 +3,15 @@ package com.elytradev.infraredstone.block;
 import com.elytradev.infraredstone.logic.InRedLogic;
 import com.elytradev.infraredstone.util.enums.CableConnection;
 import net.fabricmc.fabric.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderLayer;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Material;
+import net.minecraft.block.*;
 import net.minecraft.entity.VerticalEntityPosition;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateFactory;
+import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
@@ -19,12 +20,14 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.ViewableWorld;
 import net.minecraft.world.World;
 
-public class InfraRedstoneCable extends BlockBase {
+public class InfraRedstoneCable extends BlockBase implements Waterloggable {
 
 	public static final EnumProperty<CableConnection> NORTH = EnumProperty.create("north", CableConnection.class);
 	public static final EnumProperty<CableConnection> SOUTH = EnumProperty.create("south", CableConnection.class);
 	public static final EnumProperty<CableConnection> EAST = EnumProperty.create("east", CableConnection.class);
 	public static final EnumProperty<CableConnection> WEST = EnumProperty.create("west", CableConnection.class);
+
+	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
 	public InfraRedstoneCable() {
 		super("infra_redstone", FabricBlockSettings.create(Material.PART).setStrength(0f, 8f).build());
@@ -32,12 +35,13 @@ public class InfraRedstoneCable extends BlockBase {
 				.with(NORTH, CableConnection.DISCONNECTED)
 				.with(SOUTH, CableConnection.DISCONNECTED)
 				.with(EAST, CableConnection.DISCONNECTED)
-				.with(WEST, CableConnection.DISCONNECTED));
+				.with(WEST, CableConnection.DISCONNECTED)
+				.with(WATERLOGGED, false));
 	}
 
 	@Override
 	protected void appendProperties(StateFactory.Builder<Block, BlockState> builder) {
-		builder.with(NORTH, SOUTH, EAST, WEST);
+		builder.with(NORTH, SOUTH, EAST, WEST, WATERLOGGED);
 	}
 
 	@Override
@@ -107,11 +111,15 @@ public class InfraRedstoneCable extends BlockBase {
 				.with(NORTH, getCableConnections(world, pos, Direction.NORTH))
 				.with(SOUTH, getCableConnections(world, pos, Direction.SOUTH))
 				.with(EAST, getCableConnections(world, pos, Direction.EAST))
-				.with(WEST, getCableConnections(world, pos, Direction.WEST));
+				.with(WEST, getCableConnections(world, pos, Direction.WEST))
+				.with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getPos()).getFluid() == Fluids.WATER);
 	}
 
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
+		if (state.get(WATERLOGGED)) {
+			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.method_15789(world));
+		}
 		if (!this.canBlockStay(world, pos)) {
 			world.breakBlock(pos, true);
 
@@ -119,11 +127,12 @@ public class InfraRedstoneCable extends BlockBase {
 				world.updateNeighborsAlways(pos.offset(dir), this);
 			}
 		} else {
-			world.setBlockState(pos, this.getDefaultState()
+			world.setBlockState(pos, state
 					.with(NORTH, getCableConnections(world, pos, Direction.NORTH))
 					.with(SOUTH, getCableConnections(world, pos, Direction.SOUTH))
 					.with(EAST, getCableConnections(world, pos, Direction.EAST))
 					.with(WEST, getCableConnections(world, pos, Direction.WEST))
+					.with(WATERLOGGED, world.getFluidState(pos).getFluid() == Fluids.WATER)
 			);
 		}
 	}
@@ -151,5 +160,9 @@ public class InfraRedstoneCable extends BlockBase {
 	@Override
 	public boolean canPlaceAt(BlockState state, ViewableWorld world, BlockPos pos) {
 		return canBlockStay((World)world, pos);
+	}
+
+	public FluidState getFluidState(BlockState state) {
+		return state.get(WATERLOGGED) ? Fluids.WATER.getState(false) : super.getFluidState(state);
 	}
 }
