@@ -52,11 +52,11 @@ public class InRedLogic {
 
         if (!checkCandidacy(world, initialPos, dir.getOpposite())) {
             BlockPos up = initialPos.up();
-            if (checkCandidacy(world, up, dir.getOpposite())) {
+            if (checkCandidacy(world, up, dir.getOpposite()) && world.getBlockState(up).getBlock() != ModBlocks.IN_RED_SCAFFOLD) {
                 initialPos = up;
             } else {
                 BlockPos down = initialPos.down();
-                if (checkCandidacy(world, down, dir.getOpposite())) {
+                if (checkCandidacy(world, down, dir.getOpposite()) && world.getBlockState(down).getBlock() != ModBlocks.IN_RED_SCAFFOLD) {
                     initialPos = down;
                 } else {
                     return (world.getEmittedRedstonePower(initialPos, dir) != 0) ? 1 : 0;

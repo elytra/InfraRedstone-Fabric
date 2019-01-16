@@ -58,15 +58,15 @@ public class ShifterBlock extends ModuleBase implements Waterloggable {
 
 	@Override
 	public int getStrongRedstonePower(BlockState state, BlockView world, BlockPos pos, Direction side) {
-//		if (side==state.get(FACING) || side==Direction.UP || side==Direction.DOWN) return 0;
-		if (side!=state.get(FACING).getOpposite()) return 0;
+		if (side==state.get(FACING) || side==Direction.UP || side==Direction.DOWN) return 0;
+//		if (side!=state.get(FACING).getOpposite()) return 0;
 		BlockEntity be = world.getBlockEntity(pos);
 		if (be instanceof ShifterBlockEntity) {
 			if (side==state.get(FACING).getOpposite()) {
 				return ((ShifterBlockEntity)be).isActive() ? 16 : 0;
-//			} else if ((side==state.get(FACING).rotateYCounterclockwise() && state.get(SELECTION) == ShifterSelection.RIGHT)
-//					|| side==state.get(FACING).rotateYClockwise() && state.get(SELECTION)==ShifterSelection.LEFT) {
-//				return ((ShifterBlockEntity)be).isEject() ? 16 : 0;
+			} else if ((side==state.get(FACING).rotateYCounterclockwise() && state.get(SELECTION) == ShifterSelection.RIGHT)
+					|| side==state.get(FACING).rotateYClockwise() && state.get(SELECTION)==ShifterSelection.LEFT) {
+				return ((ShifterBlockEntity)be).isEject() ? 16 : 0;
 			}
 		}
 		return 0;
