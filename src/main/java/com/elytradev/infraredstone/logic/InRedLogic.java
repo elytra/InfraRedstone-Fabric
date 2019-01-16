@@ -47,14 +47,13 @@ public class InRedLogic {
      */
     public static int findIRValue(World world, BlockPos device, Direction dir) {
         BlockPos initialPos = device.offset(dir);
-
-        if (!checkCandidacy(world, initialPos, dir.getOpposite())) {
+        if (!checkCandidacy(world, initialPos, dir)) {
             BlockPos up = initialPos.up();
-            if (checkCandidacy(world, up, dir.getOpposite())) {
+            if (checkCandidacy(world, up, dir)) {
                 initialPos = up;
             } else {
                 BlockPos down = initialPos.down();
-                if (checkCandidacy(world, down, dir.getOpposite())) {
+                if (checkCandidacy(world, down, dir)) {
                     initialPos = down;
                 } else {
                     return (world.getEmittedRedstonePower(initialPos, dir) != 0) ? 1 : 0;
@@ -64,6 +63,7 @@ public class InRedLogic {
         
         if (world.isAir(initialPos)) return 0;
         BlockState initialState = world.getBlockState(initialPos);
+//        System.out.println(initialState);
         if (initialState.getBlock() instanceof InfraRedstoneWire) {
             // Search!
             return wireSearch(world, device, dir);
@@ -76,6 +76,7 @@ public class InRedLogic {
         }
         
         BlockEntity be = world.getBlockEntity(initialPos);
+        System.out.println(be);
         if (be instanceof InfraRedstoneCapable && ((InfraRedstoneCapable)be).canConnectToSide(dir.getOpposite())) {
             // We have a full IR tile behind us. Fantastic! Don't search, just get its
             // value.
@@ -92,24 +93,18 @@ public class InRedLogic {
         if (world.isAir(pos)) return false;
         
         BlockState state = world.getBlockState(pos);
-        BlockState secondState = world.getBlockState(pos.offset(side));
-
-        System.out.println(pos);
-        System.out.println(pos.offset(side));
-        System.out.println(state.getBlock() instanceof InfraRedstoneComponent);
-        System.out.println(secondState.getBlock() instanceof InfraRedstoneComponent);
+        BlockState secondState = world.getBlockState(pos.offset(side.getOpposite()));
 
         if (state.getBlock() instanceof InfraRedstoneComponent && secondState.getBlock() instanceof InfraRedstoneComponent) {
             InfraRedstoneComponent comp = (InfraRedstoneComponent)state.getBlock();
             InfraRedstoneComponent secondComp = (InfraRedstoneComponent)secondState.getBlock();
-            System.out.println(comp.canConnect(world, pos, pos.offset(side.getOpposite())));
-            System.out.println(secondComp.canConnect(world, pos.offset(side.getOpposite()), pos));
 
             if (comp.canConnect(world, pos, pos.offset(side.getOpposite())) && secondComp.canConnect(world, pos.offset(side), pos)) {
                 BlockEntity be = world.getBlockEntity(pos);
                 if (be == null) return true;
 
                 if (be instanceof InfraRedstoneCapable) {
+                    System.out.println(((InfraRedstoneCapable) be).canConnectToSide(side));
                     return (((InfraRedstoneCapable) be).canConnectToSide(side));
                 } else {
                     return true;
@@ -152,7 +147,6 @@ public class InRedLogic {
             Block block = state.getBlock();
             if (block instanceof InfraRedstoneWire) {
                 traversed.add(cur.pos);
-
                 for (Direction facing : Direction.values()) {
                     if (facing == cur.facing) continue; // Don't try to bounce back to the block we came from
                     BlockPos offset = cur.pos.offset(facing);
@@ -162,7 +156,7 @@ public class InRedLogic {
                         if (offset.getY() > 0 && !isSideSolid(world, offset, facing.getOpposite()) && !(world.getBlockState(offset.down()).getBlock() instanceof InfraRedstoneComponent))
                             if (checkCandidacy(world, cur.pos, Direction.DOWN)) checkAdd(new Endpoint(offset.down(), facing.getOpposite()), next, traversed, rejected);
                     }
-                    if (checkCandidacy(world, cur.pos, facing)) checkAdd(new Endpoint(offset, facing.getOpposite()), next, traversed, rejected);
+                    if (checkCandidacy(world, cur.pos, facing.getOpposite())) checkAdd(new Endpoint(offset, facing.getOpposite()), next, traversed, rejected);
                 }
 
                 continue;
