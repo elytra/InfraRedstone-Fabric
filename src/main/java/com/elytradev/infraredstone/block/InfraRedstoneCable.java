@@ -1,6 +1,6 @@
 package com.elytradev.infraredstone.block;
 
-import com.elytradev.infraredstone.api.AxisRestricted;
+import com.elytradev.infraredstone.api.InfraRedstoneComponent;
 import com.elytradev.infraredstone.api.InfraRedstoneWire;
 import com.elytradev.infraredstone.logic.InRedLogic;
 import com.elytradev.infraredstone.util.enums.CableConnection;
@@ -22,7 +22,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.ViewableWorld;
 import net.minecraft.world.World;
 
-public class InfraRedstoneCable extends BlockBase implements Waterloggable, InfraRedstoneWire {
+public class InfraRedstoneCable extends BlockBase implements Waterloggable, InfraRedstoneWire, InfraRedstoneComponent {
 
 	public static final EnumProperty<CableConnection> NORTH = EnumProperty.create("north", CableConnection.class);
 	public static final EnumProperty<CableConnection> SOUTH = EnumProperty.create("south", CableConnection.class);
@@ -97,7 +97,7 @@ public class InfraRedstoneCable extends BlockBase implements Waterloggable, Infr
 		}
 
 		if (!InRedLogic.isSideSolid((World)world, pos.offset(dir), dir.getOpposite())) {
-			if (world.getBlockState(pos.offset(Direction.DOWN).offset(dir)).getBlock() instanceof AxisRestricted) return CableConnection.DISCONNECTED;
+			if (world.getBlockState(pos.offset(Direction.DOWN).offset(dir)).getBlock() instanceof InfraRedstoneComponent) return CableConnection.DISCONNECTED;
 			if (canConnect(world, pos.offset(dir).down(), dir.getOpposite())) return CableConnection.CONNECTED;
 		}
 
@@ -154,7 +154,7 @@ public class InfraRedstoneCable extends BlockBase implements Waterloggable, Infr
 
 	public boolean canBlockStay(World world, BlockPos pos) {
 		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down())
-				|| world.getBlockState(pos.down()).getBlock() instanceof AxisRestricted;
+				|| world.getBlockState(pos.down()).getBlock() instanceof InfraRedstoneComponent;
 	}
 
 	@Override
@@ -164,5 +164,11 @@ public class InfraRedstoneCable extends BlockBase implements Waterloggable, Infr
 
 	public FluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getState(false) : super.getFluidState(state);
+	}
+
+	@Override
+	public boolean canConnect(World world, BlockPos currentPos, BlockPos inspectingFrom) {
+		// We're pretty lenient on what can connect. Let the other side determine if the connection gets made.
+		return true;
 	}
 }

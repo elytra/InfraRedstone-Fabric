@@ -1,6 +1,6 @@
 package com.elytradev.infraredstone.block;
 
-import com.elytradev.infraredstone.api.AxisRestricted;
+import com.elytradev.infraredstone.api.InfraRedstoneComponent;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,7 +13,7 @@ import io.github.prospector.silk.block.SilkBlockWithEntity;
 import net.minecraft.world.ViewableWorld;
 import net.minecraft.world.World;
 
-public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
+public class ModuleBase extends SilkBlockWithEntity implements NamedBlock, InfraRedstoneComponent {
 	public String name;
 
 	public static final Settings DEFAULT_SETTINGS = FabricBlockSettings.create(Material.PART).setStrength(0.5f, 8f).build();
@@ -44,7 +44,7 @@ public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
 
 	public boolean canBlockStay(World world, BlockPos pos) {
 		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down())
-				|| world.getBlockState(pos.down()).getBlock() instanceof AxisRestricted;
+				|| world.getBlockState(pos.down()).getBlock() instanceof InfraRedstoneComponent;
 	}
 
 	@Override
@@ -70,5 +70,11 @@ public class ModuleBase extends SilkBlockWithEntity implements NamedBlock {
 	@Override
 	public VoxelShape getBoundingShape(BlockState state, BlockView view, BlockPos pos) {
 		return BASE_SHAPE;
+	}
+
+	@Override
+	public boolean canConnect(World world, BlockPos currentPos, BlockPos inspectingFrom) {
+		// We're pretty lenient on what can connect. Let the other side determine if the connection gets made.
+		return true;
 	}
 }

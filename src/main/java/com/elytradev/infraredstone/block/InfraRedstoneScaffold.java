@@ -1,6 +1,6 @@
 package com.elytradev.infraredstone.block;
 
-import com.elytradev.infraredstone.api.AxisRestricted;
+import com.elytradev.infraredstone.api.InfraRedstoneComponent;
 import com.elytradev.infraredstone.api.InfraRedstoneWire;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -20,7 +20,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class InfraRedstoneScaffold extends BlockBase implements Waterloggable, InfraRedstoneWire, AxisRestricted {
+public class InfraRedstoneScaffold extends BlockBase implements Waterloggable, InfraRedstoneWire, InfraRedstoneComponent {
 
 	public static final BooleanProperty NORTH = BooleanProperty.create("north");
 	public static final BooleanProperty SOUTH = BooleanProperty.create("south");
@@ -79,7 +79,7 @@ public class InfraRedstoneScaffold extends BlockBase implements Waterloggable, I
 
 	private boolean getCableConnections(BlockView world, BlockPos pos, Direction dir) {
 		Block test = world.getBlockState(pos.offset(dir).offset(Direction.DOWN)).getBlock();
-		if (test instanceof InfraRedstoneWire && !(test instanceof AxisRestricted)) return true;
+		if (test instanceof InfraRedstoneWire && !(test instanceof InfraRedstoneComponent)) return true;
 		return canConnect(world, pos.offset(dir), dir.getOpposite());
 	}
 
@@ -127,5 +127,17 @@ public class InfraRedstoneScaffold extends BlockBase implements Waterloggable, I
 
 	public FluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getState(false) : super.getFluidState(state);
+	}
+
+	@Override
+	public boolean canConnect(World world, BlockPos currentPos, BlockPos inspectingFrom) {
+		// We only want to connect to things on our y-level, directly above or below us, or with a special case.
+		if (currentPos.getX() == inspectingFrom.getX() && currentPos.getY() == inspectingFrom.getY()) return true;
+		if (currentPos.getY() == inspectingFrom.getY()) return true;
+		if (currentPos.getY() - inspectingFrom.getY() == -1) {
+			// If it's an Infra-Redstone wire and it's ok with connecting up here, then we're fine with it.
+			return (world.getBlockState(inspectingFrom).getBlock() instanceof InfraRedstoneWire && ((InfraRedstoneComponent)world.getBlockState(inspectingFrom).getBlock()).canConnect(world, inspectingFrom, currentPos));
+		}
+		return false;
 	}
 }
