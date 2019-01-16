@@ -1,6 +1,6 @@
 package com.elytradev.infraredstone.block;
 
-import com.elytradev.infraredstone.api.CardinalAligned;
+import com.elytradev.infraredstone.api.AxisRestricted;
 import com.elytradev.infraredstone.block.entity.InfraRedstoneBlockEntity;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.fabricmc.fabric.tags.FabricItemTags;
@@ -14,7 +14,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.ViewableWorld;
 
-public class InfraRedstoneBlock extends ModuleBase implements CardinalAligned {
+public class InfraRedstoneBlock extends ModuleBase implements AxisRestricted {
 
 	protected InfraRedstoneBlock() {
 		super("infra_redstone_block", FabricBlockSettings.create(Material.PART).setStrength(1f, 1f).breakByTool(FabricItemTags.PICKAXES).build());

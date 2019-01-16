@@ -1,6 +1,6 @@
 package com.elytradev.infraredstone.block;
 
-import com.elytradev.infraredstone.api.CardinalAligned;
+import com.elytradev.infraredstone.api.AxisRestricted;
 import com.elytradev.infraredstone.api.InfraRedstoneWire;
 import net.fabricmc.fabric.block.FabricBlockSettings;
 import net.minecraft.block.*;
@@ -20,7 +20,7 @@ import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-public class InfraRedstoneScaffold extends BlockBase implements Waterloggable, InfraRedstoneWire, CardinalAligned {
+public class InfraRedstoneScaffold extends BlockBase implements Waterloggable, InfraRedstoneWire, AxisRestricted {
 
 	public static final BooleanProperty NORTH = BooleanProperty.create("north");
 	public static final BooleanProperty SOUTH = BooleanProperty.create("south");
@@ -79,7 +79,7 @@ public class InfraRedstoneScaffold extends BlockBase implements Waterloggable, I
 
 	private boolean getCableConnections(BlockView world, BlockPos pos, Direction dir) {
 		Block test = world.getBlockState(pos.offset(dir).offset(Direction.DOWN)).getBlock();
-		if (test instanceof InfraRedstoneWire && !(test instanceof CardinalAligned)) return true;
+		if (test instanceof InfraRedstoneWire && !(test instanceof AxisRestricted)) return true;
 		return canConnect(world, pos.offset(dir), dir.getOpposite());
 	}
 

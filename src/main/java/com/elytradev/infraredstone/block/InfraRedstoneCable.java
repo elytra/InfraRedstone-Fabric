@@ -1,6 +1,6 @@
 package com.elytradev.infraredstone.block;
 
-import com.elytradev.infraredstone.api.CardinalAligned;
+import com.elytradev.infraredstone.api.AxisRestricted;
 import com.elytradev.infraredstone.api.InfraRedstoneWire;
 import com.elytradev.infraredstone.logic.InRedLogic;
 import com.elytradev.infraredstone.util.enums.CableConnection;
@@ -97,7 +97,7 @@ public class InfraRedstoneCable extends BlockBase implements Waterloggable, Infr
 		}
 
 		if (!InRedLogic.isSideSolid((World)world, pos.offset(dir), dir.getOpposite())) {
-			if (world.getBlockState(pos.offset(Direction.DOWN).offset(dir)).getBlock() instanceof CardinalAligned) return CableConnection.DISCONNECTED;
+			if (world.getBlockState(pos.offset(Direction.DOWN).offset(dir)).getBlock() instanceof AxisRestricted) return CableConnection.DISCONNECTED;
 			if (canConnect(world, pos.offset(dir).down(), dir.getOpposite())) return CableConnection.CONNECTED;
 		}
 
@@ -154,7 +154,7 @@ public class InfraRedstoneCable extends BlockBase implements Waterloggable, Infr
 
 	public boolean canBlockStay(World world, BlockPos pos) {
 		return world.getBlockState(pos.down()).hasSolidTopSurface(world, pos.down())
-				|| world.getBlockState(pos.down()).getBlock() instanceof CardinalAligned;
+				|| world.getBlockState(pos.down()).getBlock() instanceof AxisRestricted;
 	}
 
 	@Override

@@ -49,11 +49,11 @@ public class InRedLogic {
 
         if (!checkCandidacy(world, initialPos, dir.getOpposite())) {
             BlockPos up = initialPos.up();
-            if (checkCandidacy(world, up, dir.getOpposite()) && !(world.getBlockState(up).getBlock() instanceof CardinalAligned)) {
+            if (checkCandidacy(world, up, dir.getOpposite()) && !(world.getBlockState(up).getBlock() instanceof AxisRestricted)) {
                 initialPos = up;
             } else {
                 BlockPos down = initialPos.down();
-                if (checkCandidacy(world, down, dir.getOpposite()) && !(world.getBlockState(down).getBlock() instanceof CardinalAligned)) {
+                if (checkCandidacy(world, down, dir.getOpposite()) && !(world.getBlockState(down).getBlock() instanceof AxisRestricted)) {
                     initialPos = down;
                 } else {
                     return (world.getEmittedRedstonePower(initialPos, dir) != 0) ? 1 : 0;
@@ -140,7 +140,7 @@ public class InRedLogic {
             if (block instanceof InfraRedstoneWire) {
                 traversed.add(cur.pos);
 
-                if (block instanceof CardinalAligned) {
+                if (block instanceof AxisRestricted) {
                     // Add axis-aligned neighbors, with a special case
                     for(Direction facing : Direction.values()) {
                         BlockPos offset = cur.pos.offset(facing);
@@ -150,7 +150,7 @@ public class InRedLogic {
                             // special-case for wires reaching up to scaffolds
                             BlockPos specialCase = offset.down();
                             if (specialCase.getY() < 0) continue;
-                            if (world.getBlockState(specialCase).getBlock() instanceof InfraRedstoneWire && !(world.getBlockState(specialCase).getBlock() instanceof CardinalAligned)) checkAdd(new Endpoint(specialCase, facing.getOpposite()), next, traversed, rejected);
+                            if (world.getBlockState(specialCase).getBlock() instanceof InfraRedstoneWire && !(world.getBlockState(specialCase).getBlock() instanceof AxisRestricted)) checkAdd(new Endpoint(specialCase, facing.getOpposite()), next, traversed, rejected);
                         }
                     }
                 } else {
@@ -159,7 +159,7 @@ public class InRedLogic {
                         BlockPos offset = cur.pos.offset(facing);
 
                         if (offset.getY() < 255 && !isSideSolid(world, cur.pos.up(), Direction.DOWN)) checkAdd(new Endpoint(offset.up(), facing.getOpposite()), next, traversed, rejected);
-                        if (offset.getY() > 0 && !isSideSolid(world, offset, facing.getOpposite()) && !(world.getBlockState(offset.down()).getBlock() instanceof CardinalAligned)) checkAdd(new Endpoint(offset.down(), facing.getOpposite()), next, traversed, rejected);
+                        if (offset.getY() > 0 && !isSideSolid(world, offset, facing.getOpposite()) && !(world.getBlockState(offset.down()).getBlock() instanceof AxisRestricted)) checkAdd(new Endpoint(offset.down(), facing.getOpposite()), next, traversed, rejected);
                         if (facing == cur.facing) continue; // Don't try to bounce back to the block we came from
                         checkAdd(new Endpoint(offset, facing.getOpposite()), next, traversed, rejected);
                     }
