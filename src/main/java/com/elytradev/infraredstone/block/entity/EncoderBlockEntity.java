@@ -56,7 +56,6 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 			if (state.getBlock() instanceof EncoderBlock) {
 				Direction back = state.get(EncoderBlock.FACING).getOpposite();
 				BlockPos backPos = this.getPos().offset(back);
-				BlockState quantify = world.getBlockState(backPos);
 				int resBack = encodeSignal(backPos, back);
 				if (resBack > 0) {
 					signal.setNextSignalValue(resBack);
@@ -69,8 +68,8 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 						// can't find anything else, so check for redstone/inred signal
 					} else {
 						// redstone first so inred's redstone-catching doesn't override it
-						int sigBack = world.getEmittedRedstonePower(backPos, back);
-						if (sigBack != 0) {
+						if (!InRedLogic.checkCandidacy(world, backPos, back)) {
+							int sigBack = world.getEmittedRedstonePower(backPos, back);
 							signal.setNextSignalValue(sigBack);
 						} else {
 							signal.setNextSignalValue(InRedLogic.findIRValue(world, pos, back));
@@ -84,23 +83,22 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 			//Not an IR tick, so this is a "copy" tick. Adopt the previous tick's "next" value.
 			signal.setSignalValue(signal.getNextSignalValue());
 			markDirty();
-			//setActive(state, signal.getSignalValue()!=0); //This is also when we light up
 		}
 	}
 
 	private int encodeSignal(BlockPos pos, Direction from) {
 		BlockState quantify = world.getBlockState(pos);
-		// check for the main encoder API
-		if (quantify instanceof EncoderScannable) {
-			return ((EncoderScannable) quantify).getEncoderValue(from.getOpposite());
-			// check for the non-TE encoder API
-		} else if (quantify instanceof SimpleEncoderScannable) {
-			return ((SimpleEncoderScannable) quantify).getEncoderValue(world, pos, quantify, from.getOpposite());
-			// no encoder API, so check for a tile entity
+		// check for the non-TE encoder API
+		if (quantify.getBlock() instanceof SimpleEncoderScannable) {
+			return ((SimpleEncoderScannable) quantify.getBlock()).getEncoderValue(world, pos, quantify, from.getOpposite());
+			// no simple encoder API, so check for a tile entity
 		} else if (world.getBlockEntity(pos) != null) {
 			BlockEntity be = world.getBlockEntity(pos);
-			// check for capabilities on the tile entity, make sure we only move on if we don't find any
-			if (be instanceof Inventory) {
+			// check for the main encoder API
+			if (be instanceof EncoderScannable) {
+				return ((EncoderScannable) be).getEncoderValue(from.getOpposite());
+				// check for capabilities on the tile entity, make sure we only move on if we don't find any
+			} else if (be instanceof Inventory) {
 				Inventory inv = (Inventory) be;
 				int stacksChecked = 0;
 				float fillPercentage = 0f;
@@ -113,8 +111,7 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 				}
 				fillPercentage /= (float) inv.getInvSize();
 				return MathHelper.floor(fillPercentage * 62.0F) + (stacksChecked > 0 ? 1 : 0);
-			}
-			if (be instanceof FluidContainer) {
+			} else if (be instanceof FluidContainer) {
 				FluidContainer cont = (FluidContainer) be;
 				float fillPercentage = (float) cont.getMaxCapacity() / (float) cont.getCurrentFill(from.getOpposite());
 				return MathHelper.floor(fillPercentage * 62.0F) + (cont.getCurrentFill(from.getOpposite()) > 0 ? 1 : 0);
