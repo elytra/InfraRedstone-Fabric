@@ -7,6 +7,7 @@ import com.elytradev.infraredstone.block.ModBlocks;
 import com.elytradev.infraredstone.logic.impl.InfraRedstoneHandler;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.text.TranslatableTextComponent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 public class InfraRedstoneBlockEntity extends IRComponentBlockEntity implements MultimeterProbeProvider, InfraRedstoneCapable {
@@ -21,14 +22,14 @@ public class InfraRedstoneBlockEntity extends IRComponentBlockEntity implements 
 	}
 
 	@Override
-	public boolean canConnectToSide(Direction inspectingFrom) {
-		return true;
-	}
-
-	@Override
 	public StringTextComponent getProbeMessage() {
 		TranslatableTextComponent i18n = new TranslatableTextComponent("msg.inred.multimeter.block");
 		return new StringTextComponent(i18n.getFormattedText());
+	}
+
+	@Override
+	public boolean canConnectIR(BlockPos dest, Direction dir) {
+		return true;
 	}
 
 }

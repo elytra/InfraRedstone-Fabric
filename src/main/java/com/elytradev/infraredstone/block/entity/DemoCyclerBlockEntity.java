@@ -10,6 +10,7 @@ import com.elytradev.infraredstone.logic.impl.InfraRedstoneSerializer;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Tickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 public class DemoCyclerBlockEntity extends IRComponentBlockEntity implements Tickable, InfraRedstoneCapable {
@@ -95,7 +96,7 @@ public class DemoCyclerBlockEntity extends IRComponentBlockEntity implements Tic
 	}
 
 	@Override
-	public boolean canConnectToSide(Direction inspectingFrom) {
+	public boolean canConnectIR(BlockPos dest, Direction inspectingFrom) {
 		return true;
 	}
 }

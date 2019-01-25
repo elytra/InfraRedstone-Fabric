@@ -13,6 +13,7 @@ import net.minecraft.state.StateFactory;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -37,13 +38,13 @@ public class NotGateBlock extends ModuleBase implements Waterloggable {
 		return new NotGateBlockEntity();
 	}
 
-	public static final VoxelShape NOT_CLICK_BOOLEAN = Block.createCubeShape( 6, 2.9,  2, 10, 4.1,  6);
+	public static final VoxelShape NOT_CLICK_BOOLEAN = Block.createCuboidShape( 6, 2.9,  2, 10, 4.1,  6);
 
 	@Override
-	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
+	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult blockHitResult) {
 		BlockEntity be = world.getBlockEntity(pos);
 		if(!world.isClient() && !player.isSneaking() && be instanceof NotGateBlockEntity) {
-			Vec3d blockCenteredHit = new Vec3d(hitX, hitY, hitZ);
+			Vec3d blockCenteredHit = blockHitResult.getPos(); blockCenteredHit = new Vec3d(blockCenteredHit.x % 1, blockCenteredHit.y % 1, blockCenteredHit.z % 1);
 			blockCenteredHit = blockCenteredHit.subtract(0.5, 0.5, 0.5);
 			switch (state.get(NotGateBlock.FACING)) {
 				case SOUTH:
@@ -94,13 +95,13 @@ public class NotGateBlock extends ModuleBase implements Waterloggable {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getPos()).getFluid() == Fluids.WATER);
+		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
 	}
 
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
 		if (state.get(WATERLOGGED)) {
-			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.method_15789(world));
+			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		if (!this.canBlockStay(world, pos)) {
 			world.breakBlock(pos, true);

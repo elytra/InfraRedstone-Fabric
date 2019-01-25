@@ -14,6 +14,7 @@ import net.minecraft.state.StateFactory;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -35,12 +36,12 @@ public class DiodeBlock extends ModuleBase implements Waterloggable {
 	public static final EnumProperty<Direction> FACING = Properties.FACING_HORIZONTAL;
 	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
-	public static final VoxelShape CLICK_BIT_0 = Block.createCubeShape(10, 2.9, 10, 11, 4.1, 14);
-	public static final VoxelShape CLICK_BIT_1 = Block.createCubeShape(9, 2.9, 8, 10, 4.1, 12);
-	public static final VoxelShape CLICK_BIT_2 = Block.createCubeShape(8, 2.9, 10, 9, 4.1, 14);
-	public static final VoxelShape CLICK_BIT_3 = Block.createCubeShape(7, 2.9, 8, 8, 4.1, 12);
-	public static final VoxelShape CLICK_BIT_4 = Block.createCubeShape(6, 2.9, 10, 7, 4.1, 14);
-	public static final VoxelShape CLICK_BIT_5= Block.createCubeShape(5, 2.9, 8, 6, 4.1, 12);
+	public static final VoxelShape CLICK_BIT_0 = Block.createCuboidShape(10, 2.9, 10, 11, 4.1, 14);
+	public static final VoxelShape CLICK_BIT_1 = Block.createCuboidShape(9, 2.9, 8, 10, 4.1, 12);
+	public static final VoxelShape CLICK_BIT_2 = Block.createCuboidShape(8, 2.9, 10, 9, 4.1, 14);
+	public static final VoxelShape CLICK_BIT_3 = Block.createCuboidShape(7, 2.9, 8, 8, 4.1, 12);
+	public static final VoxelShape CLICK_BIT_4 = Block.createCuboidShape(6, 2.9, 10, 7, 4.1, 14);
+	public static final VoxelShape CLICK_BIT_5= Block.createCuboidShape(5, 2.9, 8, 6, 4.1, 12);
 
 	protected DiodeBlock() {
 		super("diode", DEFAULT_SETTINGS);
@@ -61,10 +62,10 @@ public class DiodeBlock extends ModuleBase implements Waterloggable {
 	}
 
 	@Override
-	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
+	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult blockHitResult) {
 		BlockEntity be = world.getBlockEntity(pos);
 		if(!world.isClient() && !player.isSneaking() && be instanceof DiodeBlockEntity) {
-			Vec3d blockCenteredHit = new Vec3d(hitX, hitY, hitZ);
+			Vec3d blockCenteredHit = blockHitResult.getPos(); blockCenteredHit = new Vec3d(blockCenteredHit.x % 1, blockCenteredHit.y % 1, blockCenteredHit.z % 1);
 			blockCenteredHit = blockCenteredHit.subtract(0.5, 0.5, 0.5);
 			switch (state.get(DiodeBlock.FACING)) {
 				case SOUTH:
@@ -130,13 +131,13 @@ public class DiodeBlock extends ModuleBase implements Waterloggable {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getPos()).getFluid() == Fluids.WATER);
+		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(new BlockPos(ctx.getPos())).getFluid() == Fluids.WATER);
 	}
 
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
 		if (state.get(WATERLOGGED)) {
-			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.method_15789(world));
+			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		if (!this.canBlockStay(world, pos)) {
 			world.breakBlock(pos, true);

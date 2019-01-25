@@ -43,7 +43,7 @@ public class InfraRedstoneBlock extends ModuleBase implements InfraRedstoneCompo
 	}
 
 	@Override
-	public VoxelShape getBoundingShape(BlockState state, BlockView view, BlockPos pos) {
+	public VoxelShape getRayTraceShape(BlockState state, BlockView view, BlockPos pos) {
 		return VoxelShapes.fullCube();
 	}
 

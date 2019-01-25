@@ -26,7 +26,7 @@ public abstract class InRedBaseRenderer<T extends IRComponentBlockEntity> extend
 		buffer.setOffset(x, y, z);
 		GlStateManager.enableBlend();
 		GlStateManager.disableAlphaTest();
-		GlStateManager.blendFunc(GlStateManager.SrcBlendFactor.SRC_ALPHA, GlStateManager.DstBlendFactor.ONE_MINUS_SRC_ALPHA);
+		GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
 		GlStateManager.disableLighting();
 
 		renderManager.textureManager.bindTexture(SpriteAtlasTexture.BLOCK_ATLAS_TEX);

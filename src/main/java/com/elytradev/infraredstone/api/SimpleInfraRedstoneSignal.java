@@ -28,5 +28,18 @@ public interface SimpleInfraRedstoneSignal {
 	 * @param inspectingFrom the dirtection being tested for connectability
 	 * @return whether it is possible to connect to the side being tested.
 	 */
-	boolean canConnectIR(BlockView world, BlockPos pos, BlockState state, Direction inspectingFrom);
+	@Deprecated
+	default boolean canConnectIR(BlockView world, BlockPos pos, BlockState state, Direction inspectingFrom) { return false; }
+	
+	
+	/**
+	 * Checks whether this block's connection rules permit it to connect directly to the destination position.
+	 * @param world The current world
+	 * @param src   This block's current position
+	 * @param state This block's current state
+	 * @param dest  The position to connect to
+	 * @param direction The horizontal direction closest to pointing at the destination position.
+	 * @return True if this block can connect directly to {@code dest}, otherwise false.
+	 */
+	boolean canConnectIR(BlockView world, BlockPos src, BlockState state, BlockPos dest, Direction direction);
 }

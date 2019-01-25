@@ -25,3 +25,7 @@ private.properties
 Thumbs.db
 .DS_Store
 local.properties
+.directory
+
+#other
+libs-disabled

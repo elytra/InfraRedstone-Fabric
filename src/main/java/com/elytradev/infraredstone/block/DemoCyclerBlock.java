@@ -7,9 +7,9 @@ import net.minecraft.entity.VerticalEntityPosition;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -26,7 +26,7 @@ public class DemoCyclerBlock extends ModuleBase {
 	}
 
 	@Override
-	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, Direction dir, float hitX, float hitY, float hitZ) {
+	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult blockHitResult) {
 		BlockEntity be = world.getBlockEntity(pos);
 		if (be instanceof DemoCyclerBlockEntity) {
 			if (!world.isClient) {
@@ -44,7 +44,7 @@ public class DemoCyclerBlock extends ModuleBase {
 	}
 
 	@Override
-	public VoxelShape getBoundingShape(BlockState state, BlockView view, BlockPos pos) {
+	public VoxelShape getRayTraceShape(BlockState state, BlockView view, BlockPos pos) {
 		return VoxelShapes.fullCube();
 	}
 

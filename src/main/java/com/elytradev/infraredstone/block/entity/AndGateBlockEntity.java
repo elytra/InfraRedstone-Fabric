@@ -22,6 +22,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.Tickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.chunk.Chunk;
 
@@ -264,22 +265,14 @@ public class AndGateBlockEntity extends IRComponentBlockEntity implements Tickab
 	}
 
 	@Override
-	public boolean canConnectToSide(Direction inspectingFrom) {
-		if (inspectingFrom == Direction.DOWN || inspectingFrom == Direction.UP) return false;
-		if (world==null) return true;
-		if (inspectingFrom==null) return true;
-		BlockState state = world.getBlockState(pos);
-		if (state.getBlock()==ModBlocks.AND_GATE) {
-			Direction andGateFront = state.get(AndGateBlock.FACING);
-			if (andGateFront==inspectingFrom) {
-				return true;
-			} else if (andGateFront==inspectingFrom.getOpposite()) {
-				return true;
-			} else if (andGateFront==inspectingFrom.rotateYCounterclockwise()) {
-				return true;
-			} else return andGateFront == inspectingFrom.rotateYClockwise();
-		}
-
-		return false;
+	public boolean canConnectIR(BlockPos dest, Direction dir) {
+		//We can't connect vertically.
+		if (dir == Direction.DOWN || dir == Direction.UP) return false;
+		
+		//Prevent connections to Y values above or below us
+		if (dest.getY()!=pos.getY()) return false;
+		
+		//Any purely horizontal direction is fine for us.
+		return true;
 	}
 }

@@ -19,9 +19,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.Tickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.chunk.Chunk;
 
@@ -190,28 +192,16 @@ public class ShifterBlockEntity extends IRComponentBlockEntity implements Tickab
 		}
 		return InfraRedstoneHandler.ALWAYS_OFF; //We can't tell what our front face is, so supply a dummy that's always-off.
 	}
-
+	
 	@Override
-	public boolean canConnectToSide(Direction inspectingFrom) {
-		if (inspectingFrom == Direction.DOWN || inspectingFrom == Direction.UP) return false;
-		if (world==null) return true;
-		if (inspectingFrom==null) return true;
-		BlockState state = world.getBlockState(pos);
-		if (state.getBlock()==ModBlocks.SHIFTER) {
-			Direction shifterFront = state.get(ShifterBlock.FACING);
-			if (shifterFront==inspectingFrom) {
-				return true;
-			} else if (shifterFront.rotateYCounterclockwise()==inspectingFrom) {
-				return selection == ShifterSelection.LEFT;
-			} else if (shifterFront.rotateYClockwise()==inspectingFrom) {
-				return selection == ShifterSelection.RIGHT;
-			} else if (shifterFront.getOpposite()==inspectingFrom) {
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-		return false;
+	public boolean canConnectIR(BlockPos dest, Direction dir) {
+		//We can't connect vertically.
+		if (dir == Direction.DOWN || dir == Direction.UP) return false;
+		
+		//Prevent connections to Y values above or below us
+		if (dest.getY()!=pos.getY()) return false;
+		
+		//We're fine with any strictly horizontal connection
+		return true;
 	}
 }

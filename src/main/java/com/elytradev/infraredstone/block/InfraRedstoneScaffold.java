@@ -56,13 +56,13 @@ public class InfraRedstoneScaffold extends BlockBase implements Waterloggable, I
 	}
 
 	@Override
-	public VoxelShape getBoundingShape(BlockState state, BlockView view, BlockPos shape) {
+	public VoxelShape getRayTraceShape(BlockState state, BlockView view, BlockPos shape) {
 		return VoxelShapes.fullCube();
 	}
 
 	@Override
 	public VoxelShape getCollisionShape(BlockState blockState, BlockView blockView, BlockPos blockPos, VerticalEntityPosition verticalEntityPosition) {
-		return Block.createCubeShape(0.05,0.0,0.05,15.95,16.0,15.95);
+		return Block.createCuboidShape(0.05,0.0,0.05,15.95,16.0,15.95);
 	}
 
 	@Override
@@ -86,20 +86,20 @@ public class InfraRedstoneScaffold extends BlockBase implements Waterloggable, I
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
 		World world = ctx.getWorld();
-		BlockPos pos = ctx.getPos();
+		BlockPos pos = ctx.getBlockPos();
 		return this.getDefaultState()
 				.with(NORTH, getCableConnections(world, pos, Direction.NORTH))
 				.with(SOUTH, getCableConnections(world, pos, Direction.SOUTH))
 				.with(EAST, getCableConnections(world, pos, Direction.EAST))
 				.with(WEST, getCableConnections(world, pos, Direction.WEST))
 				.with(UP, getCableConnections(world, pos, Direction.UP))
-				.with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getPos()).getFluid() == Fluids.WATER);
+				.with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
 	}
 
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
 		if (state.get(WATERLOGGED)) {
-			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.method_15789(world));
+			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		world.setBlockState(pos, state
 				.with(NORTH, getCableConnections(world, pos, Direction.NORTH))

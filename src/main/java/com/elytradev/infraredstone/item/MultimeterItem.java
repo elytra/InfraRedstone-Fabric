@@ -25,7 +25,7 @@ public class MultimeterItem extends ItemBase {
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext ctx) {
 		World world = ctx.getWorld();
-		BlockPos pos = ctx.getPos();
+		BlockPos pos = ctx.getBlockPos();
 		Block block = world.getBlockState(pos).getBlock();
 		BlockEntity be = world.getBlockEntity(pos);
 		PlayerEntity player = ctx.getPlayer();

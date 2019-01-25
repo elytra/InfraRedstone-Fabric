@@ -60,7 +60,7 @@ public class TransistorBlock extends ModuleBase implements Waterloggable {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getPos()).getFluid() == Fluids.WATER);
+		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class TransistorBlock extends ModuleBase implements Waterloggable {
 			}
 		} else {
 			if (state.get(WATERLOGGED)) {
-				world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.method_15789(world));
+				world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 			}
 		}
 	}

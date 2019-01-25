@@ -61,23 +61,28 @@ public class InfraRedstoneCable extends BlockBase implements Waterloggable, Infr
 		return VoxelShapes.empty();
 	}
 
-	private VoxelShape NO_SIDE = Block.createCubeShape(6d, 0d, 6d, 10d, 3d, 10d);
-	private VoxelShape NORTH_SIDE = Block.createCubeShape(6d, 0d, 0d, 10d, 3d, 6d);
-	private VoxelShape NORTH_UP = Block.createCubeShape(6d, 3d, 0d, 10d, 19d, 3d);
-	private VoxelShape NORTH_SIDE_UP = VoxelShapes.union(NORTH_SIDE, NORTH_UP);
-	private VoxelShape SOUTH_SIDE = Block.createCubeShape(6d, 0d, 10d, 10d, 3d, 16d);
-	private VoxelShape SOUTH_UP = Block.createCubeShape(6d, 3d, 13d, 10d, 19d, 16d);
-	private VoxelShape SOUTH_SIDE_UP = VoxelShapes.union(SOUTH_SIDE, SOUTH_UP);
-	private VoxelShape EAST_SIDE = Block.createCubeShape(10d, 0d, 6d, 16d, 3d, 10d);
-	private VoxelShape EAST_UP = Block.createCubeShape(13d, 3d, 6d, 16d, 19d, 10d);
-	private VoxelShape EAST_SIDE_UP = VoxelShapes.union(EAST_SIDE, EAST_UP);
-	private VoxelShape WEST_SIDE = Block.createCubeShape(0d, 0d, 6d, 6d, 3d, 10d);
-	private VoxelShape WEST_UP = Block.createCubeShape(0d, 3d, 6d, 3d, 19d, 10d);
-	private VoxelShape WEST_SIDE_UP = VoxelShapes.union(WEST_SIDE, WEST_UP);
+	private static final VoxelShape NODE = Block.createCuboidShape(6d, 0d, 6d, 10d, 3d, 10d);
+	private static final VoxelShape NORTH_SIDE = Block.createCuboidShape(6d, 0d, 0d, 10d, 3d, 6d);
+	private static final VoxelShape NORTH_UP = Block.createCuboidShape(6d, 3d, 0d, 10d, 19d, 3d);
+	private static final VoxelShape NORTH_SIDE_UP = VoxelShapes.union(NORTH_SIDE, NORTH_UP);
+	private static final VoxelShape SOUTH_SIDE = Block.createCuboidShape(6d, 0d, 10d, 10d, 3d, 16d);
+	private static final VoxelShape SOUTH_UP = Block.createCuboidShape(6d, 3d, 13d, 10d, 19d, 16d);
+	private static final VoxelShape SOUTH_SIDE_UP = VoxelShapes.union(SOUTH_SIDE, SOUTH_UP);
+	private static final VoxelShape EAST_SIDE = Block.createCuboidShape(10d, 0d, 6d, 16d, 3d, 10d);
+	private static final VoxelShape EAST_UP = Block.createCuboidShape(13d, 3d, 6d, 16d, 19d, 10d);
+	private static final VoxelShape EAST_SIDE_UP = VoxelShapes.union(EAST_SIDE, EAST_UP);
+	private static final VoxelShape WEST_SIDE = Block.createCuboidShape(0d, 0d, 6d, 6d, 3d, 10d);
+	private static final VoxelShape WEST_UP = Block.createCuboidShape(0d, 3d, 6d, 3d, 19d, 10d);
+	private static final VoxelShape WEST_SIDE_UP = VoxelShapes.union(WEST_SIDE, WEST_UP);
 
 	@Override
-	public VoxelShape getBoundingShape(BlockState state, BlockView view, BlockPos pos) {
-		VoxelShape result = NO_SIDE;
+	public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, VerticalEntityPosition entityPosition) {
+		return getRayTraceShape(state, view, pos);
+	}
+	
+	@Override
+	public VoxelShape getRayTraceShape(BlockState state, BlockView view, BlockPos pos) {
+		VoxelShape result = NODE;
 		if (state.get(NORTH) == CableConnection.CONNECTED) result = VoxelShapes.union(result, NORTH_SIDE);
 		if (state.get(NORTH) == CableConnection.CONNECTED_UP) result = VoxelShapes.union(result, NORTH_SIDE_UP);
 		if (state.get(SOUTH) == CableConnection.CONNECTED) result = VoxelShapes.union(result, SOUTH_SIDE);
@@ -107,19 +112,19 @@ public class InfraRedstoneCable extends BlockBase implements Waterloggable, Infr
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
 		World world = ctx.getWorld();
-		BlockPos pos = ctx.getPos();
+		BlockPos pos = new BlockPos(ctx.getPos());
 		return this.getDefaultState()
 				.with(NORTH, getCableConnections(world, pos, Direction.NORTH))
 				.with(SOUTH, getCableConnections(world, pos, Direction.SOUTH))
 				.with(EAST, getCableConnections(world, pos, Direction.EAST))
 				.with(WEST, getCableConnections(world, pos, Direction.WEST))
-				.with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getPos()).getFluid() == Fluids.WATER);
+				.with(WATERLOGGED, ctx.getWorld().getFluidState(new BlockPos(ctx.getPos())).getFluid() == Fluids.WATER);
 	}
 
 	@Override
 	public void neighborUpdate(BlockState state, World world, BlockPos pos, Block block, BlockPos fromPos) {
 		if (state.get(WATERLOGGED)) {
-			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.method_15789(world));
+			world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 		}
 		if (!this.canBlockStay(world, pos)) {
 			world.breakBlock(pos, true);

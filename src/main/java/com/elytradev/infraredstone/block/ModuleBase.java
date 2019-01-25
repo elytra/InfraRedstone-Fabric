@@ -18,9 +18,9 @@ public class ModuleBase extends SilkBlockWithEntity implements NamedBlock, Infra
 
 	public static final Settings DEFAULT_SETTINGS = FabricBlockSettings.create(Material.PART).setStrength(0.5f, 8f).build();
 
-	public static final VoxelShape CLICK_BOOLEAN = Block.createCubeShape( 6, 2.9,  3, 10, 4.1,  7);
+	public static final VoxelShape CLICK_BOOLEAN = Block.createCuboidShape( 6, 2.9,  3, 10, 4.1,  7);
 
-	public static final VoxelShape BASE_SHAPE = Block.createCubeShape(0, 0, 0, 16, 3, 16);
+	public static final VoxelShape BASE_SHAPE = Block.createCuboidShape(0, 0, 0, 16, 3, 16);
 
 	protected ModuleBase(String name, Settings settings) {
 		super(settings);
@@ -68,7 +68,12 @@ public class ModuleBase extends SilkBlockWithEntity implements NamedBlock, Infra
 	}
 
 	@Override
-	public VoxelShape getBoundingShape(BlockState state, BlockView view, BlockPos pos) {
+	public VoxelShape getRayTraceShape(BlockState state, BlockView view, BlockPos pos) {
+		return BASE_SHAPE;
+	}
+	
+	@Override
+	public VoxelShape getOutlineShape(BlockState blockState_1, BlockView blockView_1, BlockPos blockPos_1, VerticalEntityPosition verticalEntityPosition_1) {
 		return BASE_SHAPE;
 	}
 

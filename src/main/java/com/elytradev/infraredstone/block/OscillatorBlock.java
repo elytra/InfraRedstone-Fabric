@@ -16,6 +16,7 @@ import net.minecraft.state.StateFactory;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -38,7 +39,7 @@ public class OscillatorBlock extends ModuleBase implements Waterloggable {
 	}
 
 	@Override
-	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, Direction direction, float hitX, float hitY, float hitZ) {
+	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult blockHitResult) {
 		BlockEntity be = world.getBlockEntity(pos);
 		if (!world.isClient && !player.isSneaking() && be instanceof OscillatorBlockEntity) {
 			ContainerProviderRegistry.INSTANCE.openContainer(InfraRedstone.OSCILLATOR_CONTAINER, player, buf -> buf.writeBlockPos(pos));
@@ -73,7 +74,7 @@ public class OscillatorBlock extends ModuleBase implements Waterloggable {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getPos()).getFluid() == Fluids.WATER);
+		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).getFluid() == Fluids.WATER);
 	}
 
 	@Override
@@ -86,7 +87,7 @@ public class OscillatorBlock extends ModuleBase implements Waterloggable {
 			}
 		} else {
 			if (state.get(WATERLOGGED)) {
-				world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.method_15789(world));
+				world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 			}
 		}
 	}

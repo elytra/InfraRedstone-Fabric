@@ -1,6 +1,7 @@
 package com.elytradev.infraredstone.block.entity;
 
 import com.elytradev.infraredstone.api.*;
+import com.elytradev.infraredstone.block.DiodeBlock;
 import com.elytradev.infraredstone.block.EncoderBlock;
 import com.elytradev.infraredstone.block.ModBlocks;
 import com.elytradev.infraredstone.logic.InRedLogic;
@@ -17,6 +18,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.Tickable;
@@ -192,19 +194,26 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 		}
 		return InfraRedstoneHandler.ALWAYS_OFF; //We can't tell what our front face is, so supply a dummy that's always-off.
 	}
-
+	
 	@Override
-	public boolean canConnectToSide(Direction inspectingFrom) {
+	public boolean canConnectIR(BlockPos dest, Direction dir) {
+		//We can't connect vertically.
+		if (dir == Direction.DOWN || dir == Direction.UP) return false;
+		
+		//Prevent connections to Y values above or below us
+		if (dest.getY()!=pos.getY()) return false;
+		
 		if (world==null) return true;
-		if (inspectingFrom==null) return true;
 		BlockState state = world.getBlockState(pos);
-		if (state.getBlock()==ModBlocks.ENCODER) {
-			Direction encoderFront = state.get(EncoderBlock.FACING);
-			if (encoderFront==inspectingFrom) {
-				return true;
-			} else return encoderFront == inspectingFrom.getOpposite();
+		if (state.contains(Properties.FACING_HORIZONTAL)) {
+			Direction front = state.get(Properties.FACING_HORIZONTAL);
+			
+			return  //We can connect straight in front of or behind us
+					dir==front ||
+					dir==front.getOpposite();
+		} else {
+			//We got the wrong block
+			return false;
 		}
-
-		return false;
 	}
 }

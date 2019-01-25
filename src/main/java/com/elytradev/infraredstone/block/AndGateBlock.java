@@ -14,6 +14,7 @@ import net.minecraft.state.StateFactory;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.EnumProperty;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -43,15 +44,15 @@ public class AndGateBlock extends ModuleBase implements Waterloggable {
 		return new AndGateBlockEntity();
 	}
 
-	private static final VoxelShape CLICK_LEFT   = Block.createCubeShape( 0, 2.9,  6,  3, 4.1, 10);
-	private static final VoxelShape CLICK_BACK   = Block.createCubeShape( 6, 2.9, 13, 10, 4.1, 16);
-	private static final VoxelShape CLICK_RIGHT  = Block.createCubeShape(13, 2.9,  6, 16, 4.1, 10);
+	private static final VoxelShape CLICK_LEFT   = Block.createCuboidShape( 0, 2.9,  6,  3, 4.1, 10);
+	private static final VoxelShape CLICK_BACK   = Block.createCuboidShape( 6, 2.9, 13, 10, 4.1, 16);
+	private static final VoxelShape CLICK_RIGHT  = Block.createCuboidShape(13, 2.9,  6, 16, 4.1, 10);
 
 	@Override
-	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, Direction side, float hitX, float hitY, float hitZ) {
+	public boolean activate(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult blockHitResult) {
 		BlockEntity be = world.getBlockEntity(pos);
 		if(!world.isClient() && !player.isSneaking() && be instanceof AndGateBlockEntity) {
-			Vec3d blockCenteredHit = new Vec3d(hitX, hitY, hitZ);
+			Vec3d blockCenteredHit = blockHitResult.getPos(); blockCenteredHit = new Vec3d(blockCenteredHit.x % 1, blockCenteredHit.y % 1, blockCenteredHit.z % 1);
 			blockCenteredHit = blockCenteredHit.subtract(0.5, 0.5, 0.5);
 			switch (state.get(AndGateBlock.FACING)) {
 				case SOUTH:
@@ -111,7 +112,7 @@ public class AndGateBlock extends ModuleBase implements Waterloggable {
 
 	@Override
 	public BlockState getPlacementState(ItemPlacementContext ctx) {
-		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getPos()).getFluid() == Fluids.WATER);
+		return this.getDefaultState().with(FACING, ctx.getPlayerHorizontalFacing()).with(WATERLOGGED, ctx.getWorld().getFluidState(new BlockPos(ctx.getPos())).getFluid() == Fluids.WATER);
 	}
 
 	@Override
@@ -124,7 +125,7 @@ public class AndGateBlock extends ModuleBase implements Waterloggable {
 			}
 		} else {
 			if (state.get(WATERLOGGED)) {
-				world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.method_15789(world));
+				world.getFluidTickScheduler().schedule(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
 			}
 			BlockEntity be = world.getBlockEntity(pos);
 			if (be instanceof AndGateBlockEntity) {

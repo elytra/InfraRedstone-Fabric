@@ -19,9 +19,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.Tickable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.chunk.Chunk;
 
@@ -193,21 +195,25 @@ public class XorGateBlockEntity extends IRComponentBlockEntity implements Tickab
 	}
 
 	@Override
-	public boolean canConnectToSide(Direction inspectingFrom) {
-		if (inspectingFrom == Direction.DOWN || inspectingFrom == Direction.UP) return false;
+	public boolean canConnectIR(BlockPos dest, Direction dir) {
+		//We can't connect vertically.
+		if (dir == Direction.DOWN || dir == Direction.UP) return false;
+		
+		//Prevent connections to Y values above or below us
+		if (dest.getY()!=pos.getY()) return false;
+		
 		if (world==null) return true;
-		if (inspectingFrom==null) return true;
 		BlockState state = world.getBlockState(pos);
-		if (state.getBlock()==ModBlocks.XOR_GATE) {
-			Direction xorGateFront = state.get(XorGateBlock.FACING);
-			if (xorGateFront==inspectingFrom) {
-				return true;
-			} else if (xorGateFront==inspectingFrom.rotateYCounterclockwise()) {
-				return true;
-			} else return xorGateFront == inspectingFrom.rotateYClockwise();
+		if (state.contains(Properties.FACING_HORIZONTAL)) {
+			Direction front = state.get(Properties.FACING_HORIZONTAL);
+			
+			return  //We can connect straight in front of or behind us
+					dir==front ||
+					dir==front.getOpposite();
+		} else {
+			//We got the wrong block
+			return false;
 		}
-
-		return false;
 	}
 
 }
