@@ -2,23 +2,12 @@ package com.elytradev.infraredstone.block;
 
 import com.elytradev.infraredstone.api.InfraRedstoneCapable;
 import com.elytradev.infraredstone.api.SimpleInfraRedstoneSignal;
-import com.elytradev.infraredstone.util.C28n;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.item.TooltipOptions;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.TextComponent;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.World;
-
-import java.util.List;
 
 public class BlockBase extends Block implements NamedBlock {
 

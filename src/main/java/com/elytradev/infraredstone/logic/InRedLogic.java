@@ -115,7 +115,6 @@ public class InRedLogic {
 				if (be == null) return true;
 
 				if (be instanceof InfraRedstoneCapable) {
-					System.out.println(((InfraRedstoneCapable) be).canConnectToSide(side));
 					return (((InfraRedstoneCapable) be).canConnectToSide(side));
 				} else {
 					return true;

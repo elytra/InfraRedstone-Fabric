@@ -43,14 +43,14 @@ repositories {
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:19w04a"
-	mappings "net.fabricmc:yarn:19w04a.2"
-	modCompile "net.fabricmc:fabric-loader:0.3.3.101"
-	modCompile "net.fabricmc:fabric:0.1.4.79"
+	minecraft "com.mojang:minecraft:19w05a"
+	mappings "net.fabricmc:yarn:19w05a.4"
+	modCompile "net.fabricmc:fabric-loader:0.3.4.104"
+	modCompile "net.fabricmc:fabric:0.1.5.86"
 	//implementation 'org.jetbrains:annotations:15.0'
 	modCompile "io.github.prospector.silk:SilkAPI:1.0.0-26"
-	//modCompile name: "qcommon-architect-1.0.0"
-	//modCompile name: "qcommon-croco-1.0.3"
+	modCompile name: "qcommon-architect-1.0.1-dev"
+	modCompile name: "qcommon-croco-1.0.4-dev"
 }
 
 if (System.properties["release"] == null) {

@@ -4,7 +4,7 @@ import com.elytradev.infraredstone.container.widget.OscillatorButtonWidget;
 import com.elytradev.infraredstone.block.entity.OscillatorBlockEntity;
 import com.elytradev.infraredstone.util.InfraRedstoneNetworking;
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.gui.ContainerGui;
+import net.minecraft.client.gui.ContainerScreen;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.TextFormat;
@@ -12,7 +12,7 @@ import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
-public class OscillatorContainerGui extends ContainerGui {
+public class OscillatorContainerGui extends ContainerScreen {
 
 	private static final Identifier TEXTURE = new Identifier("infraredstone:textures/gui/gui_oscillator.png");
 
