@@ -4,9 +4,9 @@ import com.elytradev.infraredstone.container.OscillatorContainerGui;
 import com.elytradev.infraredstone.block.entity.*;
 import com.elytradev.infraredstone.client.*;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.gui.GuiProviderRegistry;
-import net.fabricmc.fabric.client.render.BlockEntityRendererRegistry;
-import net.fabricmc.fabric.events.client.SpriteEvent;
+import net.fabricmc.fabric.api.client.render.BlockEntityRendererRegistry;
+import net.fabricmc.fabric.api.client.screen.ScreenProviderRegistry;
+import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.util.math.BlockPos;
 
 public class InfraRedstoneClient implements ClientModInitializer {
@@ -14,7 +14,9 @@ public class InfraRedstoneClient implements ClientModInitializer {
 
 	@Override
 	public void onInitializeClient() {
-		SpriteEvent.PROVIDE.register(provider);
+		ClientSpriteRegistryCallback.EVENT.register(((spriteAtlasTexture, registry) -> {
+			provider.registerSprites(registry);
+		}));
 		BlockEntityRendererRegistry.INSTANCE.register(InfraRedstoneBlockEntity.class, new InfraRedstoneBlockRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(DiodeBlockEntity.class, new DiodeRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(NotGateBlockEntity.class, new NotGateRenderer());
@@ -25,7 +27,7 @@ public class InfraRedstoneClient implements ClientModInitializer {
 		BlockEntityRendererRegistry.INSTANCE.register(ShifterBlockEntity.class, new ShifterRenderer());
 		BlockEntityRendererRegistry.INSTANCE.register(EncoderBlockEntity.class, new EncoderRenderer());
 
-		GuiProviderRegistry.INSTANCE.registerFactory(InfraRedstone.OSCILLATOR_CONTAINER, (syncId, identifier, player, buf) -> {
+		ScreenProviderRegistry.INSTANCE.registerFactory(InfraRedstone.OSCILLATOR_CONTAINER, (syncId, identifier, player, buf) -> {
 			BlockPos pos = buf.readBlockPos();
 			return new OscillatorContainerGui(syncId, pos, player);
 		});

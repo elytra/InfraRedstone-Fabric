@@ -3,8 +3,8 @@ package com.elytradev.infraredstone.block;
 import com.elytradev.infraredstone.api.InfraRedstoneComponent;
 import com.elytradev.infraredstone.api.InfraRedstoneWire;
 import com.elytradev.infraredstone.block.entity.InfraRedstoneBlockEntity;
-import net.fabricmc.fabric.block.FabricBlockSettings;
-import net.fabricmc.fabric.tags.FabricItemTags;
+import net.fabricmc.fabric.api.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.tag.FabricItemTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Material;
 import net.minecraft.block.entity.BlockEntity;
@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 public class InfraRedstoneBlock extends ModuleBase implements InfraRedstoneComponent {
 
 	protected InfraRedstoneBlock() {
-		super("infra_redstone_block", FabricBlockSettings.create(Material.PART).setStrength(1f, 1f).breakByTool(FabricItemTags.PICKAXES).build());
+		super("infra_redstone_block", FabricBlockSettings.of(Material.PART).strength(1f, 1f).breakByTool(FabricItemTags.PICKAXES).build());
 	}
 
 	@Override

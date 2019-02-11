@@ -4,7 +4,7 @@ import com.elytradev.infraredstone.api.InfraRedstoneComponent;
 import com.elytradev.infraredstone.api.InfraRedstoneWire;
 import com.elytradev.infraredstone.logic.InRedLogic;
 import com.elytradev.infraredstone.util.enums.CableConnection;
-import net.fabricmc.fabric.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.VerticalEntityPosition;
 import net.minecraft.fluid.FluidState;
@@ -32,7 +32,7 @@ public class InfraRedstoneCable extends BlockBase implements Waterloggable, Infr
 	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
 	public InfraRedstoneCable() {
-		super("infra_redstone", FabricBlockSettings.create(Material.PART).setStrength(0f, 8f).build());
+		super("infra_redstone", FabricBlockSettings.of(Material.PART).strength(0f, 8f).build());
 		this.setDefaultState(this.getStateFactory().getDefaultState()
 				.with(NORTH, CableConnection.DISCONNECTED)
 				.with(SOUTH, CableConnection.DISCONNECTED)

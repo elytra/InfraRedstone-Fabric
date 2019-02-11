@@ -8,7 +8,7 @@ import com.elytradev.infraredstone.util.CommonProxy;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.container.ContainerProviderRegistry;
-import net.fabricmc.fabric.events.TickEvent;
+import net.fabricmc.fabric.api.event.server.ServerTickCallback;
 import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -24,7 +24,7 @@ public class InfraRedstone implements ModInitializer {
 	public void onInitialize() {
 		ModBlocks.init();
 		ModItems.init();
-		TickEvent.SERVER.register(InRedLogic.onServerTick);
+		ServerTickCallback.EVENT.register(InRedLogic.onServerTick);
 		//Registers a container factory that opens our example Container, this reads the block pos from the buffer
 		ContainerProviderRegistry.INSTANCE.registerFactory(OSCILLATOR_CONTAINER, (syncId, suidentifier, player, buf) -> {
 			BlockPos pos = buf.readBlockPos();

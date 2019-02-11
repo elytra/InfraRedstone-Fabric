@@ -2,7 +2,7 @@ package com.elytradev.infraredstone.block;
 
 import com.elytradev.infraredstone.api.InfraRedstoneComponent;
 import com.elytradev.infraredstone.api.InfraRedstoneWire;
-import net.fabricmc.fabric.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -30,7 +30,7 @@ public class InfraRedstoneScaffold extends BlockBase implements Waterloggable, I
 	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 
 	public InfraRedstoneScaffold() {
-		super("infra_redstone_scaffold", FabricBlockSettings.create(Material.PART).setStrength(0f, 8f).build());
+		super("infra_redstone_scaffold", FabricBlockSettings.of(Material.PART).strength(0f, 8f).build());
 		this.setDefaultState(this.getStateFactory().getDefaultState()
 				.with(NORTH, false)
 				.with(SOUTH, false)

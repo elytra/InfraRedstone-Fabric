@@ -33,6 +33,7 @@ archivesBaseName = "infraredstone"
 
 ext {
 	standardVersion = "1.1.0"
+	mcVersion = "19w06a"
 }
 
 repositories {
@@ -43,10 +44,10 @@ repositories {
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:19w05a"
-	mappings "net.fabricmc:yarn:19w05a.4"
-	modCompile "net.fabricmc:fabric-loader:0.3.4.104"
-	modCompile "net.fabricmc:fabric:0.1.5.86"
+	minecraft "com.mojang:minecraft:19w06a"
+	mappings "net.fabricmc:yarn:19w06a.3"
+	modCompile "net.fabricmc:fabric-loader:0.3.5.106"
+	modCompile "net.fabricmc:fabric:0.2.0.89"
 	//implementation 'org.jetbrains:annotations:15.0'
 	modCompile "io.github.prospector.silk:SilkAPI:1.0.0-26"
 	modCompile name: "qcommon-architect-1.0.1-dev"
@@ -67,9 +68,9 @@ if (System.properties["release"] == null) {
 	}
 	def commits = 'git rev-list --count HEAD'.execute().in.text.trim()
 	def dirty = !'git diff-index HEAD'.execute().in.text.trim().isEmpty()
-	version = branch+'-'+ext.standardVersion+'.'+commits+(dirty ? '-dirty' : '')
+	version = branch+'-'+ext.standardVersion+'.'+commits+(dirty ? '-dirty' : '')+'+'+ext.mcVersion
 } else {
-	version = ext.standardVersion
+	version = ext.standardVersion+'+'+ext.mcVersion
 }
 
 task sourcesJar(type: Jar) {

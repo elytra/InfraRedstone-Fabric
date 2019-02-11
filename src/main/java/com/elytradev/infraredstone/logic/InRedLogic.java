@@ -13,6 +13,7 @@ import com.elytradev.infraredstone.api.InfraRedstoneWire;
 import com.elytradev.infraredstone.api.SimpleInfraRedstoneSignal;
 import com.google.common.base.Objects;
 
+import net.fabricmc.fabric.api.event.server.ServerTickCallback;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -30,9 +31,8 @@ public class InRedLogic {
 	 * inclusive, along every connected branch.
 	 */
 	public static int MAX_DEPTH = 63; //TODO: Move this into config once there's a config
-	
 
-	public static Consumer<MinecraftServer> onServerTick = server -> {
+	public static ServerTickCallback onServerTick = server -> {
 		tickCount++;
 		if (tickCount > INTER_IR_TICKS)
 			tickCount = 0;

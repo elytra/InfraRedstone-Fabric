@@ -1,7 +1,7 @@
 package com.elytradev.infraredstone.block;
 
 import com.elytradev.infraredstone.api.InfraRedstoneComponent;
-import net.fabricmc.fabric.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.block.FabricBlockSettings;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.VerticalEntityPosition;
@@ -16,7 +16,7 @@ import net.minecraft.world.World;
 public class ModuleBase extends SilkBlockWithEntity implements NamedBlock, InfraRedstoneComponent {
 	public String name;
 
-	public static final Settings DEFAULT_SETTINGS = FabricBlockSettings.create(Material.PART).setStrength(0.5f, 8f).build();
+	public static final Settings DEFAULT_SETTINGS = FabricBlockSettings.of(Material.PART).strength(0.5f, 8f).build();
 
 	public static final VoxelShape CLICK_BOOLEAN = Block.createCuboidShape( 6, 2.9,  3, 10, 4.1,  7);
 

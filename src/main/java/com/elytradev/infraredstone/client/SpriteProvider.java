@@ -1,12 +1,13 @@
 package com.elytradev.infraredstone.client;
 
-import net.fabricmc.fabric.client.texture.SpriteRegistry;
-import net.fabricmc.fabric.events.client.SpriteEvent;
+import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
-public class SpriteProvider implements SpriteEvent.Provider {
-	@Override
-	public void registerSprites(SpriteRegistry registry) {
+public class SpriteProvider {
+
+	public void registerSprites(ClientSpriteRegistryCallback.Registry registry) {
+
 		registry.register(new Identifier("infraredstone:block/infra_redstone_block"));
 
 		registry.register(new Identifier("infraredstone:block/diode_glow"));
