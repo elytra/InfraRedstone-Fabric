@@ -11,6 +11,7 @@ import com.elytradev.infraredstone.util.InfraRedstoneNetworking;
 import com.google.common.base.Predicates;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.server.PlayerStream;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventory;
@@ -28,6 +29,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.Chunk;
 import io.github.prospector.silk.fluid.FluidContainer;
 import io.github.prospector.silk.fluid.FluidInstance;
+
+import java.util.Iterator;
 
 public class EncoderBlockEntity extends  IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
 
@@ -146,12 +149,8 @@ public class EncoderBlockEntity extends  IRComponentBlockEntity implements Ticka
 		boolean active = isActive();
 		if (active != lastActive || firstTick) { //Throttle updates - only send when something important changes
 
-			ServerWorld ws = (ServerWorld) getWorld();
-			Chunk c = getWorld().getChunk(getPos());
-			for (ServerPlayerEntity player : ((ServerWorld) getWorld()).method_18766(Predicates.alwaysTrue())) {
-				if (ws.getChunkManager().isChunkLoaded(c.getPos().x, c.getPos().z)) {
-					InfraRedstoneNetworking.syncModule(this, player);
-				}
+			for (Iterator itr = PlayerStream.watching(getWorld(), getPos()).iterator(); itr.hasNext();) {
+				InfraRedstoneNetworking.syncModule(this, (ServerPlayerEntity) itr.next());
 			}
 
 			if (lastActive != active || firstTick) {

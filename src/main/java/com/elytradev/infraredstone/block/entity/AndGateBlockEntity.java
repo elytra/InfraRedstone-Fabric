@@ -13,6 +13,7 @@ import com.elytradev.infraredstone.util.enums.InactiveSelection;
 import com.google.common.base.Predicates;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.server.PlayerStream;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -27,6 +28,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.chunk.Chunk;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class AndGateBlockEntity extends IRComponentBlockEntity implements Tickable, MultimeterProbeProvider, InfraRedstoneCapable {
@@ -188,12 +190,8 @@ public class AndGateBlockEntity extends IRComponentBlockEntity implements Tickab
 				|| lastBooleanMode != booleanMode
 				|| firstTick) { //Throttle updates - only send when something important changes
 
-			ServerWorld ws = (ServerWorld) getWorld();
-			Chunk c = getWorld().getChunk(getPos());
-			for (ServerPlayerEntity player : ((ServerWorld) getWorld()).method_18766(Predicates.alwaysTrue())) {
-				if (ws.getChunkManager().isChunkLoaded(c.getPos().x, c.getPos().z)) {
-					InfraRedstoneNetworking.syncModule(this, player);
-				}
+			for (Iterator itr =  PlayerStream.watching(getWorld(), getPos()).iterator(); itr.hasNext();) {
+				InfraRedstoneNetworking.syncModule(this, (ServerPlayerEntity) itr.next());
 			}
 
 			if (lastBooleanMode != booleanMode || inactive != lastInactive || firstTick) {
