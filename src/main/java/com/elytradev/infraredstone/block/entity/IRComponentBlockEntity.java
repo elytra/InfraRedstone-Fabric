@@ -1,12 +1,12 @@
 package com.elytradev.infraredstone.block.entity;
 
 import com.elytradev.infraredstone.logic.impl.InfraRedstoneHandler;
-import net.fabricmc.fabric.block.entity.ClientSerializable;
+import net.fabricmc.fabric.api.block.entity.BlockEntityClientSerializable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.nbt.CompoundTag;
 
-public abstract class IRComponentBlockEntity extends BlockEntity implements ClientSerializable {
+public abstract class IRComponentBlockEntity extends BlockEntity implements BlockEntityClientSerializable {
 	public IRComponentBlockEntity(BlockEntityType<?> blockEntityType) {
 		super(blockEntityType);
 	}

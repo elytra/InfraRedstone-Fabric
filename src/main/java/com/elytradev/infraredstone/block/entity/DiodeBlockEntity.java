@@ -99,8 +99,8 @@ public class DiodeBlockEntity extends IRComponentBlockEntity implements Tickable
 
 			ServerWorld ws = (ServerWorld) getWorld();
 			Chunk c = getWorld().getChunk(getPos());
-			for (ServerPlayerEntity player : getWorld().getPlayers(ServerPlayerEntity.class, Predicates.alwaysTrue())) {
-				if (ws.getChunkManager().method_14154(player, c.getPos().x, c.getPos().z)) {
+			for (ServerPlayerEntity player : ((ServerWorld) getWorld()).method_18766(Predicates.alwaysTrue())) {
+				if (ws.getChunkManager().isChunkLoaded(c.getPos().x, c.getPos().z)) {
 					InfraRedstoneNetworking.syncModule(this, player);
 				}
 			}
